@@ -162,6 +162,7 @@ public final class Launcher extends Activity
     private static final String RUNTIME_INITIAL_CREATION = "launcher.initial_creation";
 
     private boolean initialCreation = true;
+    private int currentOrientation;
 
     static final int APPWIDGET_HOST_ID = 1024;
 
@@ -297,6 +298,7 @@ public final class Launcher extends Activity
             writeConfiguration(this, localeConfiguration);
             AppInfoCache.flush();
         }
+	currentOrientation = getWindowManager().getDefaultDisplay().getOrientation();
     }
 
     private static class LocaleConfiguration {
@@ -1022,7 +1024,8 @@ public final class Launcher extends Activity
             outState.putLong(RUNTIME_STATE_PENDING_FOLDER_RENAME_ID, mFolderInfo.id);
         }
 
-	outState.putBoolean(RUNTIME_INITIAL_CREATION, false);
+	if (currentOrientation != getWindowManager().getDefaultDisplay().getOrientation())
+	    outState.putBoolean(RUNTIME_INITIAL_CREATION, false);
     }
 
     @Override
