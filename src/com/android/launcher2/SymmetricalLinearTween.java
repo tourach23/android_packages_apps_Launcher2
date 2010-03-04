@@ -26,7 +26,8 @@ import android.util.Log;
  */
 class SymmetricalLinearTween {
 
-    private static final int FPS = 30;
+	// Faruq: Adjusted FPS; Not sure about the effects though
+    private static final int FPS = 100;
     private static final int FRAME_TIME = 1000 / FPS;
 
     Handler mHandler;

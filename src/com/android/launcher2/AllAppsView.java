@@ -442,6 +442,10 @@ public class AllAppsView extends RSSurfaceView
         int y = (int)ev.getY();
 
         int action = ev.getAction();
+		// Faruq: Detect Orientation to find home
+		// TODO: Cleaning
+		//Log.d(TAG, "Touched: x: "+x+"; y: "+y);
+		//Log.d(TAG, "Finding: "+mRollo.mTouchYBorders[mRollo.mTouchYBorders.length-1]+" "+(mRollo.mTouchXBorders[mRollo.mTouchXBorders.length-1]-60));
         switch (action) {
         case MotionEvent.ACTION_DOWN:
             if (y > mRollo.mTouchYBorders[mRollo.mTouchYBorders.length-1]) {
@@ -449,7 +453,14 @@ public class AllAppsView extends RSSurfaceView
                 mRollo.setHomeSelected(SELECTED_PRESSED);
                 mRollo.mState.save();
                 mCurrentIconIndex = -1;
-            } else {
+				Log.d(TAG, "Home Touched");
+            } else if (getResources().getConfiguration().orientation == 2 && x > mRollo.mTouchXBorders[mRollo.mTouchXBorders.length-1]-60) {
+	            mTouchTracking = TRACKING_HOME;
+               	mRollo.setHomeSelected(SELECTED_PRESSED);
+               	mRollo.mState.save();
+               	mCurrentIconIndex = -1;
+				Log.d(TAG, "Home Touched 2");
+	        } else {
                 mTouchTracking = TRACKING_FLING;
 
                 mMotionDownRawX = (int)ev.getRawX();
@@ -478,7 +489,7 @@ public class AllAppsView extends RSSurfaceView
         case MotionEvent.ACTION_MOVE:
         case MotionEvent.ACTION_OUTSIDE:
             if (mTouchTracking == TRACKING_HOME) {
-                mRollo.setHomeSelected(y > mRollo.mTouchYBorders[mRollo.mTouchYBorders.length-1]
+                mRollo.setHomeSelected((y > mRollo.mTouchYBorders[mRollo.mTouchYBorders.length-1]) || (getResources().getConfiguration().orientation == 2 && x > mRollo.mTouchXBorders[mRollo.mTouchXBorders.length-1]-60)
                         ? SELECTED_PRESSED : SELECTED_NONE);
                 mRollo.mState.save();
             } else if (mTouchTracking == TRACKING_FLING) {
@@ -518,6 +529,10 @@ public class AllAppsView extends RSSurfaceView
             if (mTouchTracking == TRACKING_HOME) {
                 if (action == MotionEvent.ACTION_UP) {
                     if (y > mRollo.mTouchYBorders[mRollo.mTouchYBorders.length-1]) {
+                        reallyPlaySoundEffect(SoundEffectConstants.CLICK);
+                        mLauncher.closeAllApps(true);
+                    }
+					if (getResources().getConfiguration().orientation == 2 && x > mRollo.mTouchXBorders[mRollo.mTouchXBorders.length-1]-60) {
                         reallyPlaySoundEffect(SoundEffectConstants.CLICK);
                         mLauncher.closeAllApps(true);
                     }
@@ -1019,8 +1034,17 @@ public class AllAppsView extends RSSurfaceView
         }
 
         private void initRs() {
+			// Faruq: Detects screen orientation
+			int screenOrientation = getResources().getConfiguration().orientation;
+			//Log.d("AllAppsView", "Orientation: "+screenOrientation);
+			
             ScriptC.Builder sb = new ScriptC.Builder(mRS);
-            sb.setScript(mRes, R.raw.rollo3);
+			// Faruq: Set Apps Layout according to screen orientation
+			if (screenOrientation == 1) {
+            	sb.setScript(mRes, R.raw.rollo3);
+			} else {
+				sb.setScript(mRes, R.raw.rollo_land);
+			}
             sb.setRoot(true);
             sb.addDefines(mDefines);
             sb.setType(mParams.mType, "params", Defines.ALLOC_PARAMS);

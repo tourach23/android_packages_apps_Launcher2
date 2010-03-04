@@ -301,12 +301,22 @@ void drawFrontGrid(float rowOffset, float p)
 {
     float h = getHeight();
     float w = getWidth();
+	
+	// Faruq: DEBUG
+	/*debugF("Height: ", h);
+	debugF("Width: ", w);*/
 
     int intRowOffset = rowOffset;
     float rowFrac = rowOffset - intRowOffset;
     float colWidth = getWidth() / 4;
     float rowHeight = colWidth + 25.f;
     float yoff = h - ((h - (rowHeight * 4.f)) / 2);
+
+	// Faruq: DEBUG
+	/*debugF("rowFrac: ", rowFrac);
+	debugF("colWidth: ", colWidth);
+	debugF("rowHeight: ", rowHeight);
+	debugF("yoff: ", yoff);*/
 
     yoff -= 110;
 
@@ -316,6 +326,13 @@ void drawFrontGrid(float rowOffset, float p)
     float ymin = yoff - (3 * rowHeight) - 70;
     float gridTop = yoff -3;
     float gridBottom = ymin;
+
+	// Faruq: DEBUG
+	/*debugF("iconNum: ", iconNum);
+	debugF("ymax: ", ymax);
+	debugF("ymin: ", ymin);
+	debugF("gridTop: ", gridTop);
+	debugF("gridBottom: ", gridBottom);*/
 
     gridBottom += 50;
 

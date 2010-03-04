@@ -27,10 +27,9 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
 
-        android:scrollbarStyle="outsideInset"
         android:drawSelectorOnTop="false"
         android:listSelector="@drawable/grid_selector"
-
+		
         android:verticalSpacing="10dip"
         android:numColumns="4" />
 
@@ -41,13 +40,17 @@
         android:layout_height="fill_parent"
         android:scrollbars="horizontal"
         android:fadeScrollbars="true"
-        launcher:defaultScreen="2">
+        launcher:defaultScreen="4">
 
         <include android:id="@+id/cell1" layout="@layout/workspace_screen" />
         <include android:id="@+id/cell2" layout="@layout/workspace_screen" />
         <include android:id="@+id/cell3" layout="@layout/workspace_screen" />
         <include android:id="@+id/cell4" layout="@layout/workspace_screen" />
         <include android:id="@+id/cell5" layout="@layout/workspace_screen" />
+		<include android:id="@+id/cell6" layout="@layout/workspace_screen" />
+		<include android:id="@+id/cell7" layout="@layout/workspace_screen" />
+		<include android:id="@+id/cell8" layout="@layout/workspace_screen" />
+		<include android:id="@+id/cell9" layout="@layout/workspace_screen" />
 
     </com.android.launcher2.Workspace>
 
@@ -55,13 +58,13 @@
         android:id="@+id/previous_screen"
         android:layout_width="93dip"
         android:layout_height="@dimen/button_bar_height"
-        android:layout_gravity="bottom|left"
-        android:layout_marginLeft="6dip"
+        android:layout_gravity="top|right"
+        android:layout_marginRight="-16dip"
 
         android:src="@drawable/home_arrows_left"
         
         android:onClick="previousScreen"
-
+		
         android:focusable="true"
         android:clickable="true" />
 
@@ -75,14 +78,14 @@
         android:src="@drawable/home_arrows_right"
         
         android:onClick="nextScreen"
-        
+ 
         android:focusable="true"
         android:clickable="true" />
 
     <com.android.launcher2.HandleView
         android:id="@+id/all_apps_button"
-        android:layout_width="@dimen/button_bar_height"
-        android:layout_height="fill_parent"
+        android:layout_width="49dip"
+        android:layout_height="76dip"
         android:layout_gravity="right|center_vertical"
 
         android:focusable="true"
@@ -96,7 +99,8 @@
     <com.android.launcher2.DeleteZone
         android:id="@+id/delete_zone"
         android:layout_width="49dip"
-        android:layout_height="fill_parent"
+        android:layout_height="76dip"
+		android:layout_gravity="right|center_vertical"
 
         android:scaleType="center"
         android:src="@drawable/delete_zone_selector"

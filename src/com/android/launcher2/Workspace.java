@@ -54,7 +54,8 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
     /**
      * The velocity at which a fling gesture will cause us to snap to the next screen
      */
-    private static final int SNAP_VELOCITY = 1000;
+	// Faruq: Modified SNAP_VELOCITY to make it less harsh
+    private static final int SNAP_VELOCITY = 350;
 
     private final WallpaperManager mWallpaperManager;
     
@@ -339,8 +340,10 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
      * @param insert When true, the child is inserted at the beginning of the children list.
      */
     void addInScreen(View child, int screen, int x, int y, int spanX, int spanY, boolean insert) {
-        if (screen < 0 || screen >= getChildCount()) {
-            throw new IllegalStateException("The screen must be >= 0 and < " + getChildCount());
+		if (screen < 0 || screen >= getChildCount()) {
+            //TODO: Fix
+			Log.d("Workspace", "Screen: "+screen+" vs. Workspace: "+getChildCount());
+			throw new IllegalStateException("The screen must be >= 0 and < " + getChildCount());
         }
 
         clearVacantCache();
@@ -948,20 +951,36 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         final int screenWidth = getWidth();
         final int whichScreen = (mScrollX + (screenWidth / 2)) / screenWidth;
 
+		//Log.d("Workspace", ""+whichScreen+" / "+mScrollX);
         snapToScreen(whichScreen);
     }
 
     void snapToScreen(int whichScreen) {
         //if (!mScroller.isFinished()) return;
-
+		int durationOffset = 1;
+		
+		// Faruq: Disable first & last screens
+		if (whichScreen == 0) {
+			whichScreen = 1;
+		} else if (whichScreen == (getChildCount() - 1)) {
+			whichScreen = getChildCount() - 2;
+		}
+		
         whichScreen = Math.max(0, Math.min(whichScreen, getChildCount() - 1));
         
         clearVacantCache();
         enableChildrenCache(mCurrentScreen, whichScreen);
 
         final int screenDelta = Math.abs(whichScreen - mCurrentScreen);
-        
-        mNextScreen = whichScreen;
+
+		// Faruq: Added to allow easing even when Screen doesn't changed (when revert happens)
+		//Log.d("Workspace", "whichScreen: "+whichScreen+"; mCurrentScreen: "+mCurrentScreen+"; getChildCount: "+(getChildCount()-1));
+        if (screenDelta == 0) {
+			durationOffset = 400;
+			//Log.d("Workspace", "Increasing duration by "+durationOffset+" times");
+		}
+		
+       	mNextScreen = whichScreen;
 
         mPreviousIndicator.setLevel(mNextScreen);
         mNextIndicator.setLevel(mNextScreen);
@@ -973,7 +992,8 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         
         final int newX = whichScreen * getWidth();
         final int delta = newX - mScrollX;
-        final int duration = screenDelta * 300;
+        final int duration = 600 + durationOffset; // Faruq: Modified to make duration longer.. and for revert, much more longer
+		//Log.d("Workspace", "duration: "+ duration);
         awakenScrollBars(duration);
         mScroller.startScroll(mScrollX, 0, delta, 0, duration);
         invalidate();
@@ -1225,11 +1245,28 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         }
     }
 
+	// Faruq: Quick Jump Button
+	public void scrollMostLeft() {
+        clearVacantCache();
+        if (mNextScreen == INVALID_SCREEN && mCurrentScreen > 0 && mScroller.isFinished()) {
+            snapToScreen(0);
+        }
+    }
+
     public void scrollRight() {
         clearVacantCache();
         if (mNextScreen == INVALID_SCREEN && mCurrentScreen < getChildCount() -1 &&
                 mScroller.isFinished()) {
             snapToScreen(mCurrentScreen + 1);
+        }
+    }
+
+	// Faruq: Quick Jump Button
+	public void scrollMostRight() {
+        clearVacantCache();
+        if (mNextScreen == INVALID_SCREEN && mCurrentScreen < getChildCount() -1 &&
+                mScroller.isFinished()) {
+            snapToScreen(getChildCount()-1);
         }
     }
 

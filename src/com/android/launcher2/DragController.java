@@ -52,8 +52,9 @@ public class DragController {
     /** Indicates the drag is a copy.  */
     public static int DRAG_ACTION_COPY = 1;
 
-    private static final int SCROLL_DELAY = 600;
-    private static final int SCROLL_ZONE = 20;
+	// Faruq: Adjusted values to make item dragging easier
+    private static final int SCROLL_DELAY = 400;
+    private static final int SCROLL_ZONE = 40;
     private static final int VIBRATE_DURATION = 35;
 
     private static final boolean PROFILE_DRAWING_DURING_DRAG = false;

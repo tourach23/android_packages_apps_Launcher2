@@ -116,8 +116,9 @@ public final class Launcher extends Activity
     static final String EXTRA_CUSTOM_WIDGET = "custom_widget";
     static final String SEARCH_WIDGET = "search_widget";
 
-    static final int SCREEN_COUNT = 5;
-    static final int DEFAULT_SCREEN = 2;
+	// Faruq: Modified Screen Size
+    static final int SCREEN_COUNT = 9;
+    static final int DEFAULT_SCREEN = 4;
     static final int NUMBER_CELLS_X = 4;
     static final int NUMBER_CELLS_Y = 4;
 
@@ -553,6 +554,7 @@ public final class Launcher extends Activity
 
         mHandleView = (HandleView) findViewById(R.id.all_apps_button);
         mHandleView.setLauncher(this);
+		mHandleView.setOnLongClickListener(this); // Faruq: Added for long-press handle for previews
         mHandleView.setOnClickListener(this);
 
         mPreviousView = (ImageView) dragLayer.findViewById(R.id.previous_screen);
@@ -1486,14 +1488,26 @@ public final class Launcher extends Activity
                 if (!isAllAppsVisible()) {
                     mWorkspace.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS,
                             HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
-                    showPreviousPreview(v);
+                    //showPreviousPreview(v);
+					// Faruq: Quick jump button
+					mWorkspace.scrollMostLeft();
                 }
                 return true;
             case R.id.next_screen:
                 if (!isAllAppsVisible()) {
                     mWorkspace.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS,
                             HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
-                    showNextPreview(v);
+                    //showNextPreview(v);
+					// Faruq: Quick jump button
+					mWorkspace.scrollMostRight();
+                }
+                return true;
+			// Faruq: Added for long-press handle for previews
+			case R.id.all_apps_button:
+                if (!isAllAppsVisible()) {
+                    mWorkspace.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS,
+                            HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                    showPreviews(v, 0, mWorkspace.getChildCount());
                 }
                 return true;
         }
@@ -1515,6 +1529,7 @@ public final class Launcher extends Activity
 
         if (mWorkspace.allowLongPress()) {
             if (cellInfo.cell == null) {
+				// Faruq: WAS disabled: Long-click on desktop
                 if (cellInfo.valid) {
                     // User long pressed on empty space
                     mWorkspace.setAllowLongPress(false);
@@ -1573,10 +1588,15 @@ public final class Launcher extends Activity
     private void showPreviews(final View anchor, int start, int end) {
         Resources resources = getResources();
 
+		// Faruq: Disable first & last screens
+		start += 1;
+		end -= 1;
+		
         Workspace workspace = mWorkspace;
         CellLayout cell = ((CellLayout) workspace.getChildAt(start));
-        
-        float max = workspace.getChildCount();
+		
+		// Faruq Disable first & last screen
+        float max = workspace.getChildCount() - 2;
         
         Rect r = new Rect();
         resources.getDrawable(R.drawable.preview_background).getPadding(r);
