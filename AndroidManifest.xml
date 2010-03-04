@@ -92,6 +92,12 @@
             </intent-filter>
         </activity>
 
+		<!-- Faruq: Preferences -->
+		<activity
+            android:name="LauncherPreferenceActivity"
+            android:label="@string/menu_mod_settings">
+        </activity>
+
         <!-- Enable system-default search mode for any activity in Home -->
         <meta-data
             android:name="android.app.default_searchable"

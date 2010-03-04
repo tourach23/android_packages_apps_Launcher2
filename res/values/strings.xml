@@ -108,6 +108,8 @@
     <string name="menu_gestures">Gestures</string>
     <!-- Noun, menu item used to show the system settings -->
     <string name="menu_settings">Settings</string>
+	<!-- Faruq: MOD Settings Menu -->
+	<string name="menu_mod_settings">Configure</string>
 
     <!-- Permissions: -->
     <string name="permlab_install_shortcut">install shortcuts</string>
@@ -134,5 +136,17 @@
 
     <!-- Text to show user in place of a gadget when we can't display it properly -->
     <string name="gadget_error_text">Problem loading widget</string>
+
+	<!-- Launcher2 Preferences: -->
+	<skip />
+	<!-- Launcher2 Preferences Categories: -->
+	<string name="pref_behavior_settings">Behaviors</string>
+	
+	<!-- Launcher2 Preferences Items: -->
+	<string name="pref_title_longpress_add">Long-Press on Screen</string>
+	<string name="pref_summary_longpress_add">Enable/Disable long-press behavior to add items to screen</string>
+	
+	<!-- Launcher2 Preferences Menu: -->
+	<string name="restore_default">Restore Default</string>
 
 </resources>

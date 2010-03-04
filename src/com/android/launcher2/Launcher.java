@@ -74,6 +74,8 @@ import android.widget.PopupWindow;
 import android.widget.LinearLayout;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
+import android.preference.PreferenceManager;
+import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,9 +101,10 @@ public final class Launcher extends Activity
     private static final int MENU_GROUP_ADD = 1;
     private static final int MENU_ADD = Menu.FIRST + 1;
     private static final int MENU_WALLPAPER_SETTINGS = MENU_ADD + 1;
-    private static final int MENU_SEARCH = MENU_WALLPAPER_SETTINGS + 1;
+	private static final int MENU_MOD_SETTINGS = MENU_WALLPAPER_SETTINGS + 1;
+    private static final int MENU_SETTINGS = MENU_MOD_SETTINGS + 1;
+    private static final int MENU_SEARCH = MENU_SETTINGS + 1;
     private static final int MENU_NOTIFICATIONS = MENU_SEARCH + 1;
-    private static final int MENU_SETTINGS = MENU_NOTIFICATIONS + 1;
 
     private static final int REQUEST_CREATE_SHORTCUT = 1;
     private static final int REQUEST_CREATE_LIVE_FOLDER = 4;
@@ -203,9 +206,13 @@ public final class Launcher extends Activity
     private ImageView mPreviousView;
     private ImageView mNextView;
 
+	private SharedPreferences mPrefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         mModel = ((LauncherApplication)getApplication()).setLauncher(this);
         mDragController = new DragController(this);
@@ -1036,12 +1043,15 @@ public final class Launcher extends Activity
         menu.add(0, MENU_WALLPAPER_SETTINGS, 0, R.string.menu_wallpaper)
                  .setIcon(android.R.drawable.ic_menu_gallery)
                  .setAlphabeticShortcut('W');
-        menu.add(0, MENU_SEARCH, 0, R.string.menu_search)
+		menu.add(0, MENU_MOD_SETTINGS, 0, R.string.menu_mod_settings)
+                 .setIcon(android.R.drawable.ic_menu_preferences)
+                 .setAlphabeticShortcut('M');
+        /*menu.add(0, MENU_SEARCH, 0, R.string.menu_search)
                 .setIcon(android.R.drawable.ic_search_category_default)
                 .setAlphabeticShortcut(SearchManager.MENU_KEY);
         menu.add(0, MENU_NOTIFICATIONS, 0, R.string.menu_notifications)
                 .setIcon(com.android.internal.R.drawable.ic_menu_notifications)
-                .setAlphabeticShortcut('N');
+                .setAlphabeticShortcut('N');*/
 
         final Intent settings = new Intent(android.provider.Settings.ACTION_SETTINGS);
         settings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -1079,6 +1089,9 @@ public final class Launcher extends Activity
             case MENU_NOTIFICATIONS:
                 showNotifications();
                 return true;
+			case MENU_MOD_SETTINGS:
+				startPreferences();
+				return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -1314,6 +1327,13 @@ public final class Launcher extends Activity
         startActivityForResult(chooser, REQUEST_PICK_WALLPAPER);
     }
 
+	// Faruq: Start Preferences activity
+    private void startPreferences() {
+        closeAllApps(true);
+		Intent intent = new Intent(this, LauncherPreferenceActivity.class);
+		startActivityIfNeeded(intent, -1);
+    }
+
     /**
      * Registers various content observers. The current implementation registers
      * only a favorites observer to keep track of the favorites applications.
@@ -1534,12 +1554,14 @@ public final class Launcher extends Activity
 
         if (mWorkspace.allowLongPress()) {
             if (cellInfo.cell == null) {
-				// Faruq: WAS disabled: Long-click on desktop
-                if (cellInfo.valid) {
-                    // User long pressed on empty space
-                    mWorkspace.setAllowLongPress(false);
-                    showAddDialog(cellInfo);
-                }
+				// Faruq: Controlled by preferences
+				if (mPrefs.getBoolean(LauncherPreferenceActivity.LAUNCHER2_LONGPRESS_ADD, true)) {
+                	if (cellInfo.valid) {
+	                    // User long pressed on empty space
+	                    mWorkspace.setAllowLongPress(false);
+	                    showAddDialog(cellInfo);
+	                }
+				}
             } else {
                 if (!(cellInfo.cell instanceof Folder)) {
                     // User long pressed on an item
