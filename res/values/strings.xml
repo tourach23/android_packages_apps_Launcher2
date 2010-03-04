@@ -141,10 +141,13 @@
 	<skip />
 	<!-- Launcher2 Preferences Categories: -->
 	<string name="pref_behavior_settings">Behaviors</string>
+	<string name="pref_screen_settings">Screens</string>
 	
 	<!-- Launcher2 Preferences Items: -->
 	<string name="pref_title_longpress_add">Long-Press on Screen</string>
 	<string name="pref_summary_longpress_add">Enable/Disable long-press behavior to add items to screen</string>
+	<string name="pref_title_launcher2_screen_size">Screen Size</string>
+	<string name="pref_summary_launcher2_screen_size">Set the number of home screens</string>
 	
 	<!-- Launcher2 Preferences Menu: -->
 	<string name="restore_default">Restore Default</string>

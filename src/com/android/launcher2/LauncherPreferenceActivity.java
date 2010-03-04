@@ -36,6 +36,7 @@ import android.util.Log;
 public class LauncherPreferenceActivity extends PreferenceActivity {
     // Symbolic names for the keys used for preference lookup
     public static final String LAUNCHER2_LONGPRESS_ADD = "pref_key_launcher2_longpress_add";
+	public static final String LAUNCHER2_SCREEN_SIZE = "pref_key_launcher2_screen_size";
 
     // Menu entries
     private static final int MENU_RESTORE_DEFAULTS    = 1;
