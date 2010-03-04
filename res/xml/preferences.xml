@@ -20,6 +20,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory android:title="@string/pref_screen_settings">
   		<ListPreference android:key="pref_key_launcher2_screen_size"
+						android:enabled="false"
 	                    android:defaultValue="7"
 	                          android:title="@string/pref_title_launcher2_screen_size"
 	                          android:summary="@string/pref_summary_launcher2_screen_size"
