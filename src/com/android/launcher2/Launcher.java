@@ -430,10 +430,13 @@ public final class Launcher extends Activity
 			
 			Log.d(TAG, "Reset widgets");*/
 		}
-
-        this.setRequestedOrientation(
-        		Settings.System.getInt(this.getContentResolver(), "launcher_orientation", 1) == 0 ?
-        				ActivityInfo.SCREEN_ORIENTATION_NOSENSOR : ActivityInfo.SCREEN_ORIENTATION_USER);
+		
+		if (Settings.System.getInt(this.getContentResolver(), "launcher_orientation", 1) == 0 ||
+			mPrefs.getBoolean(LauncherPreferenceActivity.LAUNCHER2_AUTO_ORIENTATION, true) == false) {
+			this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+		} else {
+			this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
+		}
         
         if (mRestoring) {
             mWorkspaceLoading = true;

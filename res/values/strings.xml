@@ -145,15 +145,20 @@
 	<string name="pref_about">Launcher2 Mod About</string>
 	
 	<!-- Launcher2 Preferences Items: -->
-	<string name="pref_title_longpress_add">Long-Press on Screen</string>
-	<string name="pref_summary_longpress_add">Enable/Disable long-press behavior to add items to screen</string>
 	<string name="pref_title_launcher2_screen_size">Screen Size</string>
 	<string name="pref_summary_launcher2_screen_size">(REQUIRE RESTART) Screen Size: <xliff:g id="count">%1$s</xliff:g></string>
 	<string name="pref_summary_launcher2_set_screen_size">Set screen size</string>
+	
+	<string name="pref_title_longpress_add">Long-Press on Screen</string>
+	<string name="pref_summary_longpress_add">Enable/Disable long-press behavior to add items to screen</string>
+	<string name="pref_title_auto_orientation">Auto-Rotate Screen</string>
+	<string name="pref_summary_auto_orientation">Enable/Disable screen auto orientation</string>
+	
 	<string name="pref_title_launcher2_version">Version</string>
-	<string name="pref_summary_launcher2_version">0.3</string>
+	<string name="pref_summary_launcher2_version">0.4</string>
 	<string name="pref_title_launcher2_author">Author</string>
 	<string name="pref_summary_launcher2_author">Faruq (twitter.com/ruqqq)</string>
+	<string name="pref_title_launcher2_restart">Restart Launcher2</string>
 	
 	<!-- Launcher2 Preferences Menu: -->
 	<string name="restore_default">Restore Default</string>

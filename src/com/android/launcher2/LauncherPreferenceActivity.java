@@ -18,7 +18,11 @@ package com.android.launcher2;
 
 import com.android.launcher2.R;
 
+import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.appwidget.AppWidgetHost;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -39,18 +43,22 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
     // Symbolic names for the keys used for preference lookup
     public static final String LAUNCHER2_LONGPRESS_ADD = "pref_key_launcher2_longpress_add";
 	public static final String LAUNCHER2_SCREEN_SIZE = "pref_key_launcher2_screen_size";
+	public static final String LAUNCHER2_AUTO_ORIENTATION = "pref_key_launcher2_auto_orientation";
+	public static final String LAUNCHER2_RESTART = "pref_key_launcher2_restart";
 
     // Menu entries
     private static final int MENU_RESTORE_DEFAULTS    = 1;
 
 	private Preference mScreenSize;
+	private Preference mRestart;
 
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         addPreferencesFromResource(R.xml.preferences);
 
-		mScreenSize = findPreference("pref_key_launcher2_screen_size");
+		mScreenSize = findPreference(LAUNCHER2_SCREEN_SIZE);
+		mRestart = findPreference(LAUNCHER2_RESTART);
 		setScreenSizeDisplay();
     }
 
@@ -89,6 +97,14 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
                         getScreenSize()));
     }
 
+	private void askRestart() {
+		new AlertDialog.Builder(this)
+		      .setMessage("Restart Launcher2?")
+		      .setPositiveButton("Yes", restartLauncher2)
+			  .setNegativeButton("No", cancelRestart)
+		      .show();
+	}
+
 	@Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
             Preference preference) {
@@ -100,10 +116,29 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
                     7,
                     R.string.pref_title_launcher2_screen_size,
 					R.string.pref_summary_launcher2_set_screen_size).show();
-        }
+			new AlertDialog.Builder(this)
+			      .setMessage("Please remove all your icons/widgets before resizing the screen to a smaller size. Press the back button to continue.")
+			      .show();
+        } else if (preference == mRestart) {
+			askRestart();
+		}
 
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
+
+	DialogInterface.OnClickListener restartLauncher2 =
+		new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				ActivityManager actmgr = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE); 
+				actmgr.restartPackage("com.android.launcher2");
+			}
+	};
+	
+	DialogInterface.OnClickListener cancelRestart =
+		new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+			}
+	};
 
 	NumberPickerDialog.OnNumberSetListener mScreenSizeListener =
         new NumberPickerDialog.OnNumberSetListener() {
@@ -116,6 +151,8 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
 					Launcher.resetWidgets = true;
 				
 	                setScreenSizeDisplay();
+	
+					askRestart();
 				}
             }
     };

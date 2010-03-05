@@ -29,15 +29,22 @@
                         android:title="@string/pref_title_longpress_add"
                         android:summary="@string/pref_summary_longpress_add"
                         android:defaultValue="true" />
+		<CheckBoxPreference android:key="pref_key_launcher2_auto_orientation"
+                        android:title="@string/pref_title_auto_orientation"
+                        android:summary="@string/pref_summary_auto_orientation"
+                        android:defaultValue="true" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pref_about">
     	<Preference android:key="pref_key_launcher2_version"
 	                      android:persistent="false"
 	                      android:summary="@string/pref_summary_launcher2_author"
 	                      android:title="@string/pref_title_launcher2_author" />
-						<Preference android:key="pref_key_launcher2_version"
-					                      android:persistent="false"
-					                      android:summary="@string/pref_summary_launcher2_version"
-					                      android:title="@string/pref_title_launcher2_version" />
+		<Preference android:key="pref_key_launcher2_version"
+	                      android:persistent="false"
+	                      android:summary="@string/pref_summary_launcher2_version"
+	                      android:title="@string/pref_title_launcher2_version" />
+		<Preference android:key="pref_key_launcher2_restart"
+	                      android:persistent="false"
+	                      android:title="@string/pref_title_launcher2_restart" />
 	</PreferenceCategory>
 </PreferenceScreen>
