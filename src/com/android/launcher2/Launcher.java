@@ -76,6 +76,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
+import android.graphics.drawable.StateListDrawable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -463,8 +464,8 @@ public final class Launcher extends Activity
     @Override
     protected void onPause() {
         super.onPause();
-        dismissPreview(mPreviousView);
-        dismissPreview(mNextView);
+        //dismissPreview(mPreviousView);
+        //dismissPreview(mNextView);
         mDragController.cancelDrag();
     }
 
@@ -579,12 +580,12 @@ public final class Launcher extends Activity
         mWorkspace = (Workspace) dragLayer.findViewById(R.id.workspace);
 
 		// Faruq: Dynamic screen count
-		for (int i=0;i<Launcher.SCREEN_COUNT;i++) {
+		/*for (int i=0;i<Launcher.SCREEN_COUNT;i++) {
 			View v = (View) mInflater.inflate(R.layout.workspace_screen, mWorkspace, false);
 			CellLayout cell = (CellLayout) v.findViewById(R.id.cell);
 			mWorkspace.addView(cell);
-		}
-		mWorkspace.initWorkspace();
+		}*/
+		//mWorkspace.initWorkspace();
 		
         final Workspace workspace = mWorkspace;
 
@@ -596,7 +597,7 @@ public final class Launcher extends Activity
 		mHandleView.setOnLongClickListener(this); // Faruq: Added for long-press handle for previews
         mHandleView.setOnClickListener(this);
 
-        mPreviousView = (ImageView) dragLayer.findViewById(R.id.previous_screen);
+        /*mPreviousView = (ImageView) dragLayer.findViewById(R.id.previous_screen);
         mNextView = (ImageView) dragLayer.findViewById(R.id.next_screen);
 
         Drawable previous = mPreviousView.getDrawable();
@@ -606,7 +607,36 @@ public final class Launcher extends Activity
         mPreviousView.setHapticFeedbackEnabled(false);
         mPreviousView.setOnLongClickListener(this);
         mNextView.setHapticFeedbackEnabled(false);
-        mNextView.setOnLongClickListener(this);
+        mNextView.setOnLongClickListener(this);*/
+
+		// Phone & Browser icon
+		PackageManager pm = getPackageManager();
+		
+		ImageView bottom_app1 = (ImageView) dragLayer.findViewById(R.id.bottom_app1);
+		ImageView bottom_app2 = (ImageView) dragLayer.findViewById(R.id.bottom_app2);
+		ImageView bottom_app3 = (ImageView) dragLayer.findViewById(R.id.bottom_app3);
+		ImageView bottom_app4 = (ImageView) dragLayer.findViewById(R.id.bottom_app4);
+		
+		try {
+			//StateListDrawable icon1 = new StateListDrawable();
+			//android.R.attr.state_pressed
+			//pm.getApplicationIcon("com.android.phone").mutate().setAlpha(255);
+			//icon1.addState(new int[]{}, pm.getApplicationIcon("com.android.phone"));
+			//pm.getApplicationIcon("com.android.phone").mutate().setAlpha(100);
+			//icon1.addState(new int[]{android.R.attr.state_pressed}, pm.getApplicationIcon("com.android.phone"));
+			
+			bottom_app1.setImageDrawable(pm.getApplicationIcon("com.android.phone"));
+			//bottom_app1.setAdjustViewBounds(true);
+			
+			bottom_app2.setImageDrawable(pm.getApplicationIcon("com.android.mms"));
+			//bottom_app2.setAdjustViewBounds(true);
+			
+			bottom_app3.setImageDrawable(pm.getApplicationIcon("com.android.browser"));
+			//bottom_app3.setAdjustViewBounds(true);
+			
+			bottom_app4.setImageDrawable(pm.getApplicationIcon("com.android.vending"));
+			//bottom_app4.setAdjustViewBounds(true);
+		} catch(Exception e) {}
 
         workspace.setOnLongClickListener(this);
         workspace.setDragController(dragController);
@@ -636,6 +666,39 @@ public final class Launcher extends Activity
     public void nextScreen(View v) {
         if (!isAllAppsVisible()) {
             mWorkspace.scrollRight();
+        }
+    }
+
+	@SuppressWarnings({"UnusedDeclaration"})
+    public void runApp1(View v) {
+        if (!isAllAppsVisible()) {
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.setClassName("com.android.contacts", "com.android.contacts.DialtactsActivity");
+			startActivitySafely(intent);
+        }
+    }
+
+    public void runApp2(View v) {
+        if (!isAllAppsVisible()) {
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.setClassName("com.android.mms", "com.android.mms.ui.ConversationList");
+			startActivitySafely(intent);
+        }
+    }
+
+    public void runApp3(View v) {
+        if (!isAllAppsVisible()) {
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
+			startActivitySafely(intent);
+        }
+    }
+
+    public void runApp4(View v) {
+        if (!isAllAppsVisible()) {
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.setClassName("com.android.vending", "com.android.vending.AssetBrowserActivity");
+			startActivitySafely(intent);
         }
     }
 
@@ -976,8 +1039,8 @@ public final class Launcher extends Activity
 
         getContentResolver().unregisterContentObserver(mWidgetObserver);
         
-        dismissPreview(mPreviousView);
-        dismissPreview(mNextView);
+        //dismissPreview(mPreviousView);
+        //dismissPreview(mNextView);
 
         unregisterReceiver(mCloseSystemDialogsReceiver);
     }
@@ -1401,8 +1464,8 @@ public final class Launcher extends Activity
         } else {
             closeFolder();
         }
-        dismissPreview(mPreviousView);
-        dismissPreview(mNextView);
+        //dismissPreview(mPreviousView);
+        //dismissPreview(mNextView);
     }
 
     private void closeFolder() {
@@ -1536,7 +1599,7 @@ public final class Launcher extends Activity
 
     public boolean onLongClick(View v) {
         switch (v.getId()) {
-            case R.id.previous_screen:
+            /*case R.id.previous_screen:
                 if (!isAllAppsVisible()) {
                     mWorkspace.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS,
                             HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
@@ -1553,7 +1616,7 @@ public final class Launcher extends Activity
 					// Faruq: Quick jump button
 					mWorkspace.scrollMostRight();
                 }
-                return true;
+                return true;*/
 			// Faruq: Added for long-press handle for previews
 			case R.id.all_apps_button:
                 if (!isAllAppsVisible()) {

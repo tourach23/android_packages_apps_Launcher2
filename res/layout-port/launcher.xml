@@ -41,7 +41,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         launcher:defaultScreen="4">
-<!--
+
         <include android:id="@+id/cell1" layout="@layout/workspace_screen" />
         <include android:id="@+id/cell2" layout="@layout/workspace_screen" />
         <include android:id="@+id/cell3" layout="@layout/workspace_screen" />
@@ -50,11 +50,11 @@
 		<include android:id="@+id/cell6" layout="@layout/workspace_screen" />
 		<include android:id="@+id/cell7" layout="@layout/workspace_screen" />
 		<include android:id="@+id/cell8" layout="@layout/workspace_screen" />
-		<include android:id="@+id/cell9" layout="@layout/workspace_screen" />-->
+		<include android:id="@+id/cell9" layout="@layout/workspace_screen" />
                 
     </com.android.launcher2.Workspace>
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/previous_screen"
         android:layout_width="93dip"
         android:layout_height="@dimen/button_bar_height"
@@ -80,7 +80,52 @@
         android:onClick="nextScreen"
         
         android:focusable="true"
-        android:clickable="true" />
+        android:clickable="true" />-->
+
+	<ImageView
+        android:id="@+id/bottom_app1"
+        android:layout_width="42dip"
+        android:layout_height="42dip"
+		android:layout_gravity="bottom|left"
+        android:layout_marginLeft="20dip"
+		android:layout_marginBottom="10dip"
+		
+		android:focusable="true"
+        android:clickable="true"
+ 		android:onClick="runApp1" />
+	<ImageView
+        android:id="@+id/bottom_app2"
+        android:layout_width="42dip"
+        android:layout_height="42dip"
+		android:layout_gravity="bottom|left"
+        android:layout_marginLeft="80dip"
+		android:layout_marginBottom="10dip"
+		
+		android:focusable="true"
+        android:clickable="true"
+ 		android:onClick="runApp2"/>
+	<ImageView
+        android:id="@+id/bottom_app3"
+        android:layout_width="42dip"
+        android:layout_height="42dip"
+		android:layout_gravity="bottom|right"
+        android:layout_marginRight="80dip"
+		android:layout_marginBottom="10dip"
+		
+		android:focusable="true"
+        android:clickable="true"
+ 		android:onClick="runApp3" />
+	<ImageView
+        android:id="@+id/bottom_app4"
+        android:layout_width="42dip"
+        android:layout_height="42dip"
+		android:layout_gravity="bottom|right"
+        android:layout_marginRight="20dip"
+		android:layout_marginBottom="10dip"
+		
+		android:focusable="true"
+        android:clickable="true"
+ 		android:onClick="runApp4" />
 
     <com.android.launcher2.HandleView
         android:id="@+id/all_apps_button"

@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.LayoutInflater;
 import android.widget.Scroller;
 import android.widget.TextView;
 
@@ -114,6 +115,8 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
 
     private boolean mFading = true;
 
+	private int mScreenLoaded = 0;
+
     /**
      * Used to inflate the Workspace from XML.
      *
@@ -140,6 +143,13 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         //mDefaultScreen = a.getInt(R.styleable.Workspace_defaultScreen, 1);
         a.recycle();
 
+		/*LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		for (int i=0;i<Launcher.SCREEN_COUNT;i++) {
+			View v = (View) mInflater.inflate(R.layout.workspace_screen, this, false);
+			CellLayout cell = (CellLayout) v.findViewById(R.id.cell);
+			this.addView(cell);
+		}*/
+
         setHapticFeedbackEnabled(false);
         initWorkspace();
     }
@@ -163,7 +173,10 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         if (!(child instanceof CellLayout)) {
             throw new IllegalArgumentException("A Workspace can only have CellLayout children.");
         }
-        super.addView(child, index, params);
+		if (mScreenLoaded < Launcher.SCREEN_COUNT) {
+			mScreenLoaded++;
+        	super.addView(child, index, params);
+		}
     }
 
     @Override
@@ -342,8 +355,6 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
      */
     void addInScreen(View child, int screen, int x, int y, int spanX, int spanY, boolean insert) {
 		if (screen < 0 || screen >= getChildCount()) {
-            //TODO: Fix
-			Log.d("Workspace", "Screen: "+screen+" vs. Workspace: "+getChildCount());
 			throw new IllegalStateException("The screen must be >= 0 and < " + getChildCount());
         }
 
