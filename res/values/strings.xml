@@ -148,7 +148,8 @@
 	<string name="pref_title_longpress_add">Long-Press on Screen</string>
 	<string name="pref_summary_longpress_add">Enable/Disable long-press behavior to add items to screen</string>
 	<string name="pref_title_launcher2_screen_size">Screen Size</string>
-	<string name="pref_summary_launcher2_screen_size">Set the number of home screens</string>
+	<string name="pref_summary_launcher2_screen_size">(REQUIRE RESTART) Screen Size: <xliff:g id="count">%1$s</xliff:g></string>
+	<string name="pref_summary_launcher2_set_screen_size">Set screen size</string>
 	<string name="pref_title_launcher2_version">Version</string>
 	<string name="pref_summary_launcher2_version">0.3</string>
 	<string name="pref_title_launcher2_author">Author</string>
@@ -156,5 +157,12 @@
 	
 	<!-- Launcher2 Preferences Menu: -->
 	<string name="restore_default">Restore Default</string>
+	
+	<!-- Text to be used for affirmative response button in dialog boxes -->
+	<string name="yes">OK</string>
+    <!-- Text to be used for negative response button in dialog boxes -->
+    <string name="no">Cancel</string>
+    <!-- Text to be used for affirmative response button in setting SMS limits dialog box -->
+    <string name="set">Set</string>
 
 </resources>

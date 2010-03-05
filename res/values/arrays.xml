@@ -24,11 +24,10 @@
 		<item>Seven</item>
 	</string-array>
 	<string-array name="pref_summary_launcher2_screen_size_values">
-		<!-- +2 to each because we're using 2 real screens for front and end -->
+		<item>3</item>
+		<item>4</item>
 		<item>5</item>
 		<item>6</item>
 		<item>7</item>
-		<item>8</item>
-		<item>9</item>
 	</string-array>
 </resources>

@@ -172,7 +172,7 @@ public class LauncherProvider extends ContentProvider {
         }
     }
 
-    private static class DatabaseHelper extends SQLiteOpenHelper {
+    public static class DatabaseHelper extends SQLiteOpenHelper {
         private static final String TAG_FAVORITES = "favorites";
         private static final String TAG_FAVORITE = "favorite";
         private static final String TAG_CLOCK = "clock";
@@ -236,6 +236,11 @@ public class LauncherProvider extends ContentProvider {
                 loadFavorites(db);
             }
         }
+
+		public void resetWidgets() {
+			mAppWidgetHost.deleteHost();
+            sendAppWidgetResetNotify();
+		}
 
         private boolean convertDatabase(SQLiteDatabase db) {
             if (LOGD) Log.d(TAG, "converting database from an older format, but not onUpgrade");

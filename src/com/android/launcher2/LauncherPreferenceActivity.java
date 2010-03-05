@@ -18,7 +18,9 @@ package com.android.launcher2;
 
 import com.android.launcher2.R;
 
+import android.appwidget.AppWidgetHost;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -41,10 +43,15 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
     // Menu entries
     private static final int MENU_RESTORE_DEFAULTS    = 1;
 
+	private Preference mScreenSize;
+
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         addPreferencesFromResource(R.xml.preferences);
+
+		mScreenSize = findPreference("pref_key_launcher2_screen_size");
+		setScreenSizeDisplay();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -70,4 +77,46 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
         setPreferenceScreen(null);
         addPreferencesFromResource(R.xml.preferences);
     }
+
+	private int getScreenSize() {
+		SharedPreferences mPrefs = mScreenSize.getSharedPreferences();
+		return mPrefs.getInt(LauncherPreferenceActivity.LAUNCHER2_SCREEN_SIZE, 7);
+	}
+
+	private void setScreenSizeDisplay() {
+        mScreenSize.setSummary(
+                getString(R.string.pref_summary_launcher2_screen_size,
+                        getScreenSize()));
+    }
+
+	@Override
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
+            Preference preference) {
+        if (preference == mScreenSize) {
+			new NumberPickerDialog(this,
+                    mScreenSizeListener,
+                    getScreenSize(),
+                    1,
+                    7,
+                    R.string.pref_title_launcher2_screen_size,
+					R.string.pref_summary_launcher2_set_screen_size).show();
+        }
+
+        return super.onPreferenceTreeClick(preferenceScreen, preference);
+    }
+
+	NumberPickerDialog.OnNumberSetListener mScreenSizeListener =
+        new NumberPickerDialog.OnNumberSetListener() {
+            public void onNumberSet(int size) {
+				if (size != getScreenSize()) {
+					SharedPreferences.Editor editor = mScreenSize.getEditor();
+					editor.putInt(LauncherPreferenceActivity.LAUNCHER2_SCREEN_SIZE, size);
+					editor.commit();
+				
+					Launcher.resetWidgets = true;
+				
+	                setScreenSizeDisplay();
+				}
+            }
+    };
 }

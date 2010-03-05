@@ -121,8 +121,8 @@ public final class Launcher extends Activity
     static final String SEARCH_WIDGET = "search_widget";
 
 	// Faruq: Modified Screen Size
-    static final int SCREEN_COUNT = 9;
-    static final int DEFAULT_SCREEN = 4;
+    static int SCREEN_COUNT = 0;
+    static int DEFAULT_SCREEN = 0;
     static final int NUMBER_CELLS_X = 4;
     static final int NUMBER_CELLS_Y = 4;
 
@@ -161,7 +161,7 @@ public final class Launcher extends Activity
     static final int APPWIDGET_HOST_ID = 1024;
 
     private static final Object sLock = new Object();
-    private static int sScreen = DEFAULT_SCREEN;
+    private static int sScreen = 0;
 
     private final BroadcastReceiver mCloseSystemDialogsReceiver
             = new CloseSystemDialogsIntentReceiver();
@@ -207,12 +207,19 @@ public final class Launcher extends Activity
     private ImageView mNextView;
 
 	private SharedPreferences mPrefs;
+	
+	public static boolean resetWidgets = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		
+		// Faruq: Get screen settings
+		Launcher.SCREEN_COUNT = mPrefs.getInt(LauncherPreferenceActivity.LAUNCHER2_SCREEN_SIZE, 7) + 2;
+		Launcher.DEFAULT_SCREEN = (Launcher.SCREEN_COUNT - 1) / 2;
+		Launcher.sScreen = Launcher.DEFAULT_SCREEN;
 
         mModel = ((LauncherApplication)getApplication()).setLauncher(this);
         mDragController = new DragController(this);
@@ -416,6 +423,14 @@ public final class Launcher extends Activity
 
         mPaused = false;
 
+		if (Launcher.resetWidgets == true) {
+			// TODO: Reset widgets
+			/*LauncherProvider.DatabaseHelper dbHelper = new LauncherProvider.DatabaseHelper(this);
+			dbHelper.resetWidgets();
+			
+			Log.d(TAG, "Reset widgets");*/
+		}
+
         this.setRequestedOrientation(
         		Settings.System.getInt(this.getContentResolver(), "launcher_orientation", 1) == 0 ?
         				ActivityInfo.SCREEN_ORIENTATION_NOSENSOR : ActivityInfo.SCREEN_ORIENTATION_USER);
@@ -559,6 +574,15 @@ public final class Launcher extends Activity
         mAllAppsGrid.setFocusable(false); 
 
         mWorkspace = (Workspace) dragLayer.findViewById(R.id.workspace);
+
+		// Faruq: Dynamic screen count
+		for (int i=0;i<Launcher.SCREEN_COUNT;i++) {
+			View v = (View) mInflater.inflate(R.layout.workspace_screen, mWorkspace, false);
+			CellLayout cell = (CellLayout) v.findViewById(R.id.cell);
+			mWorkspace.addView(cell);
+		}
+		mWorkspace.initWorkspace();
+		
         final Workspace workspace = mWorkspace;
 
         DeleteZone deleteZone = (DeleteZone) dragLayer.findViewById(R.id.delete_zone);
@@ -611,7 +635,7 @@ public final class Launcher extends Activity
             mWorkspace.scrollRight();
         }
     }
-    
+
     /**
      * Creates a view representing a shortcut.
      *

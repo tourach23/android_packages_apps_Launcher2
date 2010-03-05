@@ -19,14 +19,10 @@
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory android:title="@string/pref_screen_settings">
-  		<ListPreference android:key="pref_key_launcher2_screen_size"
-						android:enabled="false"
+  		<Preference android:key="pref_key_launcher2_screen_size"
 	                    android:defaultValue="7"
 	                          android:title="@string/pref_title_launcher2_screen_size"
-	                          android:summary="@string/pref_summary_launcher2_screen_size"
-	                          android:entries="@array/pref_summary_launcher2_screen_size_entries"
-	                          android:entryValues="@array/pref_summary_launcher2_screen_size_values"
-	                          android:dialogTitle="@string/pref_title_launcher2_screen_size" />
+	                          android:summary="@string/pref_summary_launcher2_screen_size" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pref_behavior_settings">
     	<CheckBoxPreference android:key="pref_key_launcher2_longpress_add"

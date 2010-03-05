@@ -137,7 +137,7 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         mWallpaperManager = WallpaperManager.getInstance(context);
         
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Workspace, defStyle, 0);
-        mDefaultScreen = a.getInt(R.styleable.Workspace_defaultScreen, 1);
+        //mDefaultScreen = a.getInt(R.styleable.Workspace_defaultScreen, 1);
         a.recycle();
 
         setHapticFeedbackEnabled(false);
@@ -147,8 +147,9 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
     /**
      * Initializes various states for this workspace.
      */
-    private void initWorkspace() {
+    public void initWorkspace() {
         mScroller = new Scroller(getContext());
+		mDefaultScreen = Launcher.DEFAULT_SCREEN;
         mCurrentScreen = mDefaultScreen;
         Launcher.setScreen(mCurrentScreen);
 
@@ -1037,7 +1038,7 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         final int newX = whichScreen * getWidth();
         final int delta = newX - mScrollX;
 		// Faruq: Modified to let fling follow Velocity of fling
-		Log.d("Workspace", "velocityX: "+velocityX+"; delta: "+delta+"; duration: "+((Math.abs(delta) / (Math.abs(velocityX) / 100))*20));
+		//Log.d("Workspace", "velocityX: "+velocityX+"; delta: "+delta+"; duration: "+((Math.abs(delta) / (Math.abs(velocityX) / 100))*20));
         final int duration = ((Math.abs(delta) / (Math.abs(velocityX) / 100))*20) + durationOffset; // Faruq: Modified to make duration longer.. and for revert, much more longer
 		//Log.d("Workspace", "duration: "+ duration);
         awakenScrollBars(duration);
