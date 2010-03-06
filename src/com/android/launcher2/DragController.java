@@ -106,7 +106,8 @@ public class DragController {
     /** Who can receive drop events */
     private ArrayList<DropTarget> mDropTargets = new ArrayList<DropTarget>();
 
-    private DragListener mListener;
+    //private DragListener mListener;
+	private ArrayList<DragListener> mListener = new ArrayList<DragListener>();
 
     /** The window token used as the parent for the DragView. */
     private IBinder mWindowToken;
@@ -214,8 +215,10 @@ public class DragController {
         }
         mInputMethodManager.hideSoftInputFromWindow(mWindowToken, 0);
 
-        if (mListener != null) {
-            mListener.onDragStart(source, dragInfo, dragAction);
+        if (!mListener.isEmpty()) {
+			for (DragListener l : mListener) {
+            	l.onDragStart(source, dragInfo, dragAction);
+			}
         }
 
         int registrationX = ((int)mMotionDownX) - screenX;
@@ -293,9 +296,11 @@ public class DragController {
             if (mOriginator != null) {
                 mOriginator.setVisibility(View.VISIBLE);
             }
-            if (mListener != null) {
-                mListener.onDragEnd();
-            }
+			if (!mListener.isEmpty()) {
+				for (DragListener l : mListener) {
+	            	l.onDragEnd();
+				}
+	        }
             if (mDragView != null) {
                 mDragView.remove();
                 mDragView = null;
@@ -513,16 +518,24 @@ public class DragController {
     /**
      * Sets the drag listner which will be notified when a drag starts or ends.
      */
-    public void setDragListener(DragListener l) {
+    /*public void setDragListener(DragListener l) {
         mListener = l;
+    }*/
+
+	public void addDragListener(DragListener l) {
+        mListener.add(l);
+    }
+
+	public void removeDragListener(DragListener l) {
+        mListener.remove(l);
     }
 
     /**
      * Remove a previously installed drag listener.
      */
-    public void removeDragListener(DragListener l) {
+    /*public void removeDragListener(DragListener l) {
         mListener = null;
-    }
+    }*/
 
     /**
      * Add a DropTarget to the list of potential places to receive drop events.

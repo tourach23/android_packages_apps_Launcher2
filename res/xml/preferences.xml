@@ -34,6 +34,43 @@
                         android:summary="@string/pref_summary_auto_orientation"
                         android:defaultValue="true" />
 	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/pref_app_settings">
+		<PreferenceScreen android:key="pref_key_launcher2_app_settings"
+	                      android:title="@string/pref_app_settings">
+						<EditTextPreference android:key="pref_key_launcher2_app1_package"
+				                        android:title="@string/pref_title_app_package"
+				                        android:summary="@string/pref_summary_app_package"
+				                        android:defaultValue="com.android.contacts" />
+						<EditTextPreference android:key="pref_key_launcher2_app1_class"
+				                        android:title="@string/pref_title_app_class"
+				                        android:summary="@string/pref_summary_app_class"
+				                        android:defaultValue="com.android.contacts.DialtactsActivity" />
+						<EditTextPreference android:key="pref_key_launcher2_app2_package"
+				                        android:title="@string/pref_title_app_package"
+				                        android:summary="@string/pref_summary_app_package"
+				                        android:defaultValue="com.android.mms" />
+						<EditTextPreference android:key="pref_key_launcher2_app2_class"
+				                        android:title="@string/pref_title_app_class"
+				                        android:summary="@string/pref_summary_app_class"
+				                        android:defaultValue="com.android.mms.ui.ConversationList" />
+						<EditTextPreference android:key="pref_key_launcher2_app3_package"
+				                        android:title="@string/pref_title_app_package"
+				                        android:summary="@string/pref_summary_app_package"
+				                        android:defaultValue="com.android.browser" />
+						<EditTextPreference android:key="pref_key_launcher2_app3_class"
+				                        android:title="@string/pref_title_app_class"
+				                        android:summary="@string/pref_summary_app_class"
+				                        android:defaultValue="com.android.browser.BrowserActivity" />
+						<EditTextPreference android:key="pref_key_launcher2_app4_package"
+				                        android:title="@string/pref_title_app_package"
+				                        android:summary="@string/pref_summary_app_package"
+				                        android:defaultValue="com.android.vending" />
+						<EditTextPreference android:key="pref_key_launcher2_app4_class"
+				                        android:title="@string/pref_title_app_class"
+				                        android:summary="@string/pref_summary_app_class"
+				                        android:defaultValue="com.android.vending.AssetBrowserActivity" />
+	    </PreferenceScreen>
+	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pref_about">
     	<Preference android:key="pref_key_launcher2_version"
 	                      android:persistent="false"

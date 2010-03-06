@@ -44,6 +44,14 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
     public static final String LAUNCHER2_LONGPRESS_ADD = "pref_key_launcher2_longpress_add";
 	public static final String LAUNCHER2_SCREEN_SIZE = "pref_key_launcher2_screen_size";
 	public static final String LAUNCHER2_AUTO_ORIENTATION = "pref_key_launcher2_auto_orientation";
+	public static final String LAUNCHER2_APP1_PACKAGE = "pref_key_launcher2_app1_package";
+	public static final String LAUNCHER2_APP1_CLASS = "pref_key_launcher2_app1_class";
+	public static final String LAUNCHER2_APP2_PACKAGE = "pref_key_launcher2_app2_package";
+	public static final String LAUNCHER2_APP2_CLASS = "pref_key_launcher2_app2_class";
+	public static final String LAUNCHER2_APP3_PACKAGE = "pref_key_launcher2_app3_package";
+	public static final String LAUNCHER2_APP3_CLASS = "pref_key_launcher2_app3_class";
+	public static final String LAUNCHER2_APP4_PACKAGE = "pref_key_launcher2_app4_package";
+	public static final String LAUNCHER2_APP4_CLASS = "pref_key_launcher2_app4_class";
 	public static final String LAUNCHER2_RESTART = "pref_key_launcher2_restart";
 
     // Menu entries

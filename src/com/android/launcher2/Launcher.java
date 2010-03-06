@@ -610,33 +610,31 @@ public final class Launcher extends Activity
         mNextView.setOnLongClickListener(this);*/
 
 		// Phone & Browser icon
-		PackageManager pm = getPackageManager();
+		QuickShortcut bottom_app1 = (QuickShortcut) dragLayer.findViewById(R.id.bottom_app1);
+		QuickShortcut bottom_app2 = (QuickShortcut) dragLayer.findViewById(R.id.bottom_app2);
+		QuickShortcut bottom_app3 = (QuickShortcut) dragLayer.findViewById(R.id.bottom_app3);
+		QuickShortcut bottom_app4 = (QuickShortcut) dragLayer.findViewById(R.id.bottom_app4);
 		
-		ImageView bottom_app1 = (ImageView) dragLayer.findViewById(R.id.bottom_app1);
-		ImageView bottom_app2 = (ImageView) dragLayer.findViewById(R.id.bottom_app2);
-		ImageView bottom_app3 = (ImageView) dragLayer.findViewById(R.id.bottom_app3);
-		ImageView bottom_app4 = (ImageView) dragLayer.findViewById(R.id.bottom_app4);
+		bottom_app1.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_CLASS, ""));
+		bottom_app2.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_CLASS, ""));
+		bottom_app3.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_CLASS, ""));
+		bottom_app4.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_CLASS, ""));
 		
-		try {
-			//StateListDrawable icon1 = new StateListDrawable();
-			//android.R.attr.state_pressed
-			//pm.getApplicationIcon("com.android.phone").mutate().setAlpha(255);
-			//icon1.addState(new int[]{}, pm.getApplicationIcon("com.android.phone"));
-			//pm.getApplicationIcon("com.android.phone").mutate().setAlpha(100);
-			//icon1.addState(new int[]{android.R.attr.state_pressed}, pm.getApplicationIcon("com.android.phone"));
-			
-			bottom_app1.setImageDrawable(pm.getApplicationIcon("com.android.phone"));
-			//bottom_app1.setAdjustViewBounds(true);
-			
-			bottom_app2.setImageDrawable(pm.getApplicationIcon("com.android.mms"));
-			//bottom_app2.setAdjustViewBounds(true);
-			
-			bottom_app3.setImageDrawable(pm.getApplicationIcon("com.android.browser"));
-			//bottom_app3.setAdjustViewBounds(true);
-			
-			bottom_app4.setImageDrawable(pm.getApplicationIcon("com.android.vending"));
-			//bottom_app4.setAdjustViewBounds(true);
-		} catch(Exception e) {}
+		bottom_app1.setLauncher(this);
+		bottom_app1.setDragController(dragController);
+		dragController.addDragListener(bottom_app1);
+		
+		bottom_app2.setLauncher(this);
+		bottom_app2.setDragController(dragController);
+		dragController.addDragListener(bottom_app2);
+		
+		bottom_app3.setLauncher(this);
+		bottom_app3.setDragController(dragController);
+		dragController.addDragListener(bottom_app3);
+		
+		bottom_app4.setLauncher(this);
+		bottom_app4.setDragController(dragController);
+		dragController.addDragListener(bottom_app4);
 
         workspace.setOnLongClickListener(this);
         workspace.setDragController(dragController);
@@ -645,14 +643,18 @@ public final class Launcher extends Activity
         deleteZone.setLauncher(this);
         deleteZone.setDragController(dragController);
         deleteZone.setHandle(mHandleView);
+		dragController.addDragListener(deleteZone);
 
         dragController.setDragScoller(workspace);
-        dragController.setDragListener(deleteZone);
         dragController.setScrollView(dragLayer);
 
         // The order here is bottom to top.
         dragController.addDropTarget(workspace);
-        dragController.addDropTarget(deleteZone);
+		dragController.addDropTarget(deleteZone);
+        dragController.addDropTarget(bottom_app1);
+		dragController.addDropTarget(bottom_app2);
+		dragController.addDropTarget(bottom_app3);
+		dragController.addDropTarget(bottom_app4);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
@@ -669,38 +671,29 @@ public final class Launcher extends Activity
         }
     }
 
-	@SuppressWarnings({"UnusedDeclaration"})
-    public void runApp1(View v) {
-        if (!isAllAppsVisible()) {
-			Intent intent = new Intent(Intent.ACTION_MAIN);
-			intent.setClassName("com.android.contacts", "com.android.contacts.DialtactsActivity");
-			startActivitySafely(intent);
-        }
-    }
-
-    public void runApp2(View v) {
-        if (!isAllAppsVisible()) {
-			Intent intent = new Intent(Intent.ACTION_MAIN);
-			intent.setClassName("com.android.mms", "com.android.mms.ui.ConversationList");
-			startActivitySafely(intent);
-        }
-    }
-
-    public void runApp3(View v) {
-        if (!isAllAppsVisible()) {
-			Intent intent = new Intent(Intent.ACTION_MAIN);
-			intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
-			startActivitySafely(intent);
-        }
-    }
-
-    public void runApp4(View v) {
-        if (!isAllAppsVisible()) {
-			Intent intent = new Intent(Intent.ACTION_MAIN);
-			intent.setClassName("com.android.vending", "com.android.vending.AssetBrowserActivity");
-			startActivitySafely(intent);
-        }
-    }
+	public void saveBottomApp(int pos, String appName, String appClass) {
+		Log.d(TAG, "Saving bottom app "+pos+": "+appName+"/"+appClass);
+		SharedPreferences.Editor editor = mPrefs.edit();
+		switch (pos) {
+			case 1:
+				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP1_PACKAGE, appName);
+				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP1_CLASS, appClass);
+				break;
+			case 2:
+				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP2_PACKAGE, appName);
+				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP2_CLASS, appClass);
+				break;
+			case 3:
+				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP3_PACKAGE, appName);
+				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP3_CLASS, appClass);
+				break;
+			case 4:
+				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP4_PACKAGE, appName);
+				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP4_CLASS, appClass);
+				break;
+		}
+		editor.commit();
+	}
 
     /**
      * Creates a view representing a shortcut.

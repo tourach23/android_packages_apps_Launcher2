@@ -82,50 +82,54 @@
         android:focusable="true"
         android:clickable="true" />-->
 
-	<ImageView
+	<com.android.launcher2.QuickShortcut
         android:id="@+id/bottom_app1"
         android:layout_width="42dip"
         android:layout_height="42dip"
         android:layout_gravity="top|right"
         android:layout_marginRight="5dip"
 		android:layout_marginTop="15dip"
+		launcher:direction="vertical"
+		launcher:appNumber="1"
 
         android:focusable="true"
-        android:clickable="true"
- 		android:onClick="runApp1" />
-	<ImageView
+        android:clickable="true" />
+	<com.android.launcher2.QuickShortcut
         android:id="@+id/bottom_app2"
         android:layout_width="42dip"
         android:layout_height="42dip"
         android:layout_gravity="top|right"
         android:layout_marginRight="5dip"
 		android:layout_marginTop="75dip"
+		launcher:direction="vertical"
+		launcher:appNumber="2"
 
         android:focusable="true"
-        android:clickable="true"
- 		android:onClick="runApp2" />
-	<ImageView
+        android:clickable="true" />
+	<com.android.launcher2.QuickShortcut
         android:id="@+id/bottom_app3"
         android:layout_width="42dip"
         android:layout_height="42dip"
         android:layout_gravity="bottom|right"
         android:layout_marginRight="5dip"
 		android:layout_marginBottom="75dip"
+		launcher:direction="vertical"
+		launcher:appNumber="3"
 
         android:focusable="true"
-        android:clickable="true"
- 		android:onClick="runApp3" />
-    <ImageView
+        android:clickable="true" />
+    <com.android.launcher2.QuickShortcut
         android:id="@+id/bottom_app4"
         android:layout_width="42dip"
         android:layout_height="42dip"
         android:layout_gravity="bottom|right"
         android:layout_marginRight="5dip"
 		android:layout_marginBottom="15dip"
+		launcher:direction="vertical"
+		launcher:appNumber="4"
 
         android:focusable="true"
-        android:clickable="true"
-		android:onClick="runApp4" />
+        android:clickable="true" />
 
     <com.android.launcher2.HandleView
         android:id="@+id/all_apps_button"

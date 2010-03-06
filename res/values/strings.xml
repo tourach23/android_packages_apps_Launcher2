@@ -142,6 +142,7 @@
 	<!-- Launcher2 Preferences Categories: -->
 	<string name="pref_behavior_settings">Behaviors</string>
 	<string name="pref_screen_settings">Screens</string>
+	<string name="pref_app_settings">Shortcuts (Advanced ONLY)</string>
 	<string name="pref_about">Launcher2 Mod About</string>
 	
 	<!-- Launcher2 Preferences Items: -->
@@ -153,6 +154,11 @@
 	<string name="pref_summary_longpress_add">Enable/Disable long-press behavior to add items to screen</string>
 	<string name="pref_title_auto_orientation">Auto-Rotate Screen</string>
 	<string name="pref_summary_auto_orientation">Enable/Disable screen auto orientation</string>
+	
+	<string name="pref_title_app_package">Application Package</string>
+	<string name="pref_summary_app_package">The full package name</string>
+	<string name="pref_title_app_class">Application Class</string>
+	<string name="pref_summary_app_class">The class name to be called by intent</string>
 	
 	<string name="pref_title_launcher2_version">Version</string>
 	<string name="pref_summary_launcher2_version">0.4</string>
