@@ -46,12 +46,16 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
 	public static final String LAUNCHER2_AUTO_ORIENTATION = "pref_key_launcher2_auto_orientation";
 	public static final String LAUNCHER2_APP1_PACKAGE = "pref_key_launcher2_app1_package";
 	public static final String LAUNCHER2_APP1_CLASS = "pref_key_launcher2_app1_class";
+	public static final String LAUNCHER2_APP1_URI = "pref_key_launcher2_app1_uri";
 	public static final String LAUNCHER2_APP2_PACKAGE = "pref_key_launcher2_app2_package";
 	public static final String LAUNCHER2_APP2_CLASS = "pref_key_launcher2_app2_class";
+	public static final String LAUNCHER2_APP2_URI = "pref_key_launcher2_app2_uri";
 	public static final String LAUNCHER2_APP3_PACKAGE = "pref_key_launcher2_app3_package";
 	public static final String LAUNCHER2_APP3_CLASS = "pref_key_launcher2_app3_class";
+	public static final String LAUNCHER2_APP3_URI = "pref_key_launcher2_app3_uri";
 	public static final String LAUNCHER2_APP4_PACKAGE = "pref_key_launcher2_app4_package";
 	public static final String LAUNCHER2_APP4_CLASS = "pref_key_launcher2_app4_class";
+	public static final String LAUNCHER2_APP4_URI = "pref_key_launcher2_app4_uri";
 	public static final String LAUNCHER2_RESTART = "pref_key_launcher2_restart";
 
     // Menu entries
@@ -107,6 +111,7 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
 
 	private void askRestart() {
 		new AlertDialog.Builder(this)
+			  .setTitle("Confirm")
 		      .setMessage("Restart Launcher2?")
 		      .setPositiveButton("Yes", restartLauncher2)
 			  .setNegativeButton("No", cancelRestart)
@@ -125,6 +130,7 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
                     R.string.pref_title_launcher2_screen_size,
 					R.string.pref_summary_launcher2_set_screen_size).show();
 			new AlertDialog.Builder(this)
+				  .setTitle("WARNING")
 			      .setMessage("Please remove all your icons/widgets before resizing the screen to a smaller size. Press the back button to continue.")
 			      .show();
         } else if (preference == mRestart) {

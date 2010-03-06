@@ -16,8 +16,10 @@
 
 package com.android.launcher2;
 
+import android.app.AlertDialog;
 import android.widget.ImageView;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
@@ -26,6 +28,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.MotionEvent;
 import android.view.animation.TranslateAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -36,7 +39,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.util.Log;
 import android.content.pm.PackageManager;
 
-public class QuickShortcut extends ImageView implements View.OnClickListener, DropTarget, DragController.DragListener {
+public class QuickShortcut extends ImageView implements View.OnClickListener, View.OnLongClickListener, DropTarget, DragController.DragListener {
     private static final int ORIENTATION_HORIZONTAL = 1;
     private static final int TRANSITION_DURATION = 250;
     private static final int ANIMATION_DURATION = 200;
@@ -84,16 +87,39 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Dr
 
 		pm = context.getPackageManager();
 		this.setOnClickListener(this);
+		this.setOnLongClickListener(this);
+		setHapticFeedbackEnabled(true);
     }
 
-	public void setApp(String appName, String appClass) {
-		packageName = appName;
-		intent = new Intent(Intent.ACTION_MAIN);
-		intent.setClassName(appName, appClass);
-		
-		try {
-			this.setImageDrawable(pm.getActivityIcon(intent));
-		} catch(Exception e) {}
+	public void setApp(String appName, String appClass, String uri) {
+		if ((appName.length() != 0 && appClass.length() != 0) || uri.length() != 0) {
+			packageName = appName;
+			if (uri.length() > 0) {
+				try {
+					intent = Intent.parseUri(uri, 0);
+				} catch (Exception e) {
+					intent = new Intent(Intent.ACTION_MAIN);
+					intent.setClassName(appName, appClass);
+				}
+			} else {
+				intent = new Intent(Intent.ACTION_MAIN);
+				intent.setClassName(appName, appClass);
+			}
+			
+			Log.d("Launcher2/QSApp", "Set intent: "+intent);
+			
+			try {
+				this.setImageDrawable(pm.getActivityIcon(intent));
+			} catch(Exception e) {}
+			
+			setFocusable(true);
+			
+		} else {
+			this.setImageDrawable(null);
+			packageName = null;
+			intent = null;
+			setFocusable(false);
+		}
 	}
 	
 	public void onClick(View v) {
@@ -102,7 +128,33 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Dr
 			mLauncher.startActivitySafely(intent);
 		}
 	}
+	
+	public boolean onLongClick(View v) {
+		if (intent != null) {
+			new AlertDialog.Builder(getContext())
+				  .setTitle("Confirm")
+			      .setMessage("Confirm delete shortcut?")
+			      .setPositiveButton("Yes", deleteShortcut)
+				  .setNegativeButton("No", cancelDelete)
+			      .show();
+		}
+		return true;
+	}
 
+	DialogInterface.OnClickListener deleteShortcut =
+		new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				setApp("", "", "");
+				mLauncher.saveBottomApp(appNumber, "", "", "");
+			}
+	};
+	
+	DialogInterface.OnClickListener cancelDelete =
+		new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+			}
+	};
+	
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -115,7 +167,7 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Dr
 		Log.d("Launcher2/QSApp", "Dropped onto QuickShortcut");
 		Log.d("Launcher2/QSApp", item.getClass().toString());
 		
-		if (item instanceof ApplicationInfo) {
+		if (item instanceof ApplicationInfo && ((ApplicationInfo)item).intent != null) {
 			Log.d("Launcher2/QSApp", "AcceptedDrop");
         	return true;
 		} else {
@@ -132,15 +184,25 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Dr
             DragView dragView, Object dragInfo) {
         final ItemInfo item = (ItemInfo) dragInfo;
 
+		if (item.container == -1) return;
+
 		Log.d("Launcher2/QSApp", "Accepted dropped onto QuickShortcut");
-		Log.d("Launcher2/QSApp", item.getClass().toString());
+		Log.d("Launcher2/QSApp", ((ApplicationInfo)item).intent.toString());
 		
-		setApp(((ApplicationInfo)item).intent.getComponent().getPackageName(), ((ApplicationInfo)item).intent.getComponent().getClassName());
-		mLauncher.saveBottomApp(appNumber, packageName, ((ApplicationInfo)item).intent.getComponent().getClassName());
+		String appName = "";
+		String appClass = "";
+		String uri = "";
 		
-		Log.d("Launcher2/QSApp", "Dropped app "+packageName+" with class "+intent);
+		if (((ApplicationInfo)item).intent.getComponent() != null) {
+			appName = ((ApplicationInfo)item).intent.getComponent().getPackageName();
+			appClass = ((ApplicationInfo)item).intent.getComponent().getClassName();
+		}	
+		uri = ((ApplicationInfo)item).intent.toUri(0);
 		
-        if (item.container == -1) return;
+		setApp(appName, appClass, uri);
+		mLauncher.saveBottomApp(appNumber, appName, appClass, uri);
+		
+		Log.d("Launcher2/QSApp", "Dropped app "+packageName+" with uri "+((ApplicationInfo)item).intent.toUri(0));
 		
         LauncherModel.deleteItemFromDatabase(mLauncher, item);
     }
@@ -149,7 +211,8 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Dr
             DragView dragView, Object dragInfo) {
 		final ItemInfo item = (ItemInfo) dragInfo;
 		
-		if (item != null && item instanceof ApplicationInfo) {
+		if (item != null && item instanceof ApplicationInfo && ((ApplicationInfo)item).intent != null) {
+			this.setColorFilter(new PorterDuffColorFilter(srcColor, PorterDuff.Mode.SRC_ATOP));
         	dragView.setPaint(mDropPaint);
 		}
     }
@@ -161,12 +224,16 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Dr
     public void onDragExit(DragSource source, int x, int y, int xOffset, int yOffset,
             DragView dragView, Object dragInfo) {
 		dragView.setPaint(null);
+		this.setColorFilter(null);
     }
 
     public void onDragStart(DragSource source, Object info, int dragAction) {
         final ItemInfo item = (ItemInfo) info;
-        if (item != null && item instanceof ApplicationInfo) {
+        if (item != null && item instanceof ApplicationInfo && ((ApplicationInfo)item).intent != null) {
             mAssignMode = true;
+			if (packageName == null) {
+				this.setImageResource(R.drawable.quick_shortcut);
+			}
             createAnimations();
             startAnimation(mInAnimation);
             //mHandle.startAnimation(mHandleOutAnimation);
@@ -177,11 +244,50 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Dr
     public void onDragEnd() {
         if (mAssignMode) {
             mAssignMode = false;
+			if (packageName == null) {
+				this.setImageDrawable(null);
+			}
             startAnimation(mOutAnimation);
             //mHandle.startAnimation(mHandleInAnimation);
             //setVisibility(GONE);
         }
     }
+
+	@Override
+    public boolean onTouchEvent(MotionEvent ev) {
+	
+        final int action = ev.getAction();
+        final float x = ev.getX();
+
+		if (intent != null) {
+
+	        switch (action) {
+	        	case MotionEvent.ACTION_DOWN:
+		            //this.setColorFilter(new PorterDuffColorFilter(getContext().getResources().getColor(R.color.bubble_dark_background), PorterDuff.Mode.SRC_ATOP));
+		            this.setBackgroundResource(R.drawable.focused_application_background);
+					break;
+		        case MotionEvent.ACTION_UP:
+		            //this.setColorFilter(null);
+		            this.setBackgroundDrawable(null);
+					break;
+	        }
+		}
+
+        return super.onTouchEvent(ev);
+    }
+
+	@Override
+	public void onFocusChanged (boolean gainFocus, int direction, Rect previouslyFocusedRect) {
+		if (intent != null) {
+			if (gainFocus) {
+				//this.setColorFilter(new PorterDuffColorFilter(getContext().getResources().getColor(R.color.bubble_dark_background), PorterDuff.Mode.SRC_ATOP));
+				this.setBackgroundResource(R.drawable.focused_application_background);
+			} else {
+				this.setBackgroundDrawable(null);
+				//this.setColorFilter(null);
+			}
+		}
+	}
 
     private void createAnimations() {
         if (mInAnimation == null) {

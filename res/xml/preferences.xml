@@ -36,7 +36,8 @@
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pref_app_settings">
 		<PreferenceScreen android:key="pref_key_launcher2_app_settings"
-	                      android:title="@string/pref_app_settings">
+	                      android:title="@string/pref_app_settings"
+	android:summary="@string/pref_summary_app_settings">
 						<EditTextPreference android:key="pref_key_launcher2_app1_package"
 				                        android:title="@string/pref_title_app_package"
 				                        android:summary="@string/pref_summary_app_package"
@@ -45,6 +46,10 @@
 				                        android:title="@string/pref_title_app_class"
 				                        android:summary="@string/pref_summary_app_class"
 				                        android:defaultValue="com.android.contacts.DialtactsActivity" />
+						<EditTextPreference android:key="pref_key_launcher2_app1_uri"
+				                        android:title="@string/pref_title_app_uri"
+				                        android:summary="@string/pref_summary_app_uri"
+				                        android:defaultValue="" />
 						<EditTextPreference android:key="pref_key_launcher2_app2_package"
 				                        android:title="@string/pref_title_app_package"
 				                        android:summary="@string/pref_summary_app_package"
@@ -53,6 +58,10 @@
 				                        android:title="@string/pref_title_app_class"
 				                        android:summary="@string/pref_summary_app_class"
 				                        android:defaultValue="com.android.mms.ui.ConversationList" />
+						<EditTextPreference android:key="pref_key_launcher2_app2_uri"
+				                        android:title="@string/pref_title_app_uri"
+				                        android:summary="@string/pref_summary_app_uri"
+				                        android:defaultValue="" />
 						<EditTextPreference android:key="pref_key_launcher2_app3_package"
 				                        android:title="@string/pref_title_app_package"
 				                        android:summary="@string/pref_summary_app_package"
@@ -61,6 +70,10 @@
 				                        android:title="@string/pref_title_app_class"
 				                        android:summary="@string/pref_summary_app_class"
 				                        android:defaultValue="com.android.browser.BrowserActivity" />
+						<EditTextPreference android:key="pref_key_launcher2_app3_uri"
+				                        android:title="@string/pref_title_app_uri"
+				                        android:summary="@string/pref_summary_app_uri"
+				                        android:defaultValue="" />
 						<EditTextPreference android:key="pref_key_launcher2_app4_package"
 				                        android:title="@string/pref_title_app_package"
 				                        android:summary="@string/pref_summary_app_package"
@@ -69,7 +82,12 @@
 				                        android:title="@string/pref_title_app_class"
 				                        android:summary="@string/pref_summary_app_class"
 				                        android:defaultValue="com.android.vending.AssetBrowserActivity" />
+						<EditTextPreference android:key="pref_key_launcher2_app4_uri"
+				                        android:title="@string/pref_title_app_uri"
+				                        android:summary="@string/pref_summary_app_uri"
+				                        android:defaultValue="" />
 	    </PreferenceScreen>
+		<Preference	android:title="@string/pref_title_app_settings_2" android:summary="@string/pref_summary_app_settings_2" android:enabled="false" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pref_about">
     	<Preference android:key="pref_key_launcher2_version"

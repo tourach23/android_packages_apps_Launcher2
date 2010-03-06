@@ -615,10 +615,10 @@ public final class Launcher extends Activity
 		QuickShortcut bottom_app3 = (QuickShortcut) dragLayer.findViewById(R.id.bottom_app3);
 		QuickShortcut bottom_app4 = (QuickShortcut) dragLayer.findViewById(R.id.bottom_app4);
 		
-		bottom_app1.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_CLASS, ""));
-		bottom_app2.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_CLASS, ""));
-		bottom_app3.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_CLASS, ""));
-		bottom_app4.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_CLASS, ""));
+		bottom_app1.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_URI, ""));
+		bottom_app2.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_URI, ""));
+		bottom_app3.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_URI, ""));
+		bottom_app4.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_URI, ""));
 		
 		bottom_app1.setLauncher(this);
 		bottom_app1.setDragController(dragController);
@@ -671,25 +671,29 @@ public final class Launcher extends Activity
         }
     }
 
-	public void saveBottomApp(int pos, String appName, String appClass) {
-		Log.d(TAG, "Saving bottom app "+pos+": "+appName+"/"+appClass);
+	public void saveBottomApp(int pos, String appName, String appClass, String uri) {
+		Log.d(TAG, "Saving bottom app "+pos+": "+appName+"/"+appClass+"/ "+uri);
 		SharedPreferences.Editor editor = mPrefs.edit();
 		switch (pos) {
 			case 1:
 				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP1_PACKAGE, appName);
 				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP1_CLASS, appClass);
+				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP1_URI, uri);
 				break;
 			case 2:
 				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP2_PACKAGE, appName);
 				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP2_CLASS, appClass);
+				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP2_URI, uri);
 				break;
 			case 3:
 				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP3_PACKAGE, appName);
 				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP3_CLASS, appClass);
+				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP3_URI, uri);
 				break;
 			case 4:
 				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP4_PACKAGE, appName);
 				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP4_CLASS, appClass);
+				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP4_URI, uri);
 				break;
 		}
 		editor.commit();

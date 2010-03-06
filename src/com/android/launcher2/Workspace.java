@@ -356,7 +356,9 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
     void addInScreen(View child, int screen, int x, int y, int spanX, int spanY, boolean insert) {
 		if (screen < 0 || screen >= getChildCount()) {
 			throw new IllegalStateException("The screen must be >= 0 and < " + getChildCount());
-        }
+        }/* else if (screen < 1 || screen >= (getChildCount() - 1)) {
+			addInScreen(child, 1, x, y, spanX, spanY, insert);
+		}*/
 
         clearVacantCache();
 

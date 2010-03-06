@@ -186,7 +186,13 @@ public class LauncherModel extends BroadcastReceiver {
     static void addItemToDatabase(Context context, ItemInfo item, long container,
             int screen, int cellX, int cellY, boolean notify) {
         item.container = container;
-        item.screen = screen;
+		
+		// Ensure first two screens aren't used
+		if (screen < 1 || screen > (Launcher.SCREEN_COUNT - 1)) {
+        	item.screen = 1;
+		} else {
+			item.screen = screen;
+		}
         item.cellX = cellX;
         item.cellY = cellY;
 
