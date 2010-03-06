@@ -1976,7 +1976,6 @@ public final class Launcher extends Activity
     }
 
     void showAllApps(boolean animated) {
-        mWorkspace.hideWallpaper(true);
         mAllAppsGrid.zoom(1.0f, animated);
         //mWorkspace.hide();
 
@@ -2031,7 +2030,6 @@ public final class Launcher extends Activity
             mAllAppsGrid.setFocusable(false);
             mWorkspace.getChildAt(mWorkspace.getCurrentScreen()).requestFocus();
             mWorkspace.startFading(true);
-            mWorkspace.hideWallpaper(false);
 
             // TODO: fade these two too
             /*
