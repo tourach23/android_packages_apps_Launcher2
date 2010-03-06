@@ -98,9 +98,10 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
 				try {
 					intent = Intent.parseUri(uri, 0);
 				} catch (Exception e) {
-					intent = new Intent(Intent.ACTION_MAIN);
-					intent.setClassName(appName, appClass);
 				}
+				
+				if (appClass.length() != 0)
+					intent.setClassName(appName, appClass);
 			} else {
 				intent = new Intent(Intent.ACTION_MAIN);
 				intent.setClassName(appName, appClass);
@@ -184,7 +185,7 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
             DragView dragView, Object dragInfo) {
         final ItemInfo item = (ItemInfo) dragInfo;
 
-		if (item.container == -1) return;
+		//if (item.container == -1) return;
 
 		Log.d("Launcher2/QSApp", "Accepted dropped onto QuickShortcut");
 		Log.d("Launcher2/QSApp", ((ApplicationInfo)item).intent.toString());
