@@ -36,7 +36,7 @@ This layout file is used by the AlertDialog when displaying a list of items.
         android:textSize="12sp"
         android:padding="1dip" />
 
-    <view class="com.android.launcher2.NumberPickerDialog$NonWrapNumberPicker"
+    <view class="com.helixproject.launcher2.NumberPickerDialog$NonWrapNumberPicker"
         android:id="@+id/number_picker"
         android:layout_centerInParent="true"
         android:layout_width="100dip"

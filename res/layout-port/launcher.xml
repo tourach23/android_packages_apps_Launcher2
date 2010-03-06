@@ -14,15 +14,15 @@
      limitations under the License.
 -->
 
-<com.android.launcher2.DragLayer
+<com.helixproject.launcher2.DragLayer
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:launcher="http://schemas.android.com/apk/res/com.android.launcher2"
+    xmlns:launcher="http://schemas.android.com/apk/res/com.helixproject.launcher2"
 
     android:id="@+id/drag_layer"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <com.android.launcher2.AllAppsView
+    <com.helixproject.launcher2.AllAppsView
         android:id="@+id/all_apps_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -36,7 +36,7 @@
         />
 
     <!-- The workspace contains 3 screens of cells -->
-    <com.android.launcher2.Workspace
+    <com.helixproject.launcher2.Workspace
         android:id="@+id/workspace"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -58,7 +58,7 @@
 		<include android:id="@+id/cell14" layout="@layout/workspace_screen" />
 		<include android:id="@+id/cell15" layout="@layout/workspace_screen" />
                 
-    </com.android.launcher2.Workspace>
+    </com.helixproject.launcher2.Workspace>
 
     <!--<ImageView
         android:id="@+id/previous_screen"
@@ -88,7 +88,7 @@
         android:focusable="true"
         android:clickable="true" />-->
 
-	<com.android.launcher2.QuickShortcut
+	<com.helixproject.launcher2.QuickShortcut
         android:id="@+id/bottom_app1"
         android:layout_width="42dip"
         android:layout_height="42dip"
@@ -101,7 +101,7 @@
 		android:focusable="true"
         android:clickable="true"
  		/>
-	<com.android.launcher2.QuickShortcut
+	<com.helixproject.launcher2.QuickShortcut
         android:id="@+id/bottom_app2"
         android:layout_width="42dip"
         android:layout_height="42dip"
@@ -113,7 +113,7 @@
 		
 		android:focusable="true"
         android:clickable="true" />
-	<com.android.launcher2.QuickShortcut
+	<com.helixproject.launcher2.QuickShortcut
         android:id="@+id/bottom_app3"
         android:layout_width="42dip"
         android:layout_height="42dip"
@@ -125,7 +125,7 @@
 		
 		android:focusable="true"
         android:clickable="true" />
-	<com.android.launcher2.QuickShortcut
+	<com.helixproject.launcher2.QuickShortcut
         android:id="@+id/bottom_app4"
         android:layout_width="42dip"
         android:layout_height="42dip"
@@ -138,7 +138,7 @@
 		android:focusable="true"
         android:clickable="true" />
 
-    <com.android.launcher2.HandleView
+    <com.helixproject.launcher2.HandleView
         android:id="@+id/all_apps_button"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/button_bar_height"
@@ -152,7 +152,7 @@
         launcher:direction="horizontal"
         />
 
-    <com.android.launcher2.DeleteZone
+    <com.helixproject.launcher2.DeleteZone
         android:id="@+id/delete_zone"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/button_bar_height"
@@ -164,4 +164,4 @@
         launcher:direction="horizontal"
         />
 
-</com.android.launcher2.DragLayer>
+</com.helixproject.launcher2.DragLayer>
