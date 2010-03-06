@@ -672,7 +672,7 @@ public final class Launcher extends Activity
     }
 
 	public void saveBottomApp(int pos, String appName, String appClass, String uri) {
-		Log.d(TAG, "Saving bottom app "+pos+": "+appName+"/"+appClass+"/ "+uri);
+		//Log.d(TAG, "Saving bottom app "+pos+": "+appName+"/"+appClass+"/ "+uri);
 		SharedPreferences.Editor editor = mPrefs.edit();
 		switch (pos) {
 			case 1:

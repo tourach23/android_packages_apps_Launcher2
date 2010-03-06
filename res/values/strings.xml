@@ -166,7 +166,7 @@
 	<string name="pref_summary_app_uri">Overrides calling intent by class</string>
 	
 	<string name="pref_title_launcher2_version">Version</string>
-	<string name="pref_summary_launcher2_version">0.5RC3</string>
+	<string name="pref_summary_launcher2_version">0.5</string>
 	<string name="pref_title_launcher2_author">Author</string>
 	<string name="pref_summary_launcher2_author">Faruq (twitter.com/ruqqq)</string>
 	<string name="pref_title_launcher2_restart">Restart Launcher2</string>

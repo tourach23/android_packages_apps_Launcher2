@@ -107,7 +107,7 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
 				intent.setClassName(appName, appClass);
 			}
 			
-			Log.d("Launcher2/QSApp", "Set intent: "+intent);
+			//Log.d("Launcher2/QSApp", "Set intent: "+intent);
 			
 			try {
 				this.setImageDrawable(pm.getActivityIcon(intent));
@@ -125,7 +125,7 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
 	
 	public void onClick(View v) {
 		if (intent != null) {
-			Log.d("Launcher2/QSApp", "Starting "+intent);
+			//Log.d("Launcher2/QSApp", "Starting "+intent);
 			mLauncher.startActivitySafely(intent);
 		}
 	}
@@ -165,11 +165,11 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
             DragView dragView, Object dragInfo) {
 		final ItemInfo item = (ItemInfo) dragInfo;
 		
-		Log.d("Launcher2/QSApp", "Dropped onto QuickShortcut");
-		Log.d("Launcher2/QSApp", item.getClass().toString());
+		//Log.d("Launcher2/QSApp", "Dropped onto QuickShortcut");
+		//Log.d("Launcher2/QSApp", item.getClass().toString());
 		
 		if (item instanceof ApplicationInfo && ((ApplicationInfo)item).intent != null) {
-			Log.d("Launcher2/QSApp", "AcceptedDrop");
+			//Log.d("Launcher2/QSApp", "AcceptedDrop");
         	return true;
 		} else {
 			return false;
@@ -187,8 +187,8 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
 
 		//if (item.container == -1) return;
 
-		Log.d("Launcher2/QSApp", "Accepted dropped onto QuickShortcut");
-		Log.d("Launcher2/QSApp", ((ApplicationInfo)item).intent.toString());
+		//Log.d("Launcher2/QSApp", "Accepted dropped onto QuickShortcut");
+		//Log.d("Launcher2/QSApp", ((ApplicationInfo)item).intent.toString());
 		
 		String appName = "";
 		String appClass = "";
@@ -203,7 +203,7 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
 		setApp(appName, appClass, uri);
 		mLauncher.saveBottomApp(appNumber, appName, appClass, uri);
 		
-		Log.d("Launcher2/QSApp", "Dropped app "+packageName+" with uri "+((ApplicationInfo)item).intent.toUri(0));
+		//Log.d("Launcher2/QSApp", "Dropped app "+packageName+" with uri "+((ApplicationInfo)item).intent.toUri(0));
 		
         LauncherModel.deleteItemFromDatabase(mLauncher, item);
     }
