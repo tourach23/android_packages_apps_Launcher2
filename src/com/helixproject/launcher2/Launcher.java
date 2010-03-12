@@ -1651,8 +1651,7 @@ public final class Launcher extends Activity
 
     public boolean onLongClick(View v) {
         switch (v.getId()) {
-            // Faruq: To be reimplemented
-            /*case R.id.previous_screen:
+            case R.id.previous_screen:
                 if (!isAllAppsVisible()) {
                     mWorkspace.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS,
                             HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
@@ -1669,7 +1668,7 @@ public final class Launcher extends Activity
                     // Faruq: Quick jump button
                     mWorkspace.scrollMostRight();
                 }
-                return true;*/
+                return true;
 
             // Faruq: Added for long-press handle for previews
             case R.id.all_apps_button:
