@@ -604,10 +604,10 @@ public final class Launcher extends Activity
         mNextView.setOnLongClickListener(this);*/
 
         // Faruq: Reload QuickShortcuts from Preference
-        QuickShortcut qShortcut1 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut1);
-        QuickShortcut qShortcut2 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut2);
-        QuickShortcut qShortcut3 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut3);
-        QuickShortcut qShortcut4 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut4);
+        QuickShortcut qShortcut1 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_1);
+        QuickShortcut qShortcut2 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_2);
+        QuickShortcut qShortcut3 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_3);
+        QuickShortcut qShortcut4 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_4);
         
         qShortcut1.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_URI, ""));
         qShortcut2.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_URI, ""));

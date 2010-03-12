@@ -89,7 +89,7 @@
         android:clickable="true" />-->
 
 	<com.helixproject.launcher2.QuickShortcut
-        android:id="@+id/bottom_app1"
+        android:id="@+id/q_shortcut_1"
         android:layout_width="42dip"
         android:layout_height="42dip"
         android:layout_gravity="top|right"
@@ -101,7 +101,7 @@
         android:focusable="true"
         android:clickable="true" />
 	<com.helixproject.launcher2.QuickShortcut
-        android:id="@+id/bottom_app2"
+        android:id="@+id/q_shortcut_2"
         android:layout_width="42dip"
         android:layout_height="42dip"
         android:layout_gravity="top|right"
@@ -113,7 +113,7 @@
         android:focusable="true"
         android:clickable="true" />
 	<com.helixproject.launcher2.QuickShortcut
-        android:id="@+id/bottom_app3"
+        android:id="@+id/q_shortcut_3"
         android:layout_width="42dip"
         android:layout_height="42dip"
         android:layout_gravity="bottom|right"
@@ -125,7 +125,7 @@
         android:focusable="true"
         android:clickable="true" />
     <com.helixproject.launcher2.QuickShortcut
-        android:id="@+id/bottom_app4"
+        android:id="@+id/q_shortcut_4"
         android:layout_width="42dip"
         android:layout_height="42dip"
         android:layout_gravity="bottom|right"

@@ -1025,12 +1025,14 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         final int newX = whichScreen * getWidth();
         final int delta = newX - mScrollX;
 
+        int duration = 0;
+
         if (velocityX != 0) {
             // Faruq: Modified to let fling follow Velocity of fling
             //Log.d("Workspace", "velocityX: "+velocityX+"; delta: "+delta+"; duration: "+((Math.abs(delta) / (Math.abs(velocityX) / 100))*20));
-            final int duration = ((Math.abs(delta) / (Math.abs(velocityX) / 100))*20) + durationOffset;
+            duration = ((Math.abs(delta) / (Math.abs(velocityX) / 100))*20) + durationOffset;
         } else {
-            final int duration = 600 + durationOffset; // Faruq: Modified to make duration longer.. and for revert, much more longer
+            duration = 600 + durationOffset; // Faruq: Modified to make duration longer.. and for revert, much more longer
         }
         //Log.d("Workspace", "duration: "+ duration);
         awakenScrollBars(duration);
