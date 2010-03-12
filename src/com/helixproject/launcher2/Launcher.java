@@ -635,6 +635,12 @@ public final class Launcher extends Activity
         mHandleView.setOnLongClickListener(this); // Faruq: Added for long-press handle for previews
         mHandleView.setOnClickListener(this);
 
+		// Faruq: Initialize QuickShortcuts first
+        QuickShortcut qShortcut1 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_1);
+        QuickShortcut qShortcut2 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_2);
+        QuickShortcut qShortcut3 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_3);
+        QuickShortcut qShortcut4 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_4);
+
         // Faruq: Enable option for either Dots or QuickShortcuts
         if (!quickShortcutsEnabled) {
 		    mPreviousView = (ImageView) dragLayer.findViewById(R.id.previous_screen);
@@ -650,11 +656,6 @@ public final class Launcher extends Activity
             mNextView.setOnLongClickListener(this);
         } else {
             // Faruq: Reload QuickShortcuts from Preference
-            QuickShortcut qShortcut1 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_1);
-            QuickShortcut qShortcut2 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_2);
-            QuickShortcut qShortcut3 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_3);
-            QuickShortcut qShortcut4 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_4);
-        
             qShortcut1.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_URI, ""));
             qShortcut2.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_URI, ""));
             qShortcut3.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_URI, ""));
@@ -675,11 +676,6 @@ public final class Launcher extends Activity
             qShortcut4.setLauncher(this);
             qShortcut4.setDragController(dragController);
             dragController.addDragListener(qShortcut4);
-
-            dragController.addDropTarget(qShortcut1);
-            dragController.addDropTarget(qShortcut2);
-            dragController.addDropTarget(qShortcut3);
-            dragController.addDropTarget(qShortcut4);
 		}
 
         workspace.setOnLongClickListener(this);
@@ -697,6 +693,12 @@ public final class Launcher extends Activity
         // The order here is bottom to top.
         dragController.addDropTarget(workspace);
         dragController.addDropTarget(deleteZone);
+        if (quickShortcutsEnabled) {
+            dragController.addDropTarget(qShortcut1);
+            dragController.addDropTarget(qShortcut2);
+            dragController.addDropTarget(qShortcut3);
+            dragController.addDropTarget(qShortcut4);
+        }
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
