@@ -60,7 +60,7 @@
 
     </com.helixproject.launcher2.Workspace>
 
-    <!--<ImageView
+    <ImageView
         android:id="@+id/previous_screen"
         android:layout_width="93dip"
         android:layout_height="@dimen/button_bar_height"
@@ -86,7 +86,7 @@
         android:onClick="nextScreen"
  
         android:focusable="true"
-        android:clickable="true" />-->
+        android:clickable="true" />
 
 	<com.helixproject.launcher2.QuickShortcut
         android:id="@+id/q_shortcut_1"

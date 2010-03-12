@@ -212,6 +212,8 @@ public final class Launcher extends Activity
     
     public static boolean resetWidgets = false;
 
+	boolean quickShortcutsEnabled = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -240,6 +242,46 @@ public final class Launcher extends Activity
         setWallpaperDimension();
 
         setContentView(R.layout.launcher);
+
+		// Faruq: Get QuickShortcuts setting
+		quickShortcutsEnabled = mPrefs.getBoolean(LauncherPreferenceActivity.LAUNCHER2_QUICK_SHORTCUTS, true);
+		
+		// Faruq: Delete unneeded views automatically
+		if (quickShortcutsEnabled) {
+			findViewById(R.id.previous_screen).setVisibility(View.GONE);
+			findViewById(R.id.next_screen).setVisibility(View.GONE);
+		} else {
+			findViewById(R.id.q_shortcut_1).setVisibility(View.GONE);
+			findViewById(R.id.q_shortcut_2).setVisibility(View.GONE);
+			findViewById(R.id.q_shortcut_3).setVisibility(View.GONE);
+			findViewById(R.id.q_shortcut_4).setVisibility(View.GONE);
+			
+			// Faruq: Adjust the Right Indicator accordingly to the number of screens
+			// 		  -perhaps there's a better way of doing this
+			switch ((Launcher.SCREEN_COUNT-2)) {
+				case 1:
+					((ImageView) findViewById(R.id.next_screen)).setImageResource(R.drawable.home_arrows_right_1_screen);
+					break;
+				case 2:
+					((ImageView) findViewById(R.id.next_screen)).setImageResource(R.drawable.home_arrows_right_2_screen);
+					break;
+				case 3:
+					((ImageView) findViewById(R.id.next_screen)).setImageResource(R.drawable.home_arrows_right_3_screen);
+					break;
+				case 4:
+					((ImageView) findViewById(R.id.next_screen)).setImageResource(R.drawable.home_arrows_right_4_screen);
+					break;
+				case 5:
+					((ImageView) findViewById(R.id.next_screen)).setImageResource(R.drawable.home_arrows_right_5_screen);
+					break;
+				case 6:
+					((ImageView) findViewById(R.id.next_screen)).setImageResource(R.drawable.home_arrows_right_6_screen);
+					break;
+				default:
+					((ImageView) findViewById(R.id.next_screen)).setImageResource(R.drawable.home_arrows_right_7_screen);
+			}
+		}
+		
         setupViews();
 
         registerContentObservers();
@@ -466,8 +508,11 @@ public final class Launcher extends Activity
     @Override
     protected void onPause() {
         super.onPause();
-        //dismissPreview(mPreviousView);
-        //dismissPreview(mNextView);
+
+        if (!quickShortcutsEnabled) {
+            dismissPreview(mPreviousView);
+            dismissPreview(mNextView);
+        }
         mDragController.cancelDrag();
     }
 
@@ -590,45 +635,52 @@ public final class Launcher extends Activity
         mHandleView.setOnLongClickListener(this); // Faruq: Added for long-press handle for previews
         mHandleView.setOnClickListener(this);
 
-        // Faruq: To be reimplemented
-        /*mPreviousView = (ImageView) dragLayer.findViewById(R.id.previous_screen);
-        mNextView = (ImageView) dragLayer.findViewById(R.id.next_screen);
+        // Faruq: Enable option for either Dots or QuickShortcuts
+        if (!quickShortcutsEnabled) {
+		    mPreviousView = (ImageView) dragLayer.findViewById(R.id.previous_screen);
+            mNextView = (ImageView) dragLayer.findViewById(R.id.next_screen);
 
-        Drawable previous = mPreviousView.getDrawable();
-        Drawable next = mNextView.getDrawable();
-        mWorkspace.setIndicators(previous, next);
+            Drawable previous = mPreviousView.getDrawable();
+            Drawable next = mNextView.getDrawable();
+            mWorkspace.setIndicators(previous, next);
 
-        mPreviousView.setHapticFeedbackEnabled(false);
-        mPreviousView.setOnLongClickListener(this);
-        mNextView.setHapticFeedbackEnabled(false);
-        mNextView.setOnLongClickListener(this);*/
+            mPreviousView.setHapticFeedbackEnabled(false);
+            mPreviousView.setOnLongClickListener(this);
+            mNextView.setHapticFeedbackEnabled(false);
+            mNextView.setOnLongClickListener(this);
+        } else {
+            // Faruq: Reload QuickShortcuts from Preference
+            QuickShortcut qShortcut1 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_1);
+            QuickShortcut qShortcut2 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_2);
+            QuickShortcut qShortcut3 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_3);
+            QuickShortcut qShortcut4 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_4);
+        
+            qShortcut1.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_URI, ""));
+            qShortcut2.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_URI, ""));
+            qShortcut3.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_URI, ""));
+            qShortcut4.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_URI, ""));
+        
+            qShortcut1.setLauncher(this);
+            qShortcut1.setDragController(dragController);
+            dragController.addDragListener(qShortcut1);
+        
+            qShortcut2.setLauncher(this);
+            qShortcut2.setDragController(dragController);
+            dragController.addDragListener(qShortcut2);
+        
+            qShortcut3.setLauncher(this);
+            qShortcut3.setDragController(dragController);
+            dragController.addDragListener(qShortcut3);
+        
+            qShortcut4.setLauncher(this);
+            qShortcut4.setDragController(dragController);
+            dragController.addDragListener(qShortcut4);
 
-        // Faruq: Reload QuickShortcuts from Preference
-        QuickShortcut qShortcut1 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_1);
-        QuickShortcut qShortcut2 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_2);
-        QuickShortcut qShortcut3 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_3);
-        QuickShortcut qShortcut4 = (QuickShortcut) dragLayer.findViewById(R.id.q_shortcut_4);
-        
-        qShortcut1.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_URI, ""));
-        qShortcut2.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_URI, ""));
-        qShortcut3.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_URI, ""));
-        qShortcut4.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_URI, ""));
-        
-        qShortcut1.setLauncher(this);
-        qShortcut1.setDragController(dragController);
-        dragController.addDragListener(qShortcut1);
-        
-        qShortcut2.setLauncher(this);
-        qShortcut2.setDragController(dragController);
-        dragController.addDragListener(qShortcut2);
-        
-        qShortcut3.setLauncher(this);
-        qShortcut3.setDragController(dragController);
-        dragController.addDragListener(qShortcut3);
-        
-        qShortcut4.setLauncher(this);
-        qShortcut4.setDragController(dragController);
-        dragController.addDragListener(qShortcut4);
+            dragController.addDropTarget(qShortcut1);
+            dragController.addDropTarget(qShortcut2);
+            dragController.addDropTarget(qShortcut3);
+            dragController.addDropTarget(qShortcut4);
+		}
 
         workspace.setOnLongClickListener(this);
         workspace.setDragController(dragController);
@@ -645,10 +697,6 @@ public final class Launcher extends Activity
         // The order here is bottom to top.
         dragController.addDropTarget(workspace);
         dragController.addDropTarget(deleteZone);
-        dragController.addDropTarget(qShortcut1);
-        dragController.addDropTarget(qShortcut2);
-        dragController.addDropTarget(qShortcut3);
-        dragController.addDropTarget(qShortcut4);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
@@ -1030,8 +1078,10 @@ public final class Launcher extends Activity
 
         getContentResolver().unregisterContentObserver(mWidgetObserver);
         
-        //dismissPreview(mPreviousView);
-        //dismissPreview(mNextView);
+        if (!quickShortcutsEnabled) {
+            dismissPreview(mPreviousView);
+            dismissPreview(mNextView);
+        }
 
         unregisterReceiver(mCloseSystemDialogsReceiver);
     }
@@ -1455,8 +1505,11 @@ public final class Launcher extends Activity
         } else {
             closeFolder();
         }
-        //dismissPreview(mPreviousView);
-        //dismissPreview(mNextView);
+
+        if (!quickShortcutsEnabled) {
+            dismissPreview(mPreviousView);
+            dismissPreview(mNextView);
+        }
     }
 
     private void closeFolder() {

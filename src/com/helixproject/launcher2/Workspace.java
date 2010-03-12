@@ -287,9 +287,11 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         clearVacantCache();
         mCurrentScreen = Math.max(0, Math.min(currentScreen, getChildCount() - 1));
         scrollTo(mCurrentScreen * getWidth(), 0);
-        // Faruq: To be reimplemented
-        //mPreviousIndicator.setLevel(currentScreen);
-        //mNextIndicator.setLevel(currentScreen);
+        // Faruq: Only use if enabled
+        if (!mLauncher.quickShortcutsEnabled) {
+            mPreviousIndicator.setLevel(currentScreen);
+            mNextIndicator.setLevel(currentScreen);
+        }
         updateWallpaperOffset();
         invalidate();
     }
@@ -488,9 +490,12 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
             postInvalidate();
         } else if (mNextScreen != INVALID_SCREEN) {
             mCurrentScreen = Math.max(0, Math.min(mNextScreen, getChildCount() - 1));
-            // Faruq: To be reimplemented
-            //mPreviousIndicator.setLevel(mCurrentScreen);
-            //mNextIndicator.setLevel(mCurrentScreen);
+            // Faruq: Based on option
+            if (!mLauncher.quickShortcutsEnabled) {
+                mPreviousIndicator.setLevel(mCurrentScreen);
+                mNextIndicator.setLevel(mCurrentScreen);
+            }
+
             Launcher.setScreen(mCurrentScreen);
             mNextScreen = INVALID_SCREEN;
             clearChildrenCache();
@@ -1013,9 +1018,11 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         
            mNextScreen = whichScreen;
 
-        // Faruq: To be reimplemented
-        //mPreviousIndicator.setLevel(mNextScreen);
-        //mNextIndicator.setLevel(mNextScreen);
+        // Faruq: Based on option
+        if (!mLauncher.quickShortcutsEnabled) {
+            mPreviousIndicator.setLevel(mNextScreen);
+            mNextIndicator.setLevel(mNextScreen);
+        }
         
         View focusedChild = getFocusedChild();
         if (focusedChild != null && screenDelta != 0 && focusedChild == getChildAt(mCurrentScreen)) {
@@ -1515,9 +1522,9 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
     void setIndicators(Drawable previous, Drawable next) {
         mPreviousIndicator = previous;
         mNextIndicator = next;
-        // Faruq: Temp
-        previous.setLevel(4);
-        next.setLevel(4);
+
+        previous.setLevel(mCurrentScreen);
+        next.setLevel(mCurrentScreen);
     }
 
     public static class SavedState extends BaseSavedState {

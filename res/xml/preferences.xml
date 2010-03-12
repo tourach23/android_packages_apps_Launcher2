@@ -39,9 +39,14 @@
                         android:defaultValue="true" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pref_app_settings">
+		<CheckBoxPreference android:key="pref_key_launcher2_quick_shortcuts"
+	                        android:title="@string/pref_title_quick_shortcuts"
+	                        android:summary="@string/pref_summary_quick_shortcuts"
+	                        android:defaultValue="true" />
 		<PreferenceScreen android:key="pref_key_launcher2_app_settings"
 	                      android:title="@string/pref_app_settings"
-	android:summary="@string/pref_summary_app_settings">
+						  android:summary="@string/pref_summary_app_settings"
+						 android:dependency="pref_key_launcher2_quick_shortcuts" >
 						<EditTextPreference android:key="pref_key_launcher2_app1_package"
 				                        android:title="@string/pref_title_app_package"
 				                        android:summary="@string/pref_summary_app_package"

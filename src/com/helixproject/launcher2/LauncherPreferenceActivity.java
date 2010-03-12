@@ -45,6 +45,7 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
 	public static final String LAUNCHER_DOUBLE_TAP = "pref_key_launcher_double_tap";
 	public static final String LAUNCHER2_SCREEN_SIZE = "pref_key_launcher2_screen_size";
 	public static final String LAUNCHER2_AUTO_ORIENTATION = "pref_key_launcher2_auto_orientation";
+	public static final String LAUNCHER2_QUICK_SHORTCUTS = "pref_key_launcher2_quick_shortcuts";
 	public static final String LAUNCHER2_APP1_PACKAGE = "pref_key_launcher2_app1_package";
 	public static final String LAUNCHER2_APP1_CLASS = "pref_key_launcher2_app1_class";
 	public static final String LAUNCHER2_APP1_URI = "pref_key_launcher2_app1_uri";
