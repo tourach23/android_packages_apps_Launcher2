@@ -233,14 +233,14 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
     }
     
     public void onClick(View v) {
-        if (intent != null) {
+        if (intent != null && !mLauncher.isAllAppsVisible()) {
             //Log.d("Launcher2/QSApp", "Starting "+intent);
             mLauncher.startActivitySafely(intent);
         }
     }
     
     public boolean onLongClick(View v) {
-        if (intent != null) {
+        if (intent != null && !mLauncher.isAllAppsVisible()) {
             new AlertDialog.Builder(getContext())
                   .setTitle("Confirm")
                   .setMessage("Confirm delete shortcut?")
