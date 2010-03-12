@@ -16,11 +16,8 @@
 
 package com.helixproject.launcher2;
 
-import android.app.AlertDialog;
 import android.widget.ImageView;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -36,8 +33,13 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.graphics.RectF;
 import android.graphics.drawable.TransitionDrawable;
-import android.util.Log;
+
+// Faruq: new imports
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 public class QuickShortcut extends ImageView implements View.OnClickListener, View.OnLongClickListener, DropTarget, DragController.DragListener {
     private static final int ORIENTATION_HORIZONTAL = 1;
@@ -51,23 +53,17 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
 
     private AnimationSet mInAnimation;
     private AnimationSet mOutAnimation;
-/*
-    private Animation mHandleInAnimation;
-    private Animation mHandleOutAnimation;
-*/
     private int mOrientation;
     private DragController mDragController;
 
     private final RectF mRegion = new RectF();
-    //private View mHandle;
     private final Paint mDropPaint = new Paint();
-	private final int srcColor;
 	
+	// Faruq: new properties
+	private final int srcColor;
 	private Intent intent;
 	private String packageName;
-	
 	private PackageManager pm;
-	
 	private int appNumber;
 
     public QuickShortcut(Context context, AttributeSet attrs) {
@@ -86,75 +82,11 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
 		a.recycle();
 
 		pm = context.getPackageManager();
+		
 		this.setOnClickListener(this);
 		this.setOnLongClickListener(this);
 		setHapticFeedbackEnabled(true);
     }
-
-	public void setApp(String appName, String appClass, String uri) {
-		if ((appName.length() != 0 && appClass.length() != 0) || uri.length() != 0) {
-			packageName = appName;
-			if (uri.length() > 0) {
-				try {
-					intent = Intent.parseUri(uri, 0);
-				} catch (Exception e) {
-				}
-				
-				if (appClass.length() != 0)
-					intent.setClassName(appName, appClass);
-			} else {
-				intent = new Intent(Intent.ACTION_MAIN);
-				intent.setClassName(appName, appClass);
-			}
-			
-			//Log.d("Launcher2/QSApp", "Set intent: "+intent);
-			
-			try {
-				this.setImageDrawable(pm.getActivityIcon(intent));
-			} catch(Exception e) {}
-			
-			setFocusable(true);
-			
-		} else {
-			this.setImageDrawable(null);
-			packageName = null;
-			intent = null;
-			setFocusable(false);
-		}
-	}
-	
-	public void onClick(View v) {
-		if (intent != null) {
-			//Log.d("Launcher2/QSApp", "Starting "+intent);
-			mLauncher.startActivitySafely(intent);
-		}
-	}
-	
-	public boolean onLongClick(View v) {
-		if (intent != null) {
-			new AlertDialog.Builder(getContext())
-				  .setTitle("Confirm")
-			      .setMessage("Confirm delete shortcut?")
-			      .setPositiveButton("Yes", deleteShortcut)
-				  .setNegativeButton("No", cancelDelete)
-			      .show();
-		}
-		return true;
-	}
-
-	DialogInterface.OnClickListener deleteShortcut =
-		new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				setApp("", "", "");
-				mLauncher.saveBottomApp(appNumber, "", "", "");
-			}
-	};
-	
-	DialogInterface.OnClickListener cancelDelete =
-		new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-			}
-	};
 	
     @Override
     protected void onFinishInflate() {
@@ -237,8 +169,6 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
 			}
             createAnimations();
             startAnimation(mInAnimation);
-            //mHandle.startAnimation(mHandleOutAnimation);
-            //setVisibility(VISIBLE);
         }
     }
 
@@ -249,10 +179,73 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
 				this.setImageDrawable(null);
 			}
             startAnimation(mOutAnimation);
-            //mHandle.startAnimation(mHandleInAnimation);
-            //setVisibility(GONE);
         }
     }
+
+	public void setApp(String appName, String appClass, String uri) {
+		if ((appName.length() != 0 && appClass.length() != 0) || uri.length() != 0) {
+			packageName = appName;
+			if (uri.length() > 0) {
+				try {
+					intent = Intent.parseUri(uri, 0);
+				} catch (Exception e) {
+				}
+				
+				if (appClass.length() != 0)
+					intent.setClassName(appName, appClass);
+			} else {
+				intent = new Intent(Intent.ACTION_MAIN);
+				intent.setClassName(appName, appClass);
+			}
+			
+			//Log.d("Launcher2/QSApp", "Set intent: "+intent);
+			
+			try {
+				this.setImageDrawable(pm.getActivityIcon(intent));
+			} catch(Exception e) {}
+			
+			setFocusable(true);
+			
+		} else {
+			this.setImageDrawable(null);
+			packageName = null;
+			intent = null;
+			setFocusable(false);
+		}
+	}
+	
+	public void onClick(View v) {
+		if (intent != null) {
+			//Log.d("Launcher2/QSApp", "Starting "+intent);
+			mLauncher.startActivitySafely(intent);
+		}
+	}
+	
+	public boolean onLongClick(View v) {
+		if (intent != null) {
+			new AlertDialog.Builder(getContext())
+				  .setTitle("Confirm")
+			      .setMessage("Confirm delete shortcut?")
+			      .setPositiveButton("Yes", deleteShortcut)
+				  .setNegativeButton("No", cancelDelete)
+			      .show();
+		}
+		return true;
+	}
+
+	DialogInterface.OnClickListener deleteShortcut =
+		new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				setApp("", "", "");
+				mLauncher.saveBottomApp(appNumber, "", "", "");
+			}
+	};
+	
+	DialogInterface.OnClickListener cancelDelete =
+		new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+			}
+	};
 
 	@Override
     public boolean onTouchEvent(MotionEvent ev) {
@@ -264,11 +257,9 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
 
 	        switch (action) {
 	        	case MotionEvent.ACTION_DOWN:
-		            //this.setColorFilter(new PorterDuffColorFilter(getContext().getResources().getColor(R.color.bubble_dark_background), PorterDuff.Mode.SRC_ATOP));
 		            this.setBackgroundResource(R.drawable.focused_application_background);
 					break;
 		        case MotionEvent.ACTION_UP:
-		            //this.setColorFilter(null);
 		            this.setBackgroundDrawable(null);
 					break;
 	        }
@@ -281,11 +272,9 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
 	public void onFocusChanged (boolean gainFocus, int direction, Rect previouslyFocusedRect) {
 		if (intent != null) {
 			if (gainFocus) {
-				//this.setColorFilter(new PorterDuffColorFilter(getContext().getResources().getColor(R.color.bubble_dark_background), PorterDuff.Mode.SRC_ATOP));
 				this.setBackgroundResource(R.drawable.focused_application_background);
 			} else {
 				this.setBackgroundDrawable(null);
-				//this.setColorFilter(null);
 			}
 		}
 	}
@@ -307,18 +296,6 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
             }
             animationSet.setDuration(ANIMATION_DURATION);
         }
-        /*if (mHandleInAnimation == null) {
-            if (mOrientation == ORIENTATION_HORIZONTAL) {
-                mHandleInAnimation = new TranslateAnimation(Animation.ABSOLUTE, 0.0f,
-                        Animation.ABSOLUTE, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f,
-                        Animation.RELATIVE_TO_SELF, 0.0f);
-            } else {
-                mHandleInAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
-                        1.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.ABSOLUTE, 0.0f,
-                        Animation.ABSOLUTE, 0.0f);
-            }
-            mHandleInAnimation.setDuration(ANIMATION_DURATION);
-        }*/
         if (mOutAnimation == null) {
             mOutAnimation = new FastAnimationSet();
             final AnimationSet animationSet = mOutAnimation;
@@ -335,19 +312,6 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
             }
             animationSet.setDuration(ANIMATION_DURATION);
         }
-        /*if (mHandleOutAnimation == null) {
-            if (mOrientation == ORIENTATION_HORIZONTAL) {
-                mHandleOutAnimation = new FastTranslateAnimation(Animation.ABSOLUTE, 0.0f,
-                        Animation.ABSOLUTE, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-                        Animation.RELATIVE_TO_SELF, 1.0f);
-            } else {
-                mHandleOutAnimation = new FastTranslateAnimation(Animation.RELATIVE_TO_SELF,
-                        0.0f, Animation.RELATIVE_TO_SELF, 1.0f, Animation.ABSOLUTE, 0.0f,
-                        Animation.ABSOLUTE, 0.0f);
-            }
-            mHandleOutAnimation.setFillAfter(true);
-            mHandleOutAnimation.setDuration(ANIMATION_DURATION);
-        }*/
     }
 
     void setLauncher(Launcher launcher) {
@@ -357,10 +321,6 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
     void setDragController(DragController dragController) {
         mDragController = dragController;
     }
-
-    /*void setHandle(View view) {
-        mHandle = view;
-    }*/
 
     private static class FastTranslateAnimation extends TranslateAnimation {
         public FastTranslateAnimation(int fromXType, float fromXValue, int toXType, float toXValue,

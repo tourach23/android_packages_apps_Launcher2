@@ -74,9 +74,6 @@ import android.widget.PopupWindow;
 import android.widget.LinearLayout;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
-import android.preference.PreferenceManager;
-import android.content.SharedPreferences;
-import android.graphics.drawable.StateListDrawable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,6 +81,10 @@ import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.DataInputStream;
+
+// Faruq: new imports
+import android.preference.PreferenceManager;
+import android.content.SharedPreferences;
 
 /**
  * Default launcher application.
@@ -215,6 +216,7 @@ public final class Launcher extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+		// Faruq: Initialize Preference Manager
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		// Faruq: Get screen settings
@@ -578,15 +580,6 @@ public final class Launcher extends Activity
         mAllAppsGrid.setFocusable(false); 
 
         mWorkspace = (Workspace) dragLayer.findViewById(R.id.workspace);
-
-		// Faruq: Dynamic screen count
-		/*for (int i=0;i<Launcher.SCREEN_COUNT;i++) {
-			View v = (View) mInflater.inflate(R.layout.workspace_screen, mWorkspace, false);
-			CellLayout cell = (CellLayout) v.findViewById(R.id.cell);
-			mWorkspace.addView(cell);
-		}*/
-		//mWorkspace.initWorkspace();
-		
         final Workspace workspace = mWorkspace;
 
         DeleteZone deleteZone = (DeleteZone) dragLayer.findViewById(R.id.delete_zone);
@@ -597,6 +590,7 @@ public final class Launcher extends Activity
 		mHandleView.setOnLongClickListener(this); // Faruq: Added for long-press handle for previews
         mHandleView.setOnClickListener(this);
 
+		// Faruq: To be reimplemented
         /*mPreviousView = (ImageView) dragLayer.findViewById(R.id.previous_screen);
         mNextView = (ImageView) dragLayer.findViewById(R.id.next_screen);
 
@@ -609,32 +603,32 @@ public final class Launcher extends Activity
         mNextView.setHapticFeedbackEnabled(false);
         mNextView.setOnLongClickListener(this);*/
 
-		// Phone & Browser icon
-		QuickShortcut bottom_app1 = (QuickShortcut) dragLayer.findViewById(R.id.bottom_app1);
-		QuickShortcut bottom_app2 = (QuickShortcut) dragLayer.findViewById(R.id.bottom_app2);
-		QuickShortcut bottom_app3 = (QuickShortcut) dragLayer.findViewById(R.id.bottom_app3);
-		QuickShortcut bottom_app4 = (QuickShortcut) dragLayer.findViewById(R.id.bottom_app4);
+		// Faruq: Reload QuickShortcuts from Preference
+		QuickShortcut qShortcut1 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut1);
+		QuickShortcut qShortcut2 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut2);
+		QuickShortcut qShortcut3 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut3);
+		QuickShortcut qShortcut4 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut4);
 		
-		bottom_app1.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_URI, ""));
-		bottom_app2.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_URI, ""));
-		bottom_app3.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_URI, ""));
-		bottom_app4.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_URI, ""));
+		qShortcut1.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_URI, ""));
+		qShortcut2.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_URI, ""));
+		qShortcut3.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_URI, ""));
+		qShortcut4.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_URI, ""));
 		
-		bottom_app1.setLauncher(this);
-		bottom_app1.setDragController(dragController);
-		dragController.addDragListener(bottom_app1);
+		qShortcut1.setLauncher(this);
+		qShortcut1.setDragController(dragController);
+		dragController.addDragListener(qShortcut1);
 		
-		bottom_app2.setLauncher(this);
-		bottom_app2.setDragController(dragController);
-		dragController.addDragListener(bottom_app2);
+		qShortcut2.setLauncher(this);
+		qShortcut2.setDragController(dragController);
+		dragController.addDragListener(qShortcut2);
 		
-		bottom_app3.setLauncher(this);
-		bottom_app3.setDragController(dragController);
-		dragController.addDragListener(bottom_app3);
+		qShortcut3.setLauncher(this);
+		qShortcut3.setDragController(dragController);
+		dragController.addDragListener(qShortcut3);
 		
-		bottom_app4.setLauncher(this);
-		bottom_app4.setDragController(dragController);
-		dragController.addDragListener(bottom_app4);
+		qShortcut4.setLauncher(this);
+		qShortcut4.setDragController(dragController);
+		dragController.addDragListener(qShortcut4);
 
         workspace.setOnLongClickListener(this);
         workspace.setDragController(dragController);
@@ -651,10 +645,10 @@ public final class Launcher extends Activity
         // The order here is bottom to top.
         dragController.addDropTarget(workspace);
 		dragController.addDropTarget(deleteZone);
-        dragController.addDropTarget(bottom_app1);
-		dragController.addDropTarget(bottom_app2);
-		dragController.addDropTarget(bottom_app3);
-		dragController.addDropTarget(bottom_app4);
+        dragController.addDropTarget(qShortcut1);
+		dragController.addDropTarget(qShortcut2);
+		dragController.addDropTarget(qShortcut3);
+		dragController.addDropTarget(qShortcut4);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
@@ -1596,6 +1590,7 @@ public final class Launcher extends Activity
 
     public boolean onLongClick(View v) {
         switch (v.getId()) {
+			// Faruq: To be reimplemented
             /*case R.id.previous_screen:
                 if (!isAllAppsVisible()) {
                     mWorkspace.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS,
@@ -1614,6 +1609,7 @@ public final class Launcher extends Activity
 					mWorkspace.scrollMostRight();
                 }
                 return true;*/
+
 			// Faruq: Added for long-press handle for previews
 			case R.id.all_apps_button:
                 if (!isAllAppsVisible()) {

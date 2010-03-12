@@ -21,7 +21,7 @@ include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := $(call all-subdir-java-files)
 
-LOCAL_PACKAGE_NAME := Launcher2
+LOCAL_PACKAGE_NAME := HelixLauncher2
 
 LOCAL_OVERRIDES_PACKAGES := Launcher
 

@@ -56,7 +56,7 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
      * The velocity at which a fling gesture will cause us to snap to the next screen
      */
 	// Faruq: Modified SNAP_VELOCITY to make it less harsh
-    private static final int SNAP_VELOCITY = 200;
+	private static final int SNAP_VELOCITY = 200;
 
     private final WallpaperManager mWallpaperManager;
     
@@ -115,6 +115,7 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
 
     private boolean mFading = true;
 
+	// Faruq: new properties
 	private int mScreenLoaded = 0;
 
     /**
@@ -143,13 +144,6 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         //mDefaultScreen = a.getInt(R.styleable.Workspace_defaultScreen, 1);
         a.recycle();
 
-		/*LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		for (int i=0;i<Launcher.SCREEN_COUNT;i++) {
-			View v = (View) mInflater.inflate(R.layout.workspace_screen, this, false);
-			CellLayout cell = (CellLayout) v.findViewById(R.id.cell);
-			this.addView(cell);
-		}*/
-
         setHapticFeedbackEnabled(false);
         initWorkspace();
     }
@@ -159,7 +153,7 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
      */
     public void initWorkspace() {
         mScroller = new Scroller(getContext());
-		mDefaultScreen = Launcher.DEFAULT_SCREEN;
+		mDefaultScreen = Launcher.DEFAULT_SCREEN; // Faruq: Replacement for the commented line in the method above
         mCurrentScreen = mDefaultScreen;
         Launcher.setScreen(mCurrentScreen);
 
@@ -291,6 +285,7 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         clearVacantCache();
         mCurrentScreen = Math.max(0, Math.min(currentScreen, getChildCount() - 1));
         scrollTo(mCurrentScreen * getWidth(), 0);
+		// Faruq: To be reimplemented
         //mPreviousIndicator.setLevel(currentScreen);
         //mNextIndicator.setLevel(currentScreen);
         updateWallpaperOffset();
@@ -491,6 +486,7 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
             postInvalidate();
         } else if (mNextScreen != INVALID_SCREEN) {
             mCurrentScreen = Math.max(0, Math.min(mNextScreen, getChildCount() - 1));
+			// Faruq: To be reimplemented
             //mPreviousIndicator.setLevel(mCurrentScreen);
             //mNextIndicator.setLevel(mCurrentScreen);
             Launcher.setScreen(mCurrentScreen);
@@ -965,52 +961,11 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         final int screenWidth = getWidth();
         final int whichScreen = (mScrollX + (screenWidth / 2)) / screenWidth;
 
-		//Log.d("Workspace", ""+whichScreen+" / "+mScrollX);
         snapToScreen(whichScreen);
     }
 
 	void snapToScreen(int whichScreen) {
-		//if (!mScroller.isFinished()) return;
-		int durationOffset = 1;
-		
-		// Faruq: Disable first & last screens
-		if (whichScreen == 0) {
-			whichScreen = 1;
-		} else if (whichScreen == (getChildCount() - 1)) {
-			whichScreen = getChildCount() - 2;
-		}
-		
-        whichScreen = Math.max(0, Math.min(whichScreen, getChildCount() - 1));
-        
-        clearVacantCache();
-        enableChildrenCache(mCurrentScreen, whichScreen);
-
-        final int screenDelta = Math.abs(whichScreen - mCurrentScreen);
-
-		// Faruq: Added to allow easing even when Screen doesn't changed (when revert happens)
-		//Log.d("Workspace", "whichScreen: "+whichScreen+"; mCurrentScreen: "+mCurrentScreen+"; getChildCount: "+(getChildCount()-1));
-        if (screenDelta == 0) {
-			durationOffset = 400;
-			//Log.d("Workspace", "Increasing duration by "+durationOffset+" times");
-		}
-		
-       	mNextScreen = whichScreen;
-
-        //mPreviousIndicator.setLevel(mNextScreen);
-        //mNextIndicator.setLevel(mNextScreen);
-        
-        View focusedChild = getFocusedChild();
-        if (focusedChild != null && screenDelta != 0 && focusedChild == getChildAt(mCurrentScreen)) {
-            focusedChild.clearFocus();
-        }
-        
-        final int newX = whichScreen * getWidth();
-        final int delta = newX - mScrollX;
-        final int duration = 600 + durationOffset; // Faruq: Modified to make duration longer.. and for revert, much more longer
-		//Log.d("Workspace", "duration: "+ duration);
-        awakenScrollBars(duration);
-        mScroller.startScroll(mScrollX, 0, delta, 0, duration);
-        invalidate();
+		snapToScreen(whichScreen, 0);
 	}
 	
     void snapToScreen(int whichScreen, int velocityX) {
@@ -1035,11 +990,11 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
 		//Log.d("Workspace", "whichScreen: "+whichScreen+"; mCurrentScreen: "+mCurrentScreen+"; getChildCount: "+(getChildCount()-1));
         if (screenDelta == 0) {
 			durationOffset = 400;
-			//Log.d("Workspace", "Increasing duration by "+durationOffset+" times");
 		}
 		
        	mNextScreen = whichScreen;
 
+		// Faruq: To be reimplemented
         //mPreviousIndicator.setLevel(mNextScreen);
         //mNextIndicator.setLevel(mNextScreen);
         
@@ -1050,9 +1005,14 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         
         final int newX = whichScreen * getWidth();
         final int delta = newX - mScrollX;
-		// Faruq: Modified to let fling follow Velocity of fling
-		//Log.d("Workspace", "velocityX: "+velocityX+"; delta: "+delta+"; duration: "+((Math.abs(delta) / (Math.abs(velocityX) / 100))*20));
-        final int duration = ((Math.abs(delta) / (Math.abs(velocityX) / 100))*20) + durationOffset; // Faruq: Modified to make duration longer.. and for revert, much more longer
+
+		if (velocityX != 0) {
+			// Faruq: Modified to let fling follow Velocity of fling
+			//Log.d("Workspace", "velocityX: "+velocityX+"; delta: "+delta+"; duration: "+((Math.abs(delta) / (Math.abs(velocityX) / 100))*20));
+	        final int duration = ((Math.abs(delta) / (Math.abs(velocityX) / 100))*20) + durationOffset;
+		} else {
+			final int duration = 600 + durationOffset; // Faruq: Modified to make duration longer.. and for revert, much more longer
+		}
 		//Log.d("Workspace", "duration: "+ duration);
         awakenScrollBars(duration);
         mScroller.startScroll(mScrollX, 0, delta, 0, duration);
