@@ -29,6 +29,10 @@
                         android:title="@string/pref_title_longpress_add"
                         android:summary="@string/pref_summary_longpress_add"
                         android:defaultValue="true" />
+		<CheckBoxPreference android:key="pref_key_launcher_double_tap"
+                        android:title="@string/pref_title_double_tap"
+                        android:summary="@string/pref_summary_double_tap"
+                        android:defaultValue="true" />
 		<CheckBoxPreference android:key="pref_key_launcher2_auto_orientation"
                         android:title="@string/pref_title_auto_orientation"
                         android:summary="@string/pref_summary_auto_orientation"

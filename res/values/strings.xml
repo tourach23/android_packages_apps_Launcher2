@@ -152,6 +152,8 @@
 	
 	<string name="pref_title_longpress_add">Long-Press on Screen</string>
 	<string name="pref_summary_longpress_add">Enable/Disable long-press behavior to add items to screen</string>
+	<string name="pref_title_double_tap">Double-Tap on Screen</string>
+	<string name="pref_summary_double_tap">Enable/Disable double-tap to show previews</string>
 	<string name="pref_title_auto_orientation">Auto-Rotate Screen</string>
 	<string name="pref_summary_auto_orientation">Enable/Disable screen auto orientation</string>
 	
