@@ -39,7 +39,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
+import java.io.File;
 
 public class QuickShortcut extends ImageView implements View.OnClickListener, View.OnLongClickListener, DropTarget, DragController.DragListener {
     private static final int ORIENTATION_HORIZONTAL = 1;
@@ -119,21 +123,24 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
 
         //if (item.container == -1) return;
 
-        //Log.d("Launcher2/QSApp", "Accepted dropped onto QuickShortcut");
-        //Log.d("Launcher2/QSApp", ((ApplicationInfo)item).intent.toString());
+        Log.d("Launcher2/QSApp", "Accepted dropped onto QuickShortcut");
+		if (((ApplicationInfo)item).icon != null)
+        	Log.d("Launcher2/QSApp", "Have icon");
+		if (((ApplicationInfo)item).iconResource != null)
+        	Log.d("Launcher2/QSApp", "Have iconResource");
         
         String appName = "";
         String appClass = "";
         String uri = "";
-        
+		
         if (((ApplicationInfo)item).intent.getComponent() != null) {
             appName = ((ApplicationInfo)item).intent.getComponent().getPackageName();
             appClass = ((ApplicationInfo)item).intent.getComponent().getClassName();
         }    
         uri = ((ApplicationInfo)item).intent.toUri(0);
         
+		mLauncher.saveBottomApp(appNumber, appName, appClass, uri, ((ApplicationInfo)item).icon);
         setApp(appName, appClass, uri);
-        mLauncher.saveBottomApp(appNumber, appName, appClass, uri);
         
         //Log.d("Launcher2/QSApp", "Dropped app "+packageName+" with uri "+((ApplicationInfo)item).intent.toUri(0));
         
@@ -199,15 +206,26 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
             }
             
             //Log.d("Launcher2/QSApp", "Set intent: "+intent);
+			Drawable icon = null;
+			
+			try {
+				Bitmap bitmap = BitmapFactory.decodeFile(Launcher.CUSTOM_ICONS_FOLDER+appNumber+".png");
+            	if (bitmap != null) {
+					icon = new FastBitmapDrawable(bitmap);
+				} else {
+					icon = pm.getActivityIcon(intent);
+				}
+
+	        } catch (Exception e) {
+	        }
             
-            try {
-                this.setImageDrawable(pm.getActivityIcon(intent));
-            } catch(Exception e) {}
-            
+			this.setImageDrawable(icon);
             setFocusable(true);
             
         } else {
             this.setImageDrawable(null);
+			File file = new File(Launcher.CUSTOM_ICONS_FOLDER+appNumber+".png");
+			if (file.exists()) file.delete();
             packageName = null;
             intent = null;
             setFocusable(false);

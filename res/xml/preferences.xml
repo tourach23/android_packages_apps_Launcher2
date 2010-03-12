@@ -59,6 +59,9 @@
 				                        android:title="@string/pref_title_app_uri"
 				                        android:summary="@string/pref_summary_app_uri"
 				                        android:defaultValue="" />
+						<EditTextPreference android:key="pref_key_launcher2_app1_icon"
+				                        android:defaultValue="" />
+				
 						<EditTextPreference android:key="pref_key_launcher2_app2_package"
 				                        android:title="@string/pref_title_app_package"
 				                        android:summary="@string/pref_summary_app_package"
@@ -71,6 +74,9 @@
 				                        android:title="@string/pref_title_app_uri"
 				                        android:summary="@string/pref_summary_app_uri"
 				                        android:defaultValue="" />
+						<EditTextPreference android:key="pref_key_launcher2_app2_icon"
+				                        android:defaultValue="" />
+				
 						<EditTextPreference android:key="pref_key_launcher2_app3_package"
 				                        android:title="@string/pref_title_app_package"
 				                        android:summary="@string/pref_summary_app_package"
@@ -83,6 +89,9 @@
 				                        android:title="@string/pref_title_app_uri"
 				                        android:summary="@string/pref_summary_app_uri"
 				                        android:defaultValue="" />
+						<EditTextPreference android:key="pref_key_launcher2_app3_icon"
+				                        android:defaultValue="" />
+				
 						<EditTextPreference android:key="pref_key_launcher2_app4_package"
 				                        android:title="@string/pref_title_app_package"
 				                        android:summary="@string/pref_summary_app_package"
@@ -94,6 +103,8 @@
 						<EditTextPreference android:key="pref_key_launcher2_app4_uri"
 				                        android:title="@string/pref_title_app_uri"
 				                        android:summary="@string/pref_summary_app_uri"
+				                        android:defaultValue="" />
+						<EditTextPreference android:key="pref_key_launcher2_app4_icon"
 				                        android:defaultValue="" />
 	    </PreferenceScreen>
 		<Preference	android:title="@string/pref_title_app_settings_2" android:summary="@string/pref_summary_app_settings_2" android:enabled="false" />
