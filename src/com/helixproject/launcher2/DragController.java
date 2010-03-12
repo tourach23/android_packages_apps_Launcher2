@@ -52,7 +52,7 @@ public class DragController {
     /** Indicates the drag is a copy.  */
     public static int DRAG_ACTION_COPY = 1;
 
-	// Faruq: Adjusted values to make item dragging easier
+    // Faruq: Adjusted values to make item dragging easier
     private static final int SCROLL_DELAY = 400;
     private static final int SCROLL_ZONE = 40;
     private static final int VIBRATE_DURATION = 35;
@@ -107,7 +107,7 @@ public class DragController {
     private ArrayList<DropTarget> mDropTargets = new ArrayList<DropTarget>();
 
     //private DragListener mListener;
-	private ArrayList<DragListener> mListener = new ArrayList<DragListener>();
+    private ArrayList<DragListener> mListener = new ArrayList<DragListener>();
 
     /** The window token used as the parent for the DragView. */
     private IBinder mWindowToken;
@@ -216,9 +216,9 @@ public class DragController {
         mInputMethodManager.hideSoftInputFromWindow(mWindowToken, 0);
 
         if (!mListener.isEmpty()) {
-			for (DragListener l : mListener) {
-            	l.onDragStart(source, dragInfo, dragAction);
-			}
+            for (DragListener l : mListener) {
+                l.onDragStart(source, dragInfo, dragAction);
+            }
         }
 
         int registrationX = ((int)mMotionDownX) - screenX;
@@ -296,11 +296,11 @@ public class DragController {
             if (mOriginator != null) {
                 mOriginator.setVisibility(View.VISIBLE);
             }
-			if (!mListener.isEmpty()) {
-				for (DragListener l : mListener) {
-	            	l.onDragEnd();
-				}
-	        }
+            if (!mListener.isEmpty()) {
+                for (DragListener l : mListener) {
+                    l.onDragEnd();
+                }
+            }
             if (mDragView != null) {
                 mDragView.remove();
                 mDragView = null;
@@ -522,11 +522,11 @@ public class DragController {
         mListener = l;
     }*/
 
-	public void addDragListener(DragListener l) {
+    public void addDragListener(DragListener l) {
         mListener.add(l);
     }
 
-	public void removeDragListener(DragListener l) {
+    public void removeDragListener(DragListener l) {
         mListener.remove(l);
     }
 

@@ -103,7 +103,7 @@ public final class Launcher extends Activity
     private static final int MENU_GROUP_ADD = 1;
     private static final int MENU_ADD = Menu.FIRST + 1;
     private static final int MENU_WALLPAPER_SETTINGS = MENU_ADD + 1;
-	private static final int MENU_MOD_SETTINGS = MENU_WALLPAPER_SETTINGS + 1;
+    private static final int MENU_MOD_SETTINGS = MENU_WALLPAPER_SETTINGS + 1;
     private static final int MENU_SETTINGS = MENU_MOD_SETTINGS + 1;
     private static final int MENU_SEARCH = MENU_SETTINGS + 1;
     private static final int MENU_NOTIFICATIONS = MENU_SEARCH + 1;
@@ -122,7 +122,7 @@ public final class Launcher extends Activity
     static final String EXTRA_CUSTOM_WIDGET = "custom_widget";
     static final String SEARCH_WIDGET = "search_widget";
 
-	// Faruq: Modified Screen Size
+    // Faruq: Modified Screen Size
     static int SCREEN_COUNT = 0;
     static int DEFAULT_SCREEN = 0;
     static final int NUMBER_CELLS_X = 4;
@@ -208,21 +208,21 @@ public final class Launcher extends Activity
     private ImageView mPreviousView;
     private ImageView mNextView;
 
-	private SharedPreferences mPrefs;
-	
-	public static boolean resetWidgets = false;
+    private SharedPreferences mPrefs;
+    
+    public static boolean resetWidgets = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-		// Faruq: Initialize Preference Manager
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		
-		// Faruq: Get screen settings
-		Launcher.SCREEN_COUNT = mPrefs.getInt(LauncherPreferenceActivity.LAUNCHER2_SCREEN_SIZE, 7) + 2;
-		Launcher.DEFAULT_SCREEN = (Launcher.SCREEN_COUNT - 1) / 2;
-		Launcher.sScreen = Launcher.DEFAULT_SCREEN;
+        // Faruq: Initialize Preference Manager
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        
+        // Faruq: Get screen settings
+        Launcher.SCREEN_COUNT = mPrefs.getInt(LauncherPreferenceActivity.LAUNCHER2_SCREEN_SIZE, 7) + 2;
+        Launcher.DEFAULT_SCREEN = (Launcher.SCREEN_COUNT - 1) / 2;
+        Launcher.sScreen = Launcher.DEFAULT_SCREEN;
 
         mModel = ((LauncherApplication)getApplication()).setLauncher(this);
         mDragController = new DragController(this);
@@ -426,20 +426,20 @@ public final class Launcher extends Activity
 
         mPaused = false;
 
-		if (Launcher.resetWidgets == true) {
-			// TODO: Reset widgets
-			/*LauncherProvider.DatabaseHelper dbHelper = new LauncherProvider.DatabaseHelper(this);
-			dbHelper.resetWidgets();
-			
-			Log.d(TAG, "Reset widgets");*/
-		}
-		
-		if (Settings.System.getInt(this.getContentResolver(), "launcher_orientation", 1) == 0 ||
-			mPrefs.getBoolean(LauncherPreferenceActivity.LAUNCHER2_AUTO_ORIENTATION, true) == false) {
-			this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
-		} else {
-			this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
-		}
+        if (Launcher.resetWidgets == true) {
+            // TODO: Reset widgets
+            /*LauncherProvider.DatabaseHelper dbHelper = new LauncherProvider.DatabaseHelper(this);
+            dbHelper.resetWidgets();
+            
+            Log.d(TAG, "Reset widgets");*/
+        }
+        
+        if (Settings.System.getInt(this.getContentResolver(), "launcher_orientation", 1) == 0 ||
+            mPrefs.getBoolean(LauncherPreferenceActivity.LAUNCHER2_AUTO_ORIENTATION, true) == false) {
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+        } else {
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
+        }
         
         if (mRestoring) {
             mWorkspaceLoading = true;
@@ -587,10 +587,10 @@ public final class Launcher extends Activity
 
         mHandleView = (HandleView) findViewById(R.id.all_apps_button);
         mHandleView.setLauncher(this);
-		mHandleView.setOnLongClickListener(this); // Faruq: Added for long-press handle for previews
+        mHandleView.setOnLongClickListener(this); // Faruq: Added for long-press handle for previews
         mHandleView.setOnClickListener(this);
 
-		// Faruq: To be reimplemented
+        // Faruq: To be reimplemented
         /*mPreviousView = (ImageView) dragLayer.findViewById(R.id.previous_screen);
         mNextView = (ImageView) dragLayer.findViewById(R.id.next_screen);
 
@@ -603,32 +603,32 @@ public final class Launcher extends Activity
         mNextView.setHapticFeedbackEnabled(false);
         mNextView.setOnLongClickListener(this);*/
 
-		// Faruq: Reload QuickShortcuts from Preference
-		QuickShortcut qShortcut1 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut1);
-		QuickShortcut qShortcut2 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut2);
-		QuickShortcut qShortcut3 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut3);
-		QuickShortcut qShortcut4 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut4);
-		
-		qShortcut1.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_URI, ""));
-		qShortcut2.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_URI, ""));
-		qShortcut3.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_URI, ""));
-		qShortcut4.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_URI, ""));
-		
-		qShortcut1.setLauncher(this);
-		qShortcut1.setDragController(dragController);
-		dragController.addDragListener(qShortcut1);
-		
-		qShortcut2.setLauncher(this);
-		qShortcut2.setDragController(dragController);
-		dragController.addDragListener(qShortcut2);
-		
-		qShortcut3.setLauncher(this);
-		qShortcut3.setDragController(dragController);
-		dragController.addDragListener(qShortcut3);
-		
-		qShortcut4.setLauncher(this);
-		qShortcut4.setDragController(dragController);
-		dragController.addDragListener(qShortcut4);
+        // Faruq: Reload QuickShortcuts from Preference
+        QuickShortcut qShortcut1 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut1);
+        QuickShortcut qShortcut2 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut2);
+        QuickShortcut qShortcut3 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut3);
+        QuickShortcut qShortcut4 = (QuickShortcut) dragLayer.findViewById(R.id.qShortcut4);
+        
+        qShortcut1.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP1_URI, ""));
+        qShortcut2.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP2_URI, ""));
+        qShortcut3.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP3_URI, ""));
+        qShortcut4.setApp(mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_PACKAGE, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_CLASS, ""), mPrefs.getString(LauncherPreferenceActivity.LAUNCHER2_APP4_URI, ""));
+        
+        qShortcut1.setLauncher(this);
+        qShortcut1.setDragController(dragController);
+        dragController.addDragListener(qShortcut1);
+        
+        qShortcut2.setLauncher(this);
+        qShortcut2.setDragController(dragController);
+        dragController.addDragListener(qShortcut2);
+        
+        qShortcut3.setLauncher(this);
+        qShortcut3.setDragController(dragController);
+        dragController.addDragListener(qShortcut3);
+        
+        qShortcut4.setLauncher(this);
+        qShortcut4.setDragController(dragController);
+        dragController.addDragListener(qShortcut4);
 
         workspace.setOnLongClickListener(this);
         workspace.setDragController(dragController);
@@ -637,18 +637,18 @@ public final class Launcher extends Activity
         deleteZone.setLauncher(this);
         deleteZone.setDragController(dragController);
         deleteZone.setHandle(mHandleView);
-		dragController.addDragListener(deleteZone);
+        dragController.addDragListener(deleteZone);
 
         dragController.setDragScoller(workspace);
         dragController.setScrollView(dragLayer);
 
         // The order here is bottom to top.
         dragController.addDropTarget(workspace);
-		dragController.addDropTarget(deleteZone);
+        dragController.addDropTarget(deleteZone);
         dragController.addDropTarget(qShortcut1);
-		dragController.addDropTarget(qShortcut2);
-		dragController.addDropTarget(qShortcut3);
-		dragController.addDropTarget(qShortcut4);
+        dragController.addDropTarget(qShortcut2);
+        dragController.addDropTarget(qShortcut3);
+        dragController.addDropTarget(qShortcut4);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
@@ -665,33 +665,33 @@ public final class Launcher extends Activity
         }
     }
 
-	public void saveBottomApp(int pos, String appName, String appClass, String uri) {
-		//Log.d(TAG, "Saving bottom app "+pos+": "+appName+"/"+appClass+"/ "+uri);
-		SharedPreferences.Editor editor = mPrefs.edit();
-		switch (pos) {
-			case 1:
-				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP1_PACKAGE, appName);
-				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP1_CLASS, appClass);
-				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP1_URI, uri);
-				break;
-			case 2:
-				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP2_PACKAGE, appName);
-				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP2_CLASS, appClass);
-				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP2_URI, uri);
-				break;
-			case 3:
-				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP3_PACKAGE, appName);
-				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP3_CLASS, appClass);
-				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP3_URI, uri);
-				break;
-			case 4:
-				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP4_PACKAGE, appName);
-				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP4_CLASS, appClass);
-				editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP4_URI, uri);
-				break;
-		}
-		editor.commit();
-	}
+    public void saveBottomApp(int pos, String appName, String appClass, String uri) {
+        //Log.d(TAG, "Saving bottom app "+pos+": "+appName+"/"+appClass+"/ "+uri);
+        SharedPreferences.Editor editor = mPrefs.edit();
+        switch (pos) {
+            case 1:
+                editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP1_PACKAGE, appName);
+                editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP1_CLASS, appClass);
+                editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP1_URI, uri);
+                break;
+            case 2:
+                editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP2_PACKAGE, appName);
+                editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP2_CLASS, appClass);
+                editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP2_URI, uri);
+                break;
+            case 3:
+                editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP3_PACKAGE, appName);
+                editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP3_CLASS, appClass);
+                editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP3_URI, uri);
+                break;
+            case 4:
+                editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP4_PACKAGE, appName);
+                editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP4_CLASS, appClass);
+                editor.putString(LauncherPreferenceActivity.LAUNCHER2_APP4_URI, uri);
+                break;
+        }
+        editor.commit();
+    }
 
     /**
      * Creates a view representing a shortcut.
@@ -1124,7 +1124,7 @@ public final class Launcher extends Activity
         menu.add(0, MENU_WALLPAPER_SETTINGS, 0, R.string.menu_wallpaper)
                  .setIcon(android.R.drawable.ic_menu_gallery)
                  .setAlphabeticShortcut('W');
-		menu.add(0, MENU_MOD_SETTINGS, 0, R.string.menu_mod_settings)
+        menu.add(0, MENU_MOD_SETTINGS, 0, R.string.menu_mod_settings)
                  .setIcon(android.R.drawable.ic_menu_preferences)
                  .setAlphabeticShortcut('M');
         /*menu.add(0, MENU_SEARCH, 0, R.string.menu_search)
@@ -1170,9 +1170,9 @@ public final class Launcher extends Activity
             case MENU_NOTIFICATIONS:
                 showNotifications();
                 return true;
-			case MENU_MOD_SETTINGS:
-				startPreferences();
-				return true;
+            case MENU_MOD_SETTINGS:
+                startPreferences();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -1408,11 +1408,11 @@ public final class Launcher extends Activity
         startActivityForResult(chooser, REQUEST_PICK_WALLPAPER);
     }
 
-	// Faruq: Start Preferences activity
+    // Faruq: Start Preferences activity
     private void startPreferences() {
         closeAllApps(true);
-		Intent intent = new Intent(this, LauncherPreferenceActivity.class);
-		startActivityIfNeeded(intent, -1);
+        Intent intent = new Intent(this, LauncherPreferenceActivity.class);
+        startActivityIfNeeded(intent, -1);
     }
 
     /**
@@ -1590,14 +1590,14 @@ public final class Launcher extends Activity
 
     public boolean onLongClick(View v) {
         switch (v.getId()) {
-			// Faruq: To be reimplemented
+            // Faruq: To be reimplemented
             /*case R.id.previous_screen:
                 if (!isAllAppsVisible()) {
                     mWorkspace.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS,
                             HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
                     //showPreviousPreview(v);
-					// Faruq: Quick jump button
-					mWorkspace.scrollMostLeft();
+                    // Faruq: Quick jump button
+                    mWorkspace.scrollMostLeft();
                 }
                 return true;
             case R.id.next_screen:
@@ -1605,13 +1605,13 @@ public final class Launcher extends Activity
                     mWorkspace.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS,
                             HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
                     //showNextPreview(v);
-					// Faruq: Quick jump button
-					mWorkspace.scrollMostRight();
+                    // Faruq: Quick jump button
+                    mWorkspace.scrollMostRight();
                 }
                 return true;*/
 
-			// Faruq: Added for long-press handle for previews
-			case R.id.all_apps_button:
+            // Faruq: Added for long-press handle for previews
+            case R.id.all_apps_button:
                 if (!isAllAppsVisible()) {
                     mWorkspace.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS,
                             HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
@@ -1637,14 +1637,14 @@ public final class Launcher extends Activity
 
         if (mWorkspace.allowLongPress()) {
             if (cellInfo.cell == null) {
-				// Faruq: Controlled by preferences
-				if (mPrefs.getBoolean(LauncherPreferenceActivity.LAUNCHER2_LONGPRESS_ADD, true)) {
-                	if (cellInfo.valid) {
-	                    // User long pressed on empty space
-	                    mWorkspace.setAllowLongPress(false);
-	                    showAddDialog(cellInfo);
-	                }
-				}
+                // Faruq: Controlled by preferences
+                if (mPrefs.getBoolean(LauncherPreferenceActivity.LAUNCHER2_LONGPRESS_ADD, true)) {
+                    if (cellInfo.valid) {
+                        // User long pressed on empty space
+                        mWorkspace.setAllowLongPress(false);
+                        showAddDialog(cellInfo);
+                    }
+                }
             } else {
                 if (!(cellInfo.cell instanceof Folder)) {
                     // User long pressed on an item
@@ -1698,14 +1698,14 @@ public final class Launcher extends Activity
     private void showPreviews(final View anchor, int start, int end) {
         Resources resources = getResources();
 
-		// Faruq: Disable first & last screens
-		start += 1;
-		end -= 1;
-		
+        // Faruq: Disable first & last screens
+        start += 1;
+        end -= 1;
+        
         Workspace workspace = mWorkspace;
         CellLayout cell = ((CellLayout) workspace.getChildAt(start));
-		
-		// Faruq Disable first & last screen
+        
+        // Faruq Disable first & last screen
         float max = workspace.getChildCount() - 2;
         
         Rect r = new Rect();
@@ -2047,8 +2047,8 @@ public final class Launcher extends Activity
 
         Dialog createDialog() {
             // Enomther: This is complete FAIL for some reason ?? ...
-			//           much more harm than any notable good, that I can see anyways
-			//mWaitingForResult = true;
+            //           much more harm than any notable good, that I can see anyways
+            //mWaitingForResult = true;
 
             mAdapter = new AddAdapter(Launcher.this);
 

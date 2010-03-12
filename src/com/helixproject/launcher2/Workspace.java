@@ -55,8 +55,8 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
     /**
      * The velocity at which a fling gesture will cause us to snap to the next screen
      */
-	// Faruq: Modified SNAP_VELOCITY to make it less harsh
-	private static final int SNAP_VELOCITY = 200;
+    // Faruq: Modified SNAP_VELOCITY to make it less harsh
+    private static final int SNAP_VELOCITY = 200;
 
     private final WallpaperManager mWallpaperManager;
     
@@ -115,8 +115,8 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
 
     private boolean mFading = true;
 
-	// Faruq: new properties
-	private int mScreenLoaded = 0;
+    // Faruq: new properties
+    private int mScreenLoaded = 0;
 
     /**
      * Used to inflate the Workspace from XML.
@@ -153,7 +153,7 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
      */
     public void initWorkspace() {
         mScroller = new Scroller(getContext());
-		mDefaultScreen = Launcher.DEFAULT_SCREEN; // Faruq: Replacement for the commented line in the method above
+        mDefaultScreen = Launcher.DEFAULT_SCREEN; // Faruq: Replacement for the commented line in the method above
         mCurrentScreen = mDefaultScreen;
         Launcher.setScreen(mCurrentScreen);
 
@@ -167,10 +167,10 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         if (!(child instanceof CellLayout)) {
             throw new IllegalArgumentException("A Workspace can only have CellLayout children.");
         }
-		if (mScreenLoaded < Launcher.SCREEN_COUNT) {
-			mScreenLoaded++;
-        	super.addView(child, index, params);
-		}
+        if (mScreenLoaded < Launcher.SCREEN_COUNT) {
+            mScreenLoaded++;
+            super.addView(child, index, params);
+        }
     }
 
     @Override
@@ -285,7 +285,7 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         clearVacantCache();
         mCurrentScreen = Math.max(0, Math.min(currentScreen, getChildCount() - 1));
         scrollTo(mCurrentScreen * getWidth(), 0);
-		// Faruq: To be reimplemented
+        // Faruq: To be reimplemented
         //mPreviousIndicator.setLevel(currentScreen);
         //mNextIndicator.setLevel(currentScreen);
         updateWallpaperOffset();
@@ -349,11 +349,11 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
      * @param insert When true, the child is inserted at the beginning of the children list.
      */
     void addInScreen(View child, int screen, int x, int y, int spanX, int spanY, boolean insert) {
-		if (screen < 0 || screen >= getChildCount()) {
-			throw new IllegalStateException("The screen must be >= 0 and < " + getChildCount());
+        if (screen < 0 || screen >= getChildCount()) {
+            throw new IllegalStateException("The screen must be >= 0 and < " + getChildCount());
         }/* else if (screen < 1 || screen >= (getChildCount() - 1)) {
-			addInScreen(child, 1, x, y, spanX, spanY, insert);
-		}*/
+            addInScreen(child, 1, x, y, spanX, spanY, insert);
+        }*/
 
         clearVacantCache();
 
@@ -486,7 +486,7 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
             postInvalidate();
         } else if (mNextScreen != INVALID_SCREEN) {
             mCurrentScreen = Math.max(0, Math.min(mNextScreen, getChildCount() - 1));
-			// Faruq: To be reimplemented
+            // Faruq: To be reimplemented
             //mPreviousIndicator.setLevel(mCurrentScreen);
             //mNextIndicator.setLevel(mCurrentScreen);
             Launcher.setScreen(mCurrentScreen);
@@ -964,21 +964,21 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         snapToScreen(whichScreen);
     }
 
-	void snapToScreen(int whichScreen) {
-		snapToScreen(whichScreen, 0);
-	}
-	
+    void snapToScreen(int whichScreen) {
+        snapToScreen(whichScreen, 0);
+    }
+    
     void snapToScreen(int whichScreen, int velocityX) {
         //if (!mScroller.isFinished()) return;
-		int durationOffset = 1;
-		
-		// Faruq: Disable first & last screens
-		if (whichScreen == 0) {
-			whichScreen = 1;
-		} else if (whichScreen == (getChildCount() - 1)) {
-			whichScreen = getChildCount() - 2;
-		}
-		
+        int durationOffset = 1;
+        
+        // Faruq: Disable first & last screens
+        if (whichScreen == 0) {
+            whichScreen = 1;
+        } else if (whichScreen == (getChildCount() - 1)) {
+            whichScreen = getChildCount() - 2;
+        }
+        
         whichScreen = Math.max(0, Math.min(whichScreen, getChildCount() - 1));
         
         clearVacantCache();
@@ -986,15 +986,15 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
 
         final int screenDelta = Math.abs(whichScreen - mCurrentScreen);
 
-		// Faruq: Added to allow easing even when Screen doesn't changed (when revert happens)
-		//Log.d("Workspace", "whichScreen: "+whichScreen+"; mCurrentScreen: "+mCurrentScreen+"; getChildCount: "+(getChildCount()-1));
+        // Faruq: Added to allow easing even when Screen doesn't changed (when revert happens)
+        //Log.d("Workspace", "whichScreen: "+whichScreen+"; mCurrentScreen: "+mCurrentScreen+"; getChildCount: "+(getChildCount()-1));
         if (screenDelta == 0) {
-			durationOffset = 400;
-		}
-		
-       	mNextScreen = whichScreen;
+            durationOffset = 400;
+        }
+        
+           mNextScreen = whichScreen;
 
-		// Faruq: To be reimplemented
+        // Faruq: To be reimplemented
         //mPreviousIndicator.setLevel(mNextScreen);
         //mNextIndicator.setLevel(mNextScreen);
         
@@ -1006,14 +1006,14 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         final int newX = whichScreen * getWidth();
         final int delta = newX - mScrollX;
 
-		if (velocityX != 0) {
-			// Faruq: Modified to let fling follow Velocity of fling
-			//Log.d("Workspace", "velocityX: "+velocityX+"; delta: "+delta+"; duration: "+((Math.abs(delta) / (Math.abs(velocityX) / 100))*20));
-	        final int duration = ((Math.abs(delta) / (Math.abs(velocityX) / 100))*20) + durationOffset;
-		} else {
-			final int duration = 600 + durationOffset; // Faruq: Modified to make duration longer.. and for revert, much more longer
-		}
-		//Log.d("Workspace", "duration: "+ duration);
+        if (velocityX != 0) {
+            // Faruq: Modified to let fling follow Velocity of fling
+            //Log.d("Workspace", "velocityX: "+velocityX+"; delta: "+delta+"; duration: "+((Math.abs(delta) / (Math.abs(velocityX) / 100))*20));
+            final int duration = ((Math.abs(delta) / (Math.abs(velocityX) / 100))*20) + durationOffset;
+        } else {
+            final int duration = 600 + durationOffset; // Faruq: Modified to make duration longer.. and for revert, much more longer
+        }
+        //Log.d("Workspace", "duration: "+ duration);
         awakenScrollBars(duration);
         mScroller.startScroll(mScrollX, 0, delta, 0, duration);
         invalidate();
@@ -1265,8 +1265,8 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         }
     }
 
-	// Faruq: Quick Jump Button
-	public void scrollMostLeft() {
+    // Faruq: Quick Jump Button
+    public void scrollMostLeft() {
         clearVacantCache();
         if (mNextScreen == INVALID_SCREEN && mCurrentScreen > 0 && mScroller.isFinished()) {
             snapToScreen(0);
@@ -1281,8 +1281,8 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         }
     }
 
-	// Faruq: Quick Jump Button
-	public void scrollMostRight() {
+    // Faruq: Quick Jump Button
+    public void scrollMostRight() {
         clearVacantCache();
         if (mNextScreen == INVALID_SCREEN && mCurrentScreen < getChildCount() -1 &&
                 mScroller.isFinished()) {
@@ -1495,7 +1495,7 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         mPreviousIndicator = previous;
         mNextIndicator = next;
         // Faruq: Temp
-		previous.setLevel(4);
+        previous.setLevel(4);
         next.setLevel(4);
     }
 

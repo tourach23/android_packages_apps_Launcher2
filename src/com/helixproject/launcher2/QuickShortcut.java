@@ -58,13 +58,13 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
 
     private final RectF mRegion = new RectF();
     private final Paint mDropPaint = new Paint();
-	
-	// Faruq: new properties
-	private final int srcColor;
-	private Intent intent;
-	private String packageName;
-	private PackageManager pm;
-	private int appNumber;
+    
+    // Faruq: new properties
+    private final int srcColor;
+    private Intent intent;
+    private String packageName;
+    private PackageManager pm;
+    private int appNumber;
 
     public QuickShortcut(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -79,15 +79,15 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.QuickShortcut, defStyle, 0);
         mOrientation = a.getInt(R.styleable.QuickShortcut_direction, ORIENTATION_HORIZONTAL);
         appNumber = a.getInt(R.styleable.QuickShortcut_appNumber, 0);
-		a.recycle();
+        a.recycle();
 
-		pm = context.getPackageManager();
-		
-		this.setOnClickListener(this);
-		this.setOnLongClickListener(this);
-		setHapticFeedbackEnabled(true);
+        pm = context.getPackageManager();
+        
+        this.setOnClickListener(this);
+        this.setOnLongClickListener(this);
+        setHapticFeedbackEnabled(true);
     }
-	
+    
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -95,17 +95,17 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
 
     public boolean acceptDrop(DragSource source, int x, int y, int xOffset, int yOffset,
             DragView dragView, Object dragInfo) {
-		final ItemInfo item = (ItemInfo) dragInfo;
-		
-		//Log.d("Launcher2/QSApp", "Dropped onto QuickShortcut");
-		//Log.d("Launcher2/QSApp", item.getClass().toString());
-		
-		if (item instanceof ApplicationInfo && ((ApplicationInfo)item).intent != null) {
-			//Log.d("Launcher2/QSApp", "AcceptedDrop");
-        	return true;
-		} else {
-			return false;
-		}
+        final ItemInfo item = (ItemInfo) dragInfo;
+        
+        //Log.d("Launcher2/QSApp", "Dropped onto QuickShortcut");
+        //Log.d("Launcher2/QSApp", item.getClass().toString());
+        
+        if (item instanceof ApplicationInfo && ((ApplicationInfo)item).intent != null) {
+            //Log.d("Launcher2/QSApp", "AcceptedDrop");
+            return true;
+        } else {
+            return false;
+        }
     }
     
     public Rect estimateDropLocation(DragSource source, int x, int y, int xOffset, int yOffset,
@@ -117,37 +117,37 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
             DragView dragView, Object dragInfo) {
         final ItemInfo item = (ItemInfo) dragInfo;
 
-		//if (item.container == -1) return;
+        //if (item.container == -1) return;
 
-		//Log.d("Launcher2/QSApp", "Accepted dropped onto QuickShortcut");
-		//Log.d("Launcher2/QSApp", ((ApplicationInfo)item).intent.toString());
-		
-		String appName = "";
-		String appClass = "";
-		String uri = "";
-		
-		if (((ApplicationInfo)item).intent.getComponent() != null) {
-			appName = ((ApplicationInfo)item).intent.getComponent().getPackageName();
-			appClass = ((ApplicationInfo)item).intent.getComponent().getClassName();
-		}	
-		uri = ((ApplicationInfo)item).intent.toUri(0);
-		
-		setApp(appName, appClass, uri);
-		mLauncher.saveBottomApp(appNumber, appName, appClass, uri);
-		
-		//Log.d("Launcher2/QSApp", "Dropped app "+packageName+" with uri "+((ApplicationInfo)item).intent.toUri(0));
-		
+        //Log.d("Launcher2/QSApp", "Accepted dropped onto QuickShortcut");
+        //Log.d("Launcher2/QSApp", ((ApplicationInfo)item).intent.toString());
+        
+        String appName = "";
+        String appClass = "";
+        String uri = "";
+        
+        if (((ApplicationInfo)item).intent.getComponent() != null) {
+            appName = ((ApplicationInfo)item).intent.getComponent().getPackageName();
+            appClass = ((ApplicationInfo)item).intent.getComponent().getClassName();
+        }    
+        uri = ((ApplicationInfo)item).intent.toUri(0);
+        
+        setApp(appName, appClass, uri);
+        mLauncher.saveBottomApp(appNumber, appName, appClass, uri);
+        
+        //Log.d("Launcher2/QSApp", "Dropped app "+packageName+" with uri "+((ApplicationInfo)item).intent.toUri(0));
+        
         LauncherModel.deleteItemFromDatabase(mLauncher, item);
     }
 
     public void onDragEnter(DragSource source, int x, int y, int xOffset, int yOffset,
             DragView dragView, Object dragInfo) {
-		final ItemInfo item = (ItemInfo) dragInfo;
-		
-		if (item != null && item instanceof ApplicationInfo && ((ApplicationInfo)item).intent != null) {
-			this.setColorFilter(new PorterDuffColorFilter(srcColor, PorterDuff.Mode.SRC_ATOP));
-        	dragView.setPaint(mDropPaint);
-		}
+        final ItemInfo item = (ItemInfo) dragInfo;
+        
+        if (item != null && item instanceof ApplicationInfo && ((ApplicationInfo)item).intent != null) {
+            this.setColorFilter(new PorterDuffColorFilter(srcColor, PorterDuff.Mode.SRC_ATOP));
+            dragView.setPaint(mDropPaint);
+        }
     }
 
     public void onDragOver(DragSource source, int x, int y, int xOffset, int yOffset,
@@ -156,17 +156,17 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
 
     public void onDragExit(DragSource source, int x, int y, int xOffset, int yOffset,
             DragView dragView, Object dragInfo) {
-		dragView.setPaint(null);
-		this.setColorFilter(null);
+        dragView.setPaint(null);
+        this.setColorFilter(null);
     }
 
     public void onDragStart(DragSource source, Object info, int dragAction) {
         final ItemInfo item = (ItemInfo) info;
         if (item != null && item instanceof ApplicationInfo && ((ApplicationInfo)item).intent != null) {
             mAssignMode = true;
-			if (packageName == null) {
-				this.setImageResource(R.drawable.quick_shortcut);
-			}
+            if (packageName == null) {
+                this.setImageResource(R.drawable.quick_shortcut);
+            }
             createAnimations();
             startAnimation(mInAnimation);
         }
@@ -175,109 +175,109 @@ public class QuickShortcut extends ImageView implements View.OnClickListener, Vi
     public void onDragEnd() {
         if (mAssignMode) {
             mAssignMode = false;
-			if (packageName == null) {
-				this.setImageDrawable(null);
-			}
+            if (packageName == null) {
+                this.setImageDrawable(null);
+            }
             startAnimation(mOutAnimation);
         }
     }
 
-	public void setApp(String appName, String appClass, String uri) {
-		if ((appName.length() != 0 && appClass.length() != 0) || uri.length() != 0) {
-			packageName = appName;
-			if (uri.length() > 0) {
-				try {
-					intent = Intent.parseUri(uri, 0);
-				} catch (Exception e) {
-				}
-				
-				if (appClass.length() != 0)
-					intent.setClassName(appName, appClass);
-			} else {
-				intent = new Intent(Intent.ACTION_MAIN);
-				intent.setClassName(appName, appClass);
-			}
-			
-			//Log.d("Launcher2/QSApp", "Set intent: "+intent);
-			
-			try {
-				this.setImageDrawable(pm.getActivityIcon(intent));
-			} catch(Exception e) {}
-			
-			setFocusable(true);
-			
-		} else {
-			this.setImageDrawable(null);
-			packageName = null;
-			intent = null;
-			setFocusable(false);
-		}
-	}
-	
-	public void onClick(View v) {
-		if (intent != null) {
-			//Log.d("Launcher2/QSApp", "Starting "+intent);
-			mLauncher.startActivitySafely(intent);
-		}
-	}
-	
-	public boolean onLongClick(View v) {
-		if (intent != null) {
-			new AlertDialog.Builder(getContext())
-				  .setTitle("Confirm")
-			      .setMessage("Confirm delete shortcut?")
-			      .setPositiveButton("Yes", deleteShortcut)
-				  .setNegativeButton("No", cancelDelete)
-			      .show();
-		}
-		return true;
-	}
+    public void setApp(String appName, String appClass, String uri) {
+        if ((appName.length() != 0 && appClass.length() != 0) || uri.length() != 0) {
+            packageName = appName;
+            if (uri.length() > 0) {
+                try {
+                    intent = Intent.parseUri(uri, 0);
+                } catch (Exception e) {
+                }
+                
+                if (appClass.length() != 0)
+                    intent.setClassName(appName, appClass);
+            } else {
+                intent = new Intent(Intent.ACTION_MAIN);
+                intent.setClassName(appName, appClass);
+            }
+            
+            //Log.d("Launcher2/QSApp", "Set intent: "+intent);
+            
+            try {
+                this.setImageDrawable(pm.getActivityIcon(intent));
+            } catch(Exception e) {}
+            
+            setFocusable(true);
+            
+        } else {
+            this.setImageDrawable(null);
+            packageName = null;
+            intent = null;
+            setFocusable(false);
+        }
+    }
+    
+    public void onClick(View v) {
+        if (intent != null) {
+            //Log.d("Launcher2/QSApp", "Starting "+intent);
+            mLauncher.startActivitySafely(intent);
+        }
+    }
+    
+    public boolean onLongClick(View v) {
+        if (intent != null) {
+            new AlertDialog.Builder(getContext())
+                  .setTitle("Confirm")
+                  .setMessage("Confirm delete shortcut?")
+                  .setPositiveButton("Yes", deleteShortcut)
+                  .setNegativeButton("No", cancelDelete)
+                  .show();
+        }
+        return true;
+    }
 
-	DialogInterface.OnClickListener deleteShortcut =
-		new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				setApp("", "", "");
-				mLauncher.saveBottomApp(appNumber, "", "", "");
-			}
-	};
-	
-	DialogInterface.OnClickListener cancelDelete =
-		new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-			}
-	};
+    DialogInterface.OnClickListener deleteShortcut =
+        new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                setApp("", "", "");
+                mLauncher.saveBottomApp(appNumber, "", "", "");
+            }
+    };
+    
+    DialogInterface.OnClickListener cancelDelete =
+        new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+    };
 
-	@Override
+    @Override
     public boolean onTouchEvent(MotionEvent ev) {
-	
+    
         final int action = ev.getAction();
         final float x = ev.getX();
 
-		if (intent != null) {
+        if (intent != null) {
 
-	        switch (action) {
-	        	case MotionEvent.ACTION_DOWN:
-		            this.setBackgroundResource(R.drawable.focused_application_background);
-					break;
-		        case MotionEvent.ACTION_UP:
-		            this.setBackgroundDrawable(null);
-					break;
-	        }
-		}
+            switch (action) {
+                case MotionEvent.ACTION_DOWN:
+                    this.setBackgroundResource(R.drawable.focused_application_background);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    this.setBackgroundDrawable(null);
+                    break;
+            }
+        }
 
         return super.onTouchEvent(ev);
     }
 
-	@Override
-	public void onFocusChanged (boolean gainFocus, int direction, Rect previouslyFocusedRect) {
-		if (intent != null) {
-			if (gainFocus) {
-				this.setBackgroundResource(R.drawable.focused_application_background);
-			} else {
-				this.setBackgroundDrawable(null);
-			}
-		}
-	}
+    @Override
+    public void onFocusChanged (boolean gainFocus, int direction, Rect previouslyFocusedRect) {
+        if (intent != null) {
+            if (gainFocus) {
+                this.setBackgroundResource(R.drawable.focused_application_background);
+            } else {
+                this.setBackgroundDrawable(null);
+            }
+        }
+    }
 
     private void createAnimations() {
         if (mInAnimation == null) {
