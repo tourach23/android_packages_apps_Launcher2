@@ -1588,6 +1588,14 @@ public final class Launcher extends Activity
         openFolder.onOpen();
     }
 
+    public void onDoubleTap() {
+        if (mPrefs.getBoolean(LauncherPreferenceActivity.LAUNCHER_DOUBLE_TAP, true)) {
+            mWorkspace.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS,
+                                        HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+            showPreviews(mHandleView, 0, mWorkspace.getChildCount());
+        }
+    }
+
     public boolean onLongClick(View v) {
         switch (v.getId()) {
             // Faruq: To be reimplemented
