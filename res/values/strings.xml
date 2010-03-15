@@ -142,7 +142,9 @@
 	<!-- Launcher2 Preferences Categories: -->
 	<string name="pref_behavior_settings">Behaviors</string>
 	<string name="pref_screen_settings">Screens</string>
+	<string name="pref_icon_settings">Icons (Require Restart)</string>
 	<string name="pref_app_settings">Shortcuts (Advanced ONLY)</string>
+
 	<string name="pref_about">Launcher2 Mod About</string>
 	
 	<!-- Launcher2 Preferences Items: -->
@@ -151,7 +153,10 @@
 	<string name="pref_summary_launcher2_set_screen_size">Set screen size</string>
 	<string name="pref_title_quick_shortcuts">Quick Shortcuts</string>
 	<string name="pref_summary_quick_shortcuts">Enable/Disable quick shortcuts; when disabled, dots will be shown instead</string>
-	
+	<string name="pref_title_hide_labels">Hide Icon Titles</string>
+	<string name="pref_summary_hide_labels">Enable/Disable hiding of desktop icons titles</string>
+	<string name="pref_title_show_shortcuts_label">Show Shortcuts Titles</string>
+	<string name="pref_summary_show_shortcuts_label">Enable/Disable showing of shortcuts titles while only hiding App Icons titles</string>
 	<string name="pref_title_longpress_add">Long-Press on Screen</string>
 	<string name="pref_summary_longpress_add">Enable/Disable long-press behavior to add items to screen</string>
 	<string name="pref_title_double_tap">Double-Tap on Screen</string>
@@ -170,12 +175,11 @@
 	<string name="pref_summary_app_uri">Overrides calling intent by class</string>
 	
 	<string name="pref_title_launcher2_version">Version</string>
-	<string name="pref_summary_launcher2_version">0.6</string>
+	<string name="pref_summary_launcher2_version">0.7BETA1</string>
 	<string name="pref_title_launcher2_author">Author</string>
 	<string name="pref_summary_launcher2_author">Faruq (twitter.com/ruqqq)</string>
 	<string name="pref_title_launcher2_restart">Restart Launcher2</string>
-	
-	<!-- Launcher2 Preferences Menu: -->
+
 	<string name="restore_default">Restore Default</string>
 	
 	<!-- Text to be used for affirmative response button in dialog boxes -->

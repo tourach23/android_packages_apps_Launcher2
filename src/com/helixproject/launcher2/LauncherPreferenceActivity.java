@@ -42,6 +42,8 @@ import android.util.Log;
 public class LauncherPreferenceActivity extends PreferenceActivity {
     // Symbolic names for the keys used for preference lookup
     public static final String LAUNCHER2_LONGPRESS_ADD = "pref_key_launcher2_longpress_add";
+	public static final String LAUNCHER_HIDE_LABELS = "pref_key_launcher_hide_labels";
+	public static final String LAUNCHER_SHOW_SHORTCUTS_LABEL = "pref_key_launcher_show_shortcuts_label";
 	public static final String LAUNCHER_DOUBLE_TAP = "pref_key_launcher_double_tap";
 	public static final String LAUNCHER2_SCREEN_SIZE = "pref_key_launcher2_screen_size";
 	public static final String LAUNCHER2_AUTO_ORIENTATION = "pref_key_launcher2_auto_orientation";

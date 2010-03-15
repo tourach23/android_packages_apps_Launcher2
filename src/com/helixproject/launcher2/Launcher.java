@@ -807,7 +807,9 @@ public final class Launcher extends Activity
         }
 
         favorite.setCompoundDrawablesWithIntrinsicBounds(null, info.icon, null, null);
-        favorite.setText(info.title);
+        if (!mPrefs.getBoolean(LauncherPreferenceActivity.LAUNCHER_HIDE_LABELS, false) || (mPrefs.getBoolean(LauncherPreferenceActivity.LAUNCHER_SHOW_SHORTCUTS_LABEL, true) && info.itemType == LauncherSettings.Favorites.ITEM_TYPE_SHORTCUT)) {
+			favorite.setText(info.title);
+		}
         favorite.setTag(info);
         favorite.setOnClickListener(this);
 

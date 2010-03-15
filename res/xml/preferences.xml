@@ -24,6 +24,17 @@
 	                          android:title="@string/pref_title_launcher2_screen_size"
 	                          android:summary="@string/pref_summary_launcher2_screen_size" />
 	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/pref_icon_settings">
+	    <CheckBoxPreference android:key="pref_key_launcher_hide_labels"
+                        android:title="@string/pref_title_hide_labels"
+                        android:summary="@string/pref_summary_hide_labels"
+                        android:defaultValue="false" />
+		<CheckBoxPreference android:key="pref_key_launcher_show_shortcuts_label"
+		                        android:title="@string/pref_title_show_shortcuts_label"
+		                        android:summary="@string/pref_summary_show_shortcuts_label"
+		                        android:defaultValue="true" 
+								android:dependency="pref_key_launcher_hide_labels"/>
+	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pref_behavior_settings">
     	<CheckBoxPreference android:key="pref_key_launcher2_longpress_add"
                         android:title="@string/pref_title_longpress_add"
