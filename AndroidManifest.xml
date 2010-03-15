@@ -20,6 +20,8 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.helixproject.launcher2"
+	android:versionCode="8"
+    android:versionName="0.6"
     >
     
     <permission
@@ -59,6 +61,10 @@
     <uses-permission android:name="android.permission.BIND_APPWIDGET" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" />
+
+	<uses-sdk android:minSdkVersion="7" 
+          android:targetSdkVersion="7"
+          android:maxSdkVersion="7" />
     
     <application
         android:name="LauncherApplication"
