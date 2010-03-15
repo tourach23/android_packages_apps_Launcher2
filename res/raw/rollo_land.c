@@ -273,16 +273,16 @@ int positionStrip(float row, float column, int isTop, float p, int isText)
         if (isText) {
             matrixScale(mat1, 1.f, 2.f, 1.f);
         }
-        matrixTranslate(mat1, 0, soff - 0.95f + 0.18f, 0);
+        matrixTranslate(mat1, 0, soff - 0.97f, 0);
     } else {
         matrixLoadScale(mat1, 1.f, 0.85f, 1.f);
         if (isText) {
             matrixScale(mat1, 1.f, 2.f, 1.f);
         }
-        matrixTranslate(mat1, 0, soff - 0.65f, 0);
+        matrixTranslate(mat1, 0, soff - 0.45f, 0);
     }
     vpLoadTextureMatrix(mat1);
-    return -(soff + 0.3f) * 10.f;
+    return -soff * 10.f;
 }
 
 void
@@ -290,37 +290,25 @@ draw_home_button()
 {
     setColor(1.0f, 1.0f, 1.0f, 1.0f);
     bindTexture(NAMED_PFTexNearest, 0, state->homeButtonId);
-	
-	// Faruq: Landscape code
+ 	// Faruq: Landscape code
     float x = (g_Zoom) * (SCREEN_HEIGHT_PX - params->homeButtonTextureWidth);
     float y = (SCREEN_WIDTH_PX - params->homeButtonTextureHeight) / 2;
-
+ 
     x += 30; // move the house to the edge of the screen as it doesn't fill the texture.
-	y -= 15; //	adjust the y to match the handleview
-	drawSpriteScreenspace(x, y, 0, params->homeButtonTextureWidth, params->homeButtonTextureHeight);
+ 	y -= 15; //	adjust the y to match the handleview
+ 	drawSpriteScreenspace(x, y, 0, params->homeButtonTextureWidth, params->homeButtonTextureHeight);
 }
 
 void drawFrontGrid(float rowOffset, float p)
 {
-	float h = getHeight();
-	float w = getWidth();
-	
-	// Faruq: DEBUG
-	/*debugF("Height: ", h);
-	debugF("Width: ", w);*/
+    float h = getHeight();
+    float w = getWidth();
 
     int intRowOffset = rowOffset;
     float rowFrac = rowOffset - intRowOffset;
     float colWidth = getWidth() / 4;
     float rowHeight = getHeight() / 4;
-    //float yoff = h - ((h - (rowHeight * 4.f)) / 2);
-	float yoff = h - ((h - (rowHeight * 4.f)) / 2);
-	
-	// Faruq: DEBUG
-	/*debugF("rowFrac: ", rowFrac);
-	debugF("colWidth: ", colWidth);
-	debugF("rowHeight: ", rowHeight);
-	debugF("yoff: ", yoff);*/
+    float yoff = h - ((h - (rowHeight * 4.f)) / 2);
 
     yoff -= 110;
 
@@ -328,17 +316,6 @@ void drawFrontGrid(float rowOffset, float p)
     int iconNum = intRowOffset * 4;
     float ymax = yoff + rowHeight/2;
     float ymin = yoff - (4 * rowHeight) - 70;
-    float gridTop = yoff -3;
-    float gridBottom = ymin;
-
-	// Faruq: DEBUG
-	/*debugF("iconNum: ", iconNum);
-	debugF("ymax: ", ymax);
-	debugF("ymin: ", ymin);
-	debugF("gridTop: ", gridTop);
-	debugF("gridBottom: ", gridBottom);*/
-
-    //gridBottom += 50;
 
     for (row = 0; row < 5; row++) {
         float y = yoff - ((-rowFrac + row) * rowHeight);
@@ -352,28 +329,18 @@ void drawFrontGrid(float rowOffset, float p)
                 float x = colWidth * col - ((128 - colWidth) / 2);
 
                 if ((y >= ymin) && (y <= ymax)) {
-                    float iconY = y - 20; // - 20
                     setColor(1.f, 1.f, 1.f, 1.f);
                     if (state->selectedIconIndex == iconNum && !p) {
                         bindTexture(NAMED_PFTexNearest, 0, state->selectedIconTexture);
-                        drawSpriteScreenspace(x, iconY, 0, 128, 128);
+                        drawSpriteScreenspace(x, y, 0, 128, 128);
                     }
 
                     bindTexture(NAMED_PFTexNearest, 0, loadI32(ALLOC_ICON_IDS, iconNum));
                     if (!p) {
-                        int cropT = 0;
-                        if (y > gridTop) {
-                            cropT = y - gridTop;
-                        }
-                        int cropB = 0;
-                        if (y < gridBottom) {
-                            cropB = gridBottom - y;
-                        }
-                        drawSpriteScreenspaceCropped(x, iconY+cropB, 0, 128, 128-cropT-cropB,
-                                0, 128-cropB, 128, -128+cropT+cropB);
+                        drawSpriteScreenspace(x, y, 0, 128, 128);
                     } else {
                         float px = ((x + 64) - (getWidth() / 2)) / (getWidth() / 2);
-                        float py = ((iconY + 64) - (getHeight() / 2)) / (getWidth() / 2);
+                        float py = ((y + 64) - (getHeight() / 2)) / (getWidth() / 2);
                         float d = 64.f / (getWidth() / 2);
                         px *= p + 1;
                         py *= p + 1;
@@ -382,6 +349,15 @@ void drawFrontGrid(float rowOffset, float p)
                                           px + d, py + d, -p, 1, 0,
                                           px + d, py - d, -p, 1, 1);
                     }
+                }
+
+                float y2 = y - 44;
+                if ((y2 >= ymin) && (y2 <= ymax)) {
+                    float a = maxf(0, 1.f - p * 5.f);
+                    setColor(1.f, 1.f, 1.f, a);
+                    bindTexture(NAMED_PFTexNearest, 0, loadI32(ALLOC_LABEL_IDS, iconNum));
+                    drawSpriteScreenspace(x, y - 44, 0,
+                               params->bubbleBitmapWidth, params->bubbleBitmapHeight);
                 }
             }
             iconNum++;
@@ -396,14 +372,18 @@ void drawStrip(float row, float column, int isTop, int iconNum, float p)
     bindTexture(NAMED_PFTexMip, 0, loadI32(ALLOC_ICON_IDS, iconNum));
     if (offset < -20) return;
     offset = clamp(offset, 0, 199 - 20);
+    drawSimpleMeshRange(NAMED_SMMesh, offset * 6, 20 * 6);
 
-    int len = 20;
-    if (isTop && (offset < 7)) {
-        len -= 7 - offset;
-        offset = 7;
+    if (isTop) {
+        offset = positionStrip(row - 0.72f, column, isTop, p, 1);
+    } else {
+        offset = positionStrip(row + 0.73f, column, isTop, p, 1);
     }
-
-    drawSimpleMeshRange(NAMED_SMMesh, offset * 6, len * 6);
+    if (offset < -20) return;
+    if (offset > 200) return;
+    bindTexture(NAMED_PFTexMip, 0, loadI32(ALLOC_LABEL_IDS, iconNum));
+    offset = clamp(offset, 0, 199 - 20);
+    drawSimpleMeshRange(NAMED_SMMesh, offset * 6, 20 * 6);
     //drawSimpleMesh(NAMED_SMMesh);
 }
 
@@ -411,7 +391,7 @@ void drawTop(float rowOffset, float p)
 {
     int row, col;
     int iconNum = 0;
-    for (row = 0; row <= (int)(rowOffset+1); row++) {
+    for (row = 0; row < rowOffset; row++) {
         for (col=0; col < 4; col++) {
             if (iconNum >= state->iconCount) {
                 return;
@@ -506,18 +486,16 @@ main(int launchID)
 
     // Draw the icons ========================================
 
-    /*
-    bindProgramFragment(NAMED_PFColor);
-    positionStrip(1, 0, 1, 0, 0);
-    drawSimpleMesh(NAMED_SMMesh);
-    */
+    //bindProgramFragment(NAMED_PFColor);
+    //positionStrip(1, 0, 0);
+    //drawSimpleMesh(NAMED_SMMesh);
 
     bindProgramFragment(NAMED_PFTexMip);
+
 
     //drawTop(g_PosPage, 1-g_Zoom);
     //drawBottom(g_PosPage, 1-g_Zoom);
 
-    bindProgramFragment(NAMED_PFTexMip);
     {
         float mat1[16];
         matrixLoadIdentity(mat1);
@@ -543,4 +521,3 @@ main(int launchID)
     // So we keep rendering until the bug is fixed.
     return lastFrame((g_PosVelocity != 0) || fracf(g_PosPage) || g_Zoom != state->zoomTarget || (g_MoveToTime != 0));
 }
-
