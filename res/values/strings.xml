@@ -153,6 +153,8 @@
 	<string name="pref_summary_launcher2_set_screen_size">Set screen size</string>
 	<string name="pref_title_quick_shortcuts">Quick Shortcuts</string>
 	<string name="pref_summary_quick_shortcuts">Enable/Disable quick shortcuts; when disabled, dots will be shown instead</string>
+	<string name="pref_title_fullscreen">Fullscreen</string>
+	<string name="pref_summary_fullscreen">Hide notification bar</string>
 	<string name="pref_title_hide_labels">Hide Icon Titles</string>
 	<string name="pref_summary_hide_labels">Enable/Disable hiding of desktop icons titles</string>
 	<string name="pref_title_show_shortcuts_label">Show Shortcuts Titles</string>

@@ -23,6 +23,10 @@
 	                    android:defaultValue="7"
 	                          android:title="@string/pref_title_launcher2_screen_size"
 	                          android:summary="@string/pref_summary_launcher2_screen_size" />
+		<CheckBoxPreference android:key="pref_key_launcher_fullscreen"
+                        android:title="@string/pref_title_fullscreen"
+                        android:summary="@string/pref_summary_fullscreen"
+                        android:defaultValue="false" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pref_icon_settings">
 	    <CheckBoxPreference android:key="pref_key_launcher_hide_labels"
