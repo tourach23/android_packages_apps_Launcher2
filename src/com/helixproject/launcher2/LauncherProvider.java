@@ -56,9 +56,9 @@ public class LauncherProvider extends ContentProvider {
     private static final String TAG = "Launcher.LauncherProvider";
     private static final boolean LOGD = false;
 
-    private static final String DATABASE_NAME = "launcher.db";
+    public static final String DATABASE_NAME = "launcher.db";
     
-    private static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 6;
 
     static final String AUTHORITY = "com.helixproject.launcher2.settings";
     
