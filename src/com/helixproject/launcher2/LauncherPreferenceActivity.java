@@ -138,7 +138,7 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
 					R.string.pref_summary_launcher2_set_screen_size).show();
 			new AlertDialog.Builder(this)
 				  .setTitle("WARNING")
-			      .setMessage("If you're shrinking the size, your workspace will be cleared. Press the back button to continue.")
+			      .setMessage("If you're shrinking the size, your workspace would automatically be adjusted. Press the back button to continue.")
 			      .show();
         } else if (preference == mRestart) {
 			askRestart();
@@ -183,8 +183,10 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		if (size > getScreenSize()) {
 			db.execSQL("UPDATE favorites SET screen = screen+"+((size-getScreenSize())/2));
-		} else {
-			db.execSQL("DELETE FROM favorites");
+		} else if (size < getScreenSize()) {
+			db.execSQL("UPDATE favorites SET screen = screen-"+((getScreenSize()-size)/2));
+			db.execSQL("DELETE FROM favorites WHERE screen < 0");
+			db.execSQL("DELETE FROM favorites WHERE screen >= "+size);
 		}
        	db.close();
 	}
