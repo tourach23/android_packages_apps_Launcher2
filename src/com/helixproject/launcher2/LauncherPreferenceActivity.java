@@ -49,6 +49,7 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
 	public static final String LAUNCHER_SHOW_SHORTCUTS_LABEL = "pref_key_launcher_show_shortcuts_label";
 	public static final String LAUNCHER_DOUBLE_TAP = "pref_key_launcher_double_tap";
 	public static final String LAUNCHER2_SCREEN_SIZE = "pref_key_launcher2_screen_size";
+	public static final String LAUNCHER_DEFAULT_SCREEN = "pref_key_launcher_default_screen";
 	public static final String LAUNCHER2_AUTO_ORIENTATION = "pref_key_launcher2_auto_orientation";
 	public static final String LAUNCHER2_QUICK_SHORTCUTS = "pref_key_launcher2_quick_shortcuts";
 	public static final String LAUNCHER2_APP1_PACKAGE = "pref_key_launcher2_app1_package";
@@ -69,7 +70,11 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
     private static final int MENU_RESTORE_DEFAULTS    = 1;
 
 	private Preference mScreenSize;
+	private Preference mDefaultScreen;
 	private Preference mRestart;
+	private Preference mQuickShortcuts;
+	private Preference mHideLabels;
+	private Preference mShowShortcuts;
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -78,7 +83,12 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
 
 		mScreenSize = findPreference(LAUNCHER2_SCREEN_SIZE);
 		mRestart = findPreference(LAUNCHER2_RESTART);
+		mDefaultScreen = findPreference(LAUNCHER_DEFAULT_SCREEN);
+		mQuickShortcuts = findPreference(LAUNCHER2_QUICK_SHORTCUTS);
+		mHideLabels = findPreference(LAUNCHER_HIDE_LABELS);
+		mShowShortcuts = findPreference(LAUNCHER_SHOW_SHORTCUTS_LABEL);
 		setScreenSizeDisplay();
+		setDefaultScreenDisplay();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -116,6 +126,17 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
                         getScreenSize()));
     }
 
+	private int getDefaultScreen() {
+		SharedPreferences mPrefs = mScreenSize.getSharedPreferences();
+		return mPrefs.getInt(LauncherPreferenceActivity.LAUNCHER_DEFAULT_SCREEN, 2);
+	}
+
+	private void setDefaultScreenDisplay() {
+        mDefaultScreen.setSummary(
+                getString(R.string.pref_summary_launcher_default_screen,
+                        getDefaultScreen()));
+    }
+
 	private void askRestart() {
 		new AlertDialog.Builder(this)
 			  .setTitle("Confirm")
@@ -138,8 +159,22 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
 					R.string.pref_summary_launcher2_set_screen_size).show();
 			new AlertDialog.Builder(this)
 				  .setTitle("WARNING")
-			      .setMessage("If you're shrinking the size, your workspace would automatically be adjusted. Press the back button to continue.")
+			      .setMessage("Your default screen will be centered. If you're shrinking the size, your workspace would automatically be adjusted. Press the back button to continue.")
 			      .show();
+		} else if (preference == mDefaultScreen) {
+			new NumberPickerDialog(this,
+                    mDefaultScreenListener,
+                    getDefaultScreen(),
+                    1,
+                    getScreenSize(),
+                    R.string.pref_title_launcher_default_screen,
+					R.string.pref_summary_launcher_set_default_screen).show();
+		} else if (preference == mHideLabels) {
+			askRestart();
+		} else if (preference == mShowShortcuts) {
+			askRestart();
+		} else if (preference == mQuickShortcuts) {
+			askRestart();
         } else if (preference == mRestart) {
 			askRestart();
 		}
@@ -169,9 +204,25 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
 		
 					SharedPreferences.Editor editor = mScreenSize.getEditor();
 					editor.putInt(LauncherPreferenceActivity.LAUNCHER2_SCREEN_SIZE, size);
+					editor.putInt(LauncherPreferenceActivity.LAUNCHER_DEFAULT_SCREEN, ((size+1)/2));
 					editor.commit();
 				
 	                setScreenSizeDisplay();
+	
+					askRestart();
+				}
+            }
+    };
+
+	NumberPickerDialog.OnNumberSetListener mDefaultScreenListener =
+        new NumberPickerDialog.OnNumberSetListener() {
+            public void onNumberSet(int screen) {
+				if (screen != getDefaultScreen()) {
+					SharedPreferences.Editor editor = mDefaultScreen.getEditor();
+					editor.putInt(LauncherPreferenceActivity.LAUNCHER_DEFAULT_SCREEN, screen);
+					editor.commit();
+				
+	                setDefaultScreenDisplay();
 	
 					askRestart();
 				}

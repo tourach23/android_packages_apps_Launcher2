@@ -153,6 +153,9 @@
 	<string name="pref_summary_launcher2_set_screen_size">Set screen size</string>
 	<string name="pref_title_quick_shortcuts">Quick Shortcuts</string>
 	<string name="pref_summary_quick_shortcuts">Enable/Disable quick shortcuts; when disabled, dots will be shown instead</string>
+	<string name="pref_title_launcher_default_screen">Default Screen</string>
+	<string name="pref_summary_launcher_default_screen">(REQUIRE RESTART) Default Screen: <xliff:g id="count">%1$s</xliff:g></string>
+	<string name="pref_summary_launcher_set_default_screen">Set default screen </string>
 	<string name="pref_title_fullscreen">Fullscreen</string>
 	<string name="pref_summary_fullscreen">Hide notification bar</string>
 	<string name="pref_title_hide_labels">Hide Icon Titles</string>
