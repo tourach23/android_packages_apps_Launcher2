@@ -232,7 +232,7 @@ public final class Launcher extends Activity
         
         // Faruq: Get screen settings
         Launcher.SCREEN_COUNT = mPrefs.getInt(LauncherPreferenceActivity.LAUNCHER2_SCREEN_SIZE, 7) + 2;
-        Launcher.DEFAULT_SCREEN = mPrefs.getInt(LauncherPreferenceActivity.LAUNCHER_DEFAULT_SCREEN, 2)-1;
+        Launcher.DEFAULT_SCREEN = mPrefs.getInt(LauncherPreferenceActivity.LAUNCHER_DEFAULT_SCREEN, 4);
         Launcher.sScreen = Launcher.DEFAULT_SCREEN;
 
         mModel = ((LauncherApplication)getApplication()).setLauncher(this);

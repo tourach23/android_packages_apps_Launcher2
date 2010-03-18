@@ -236,8 +236,8 @@ public class LauncherPreferenceActivity extends PreferenceActivity {
 			db.execSQL("UPDATE favorites SET screen = screen+"+((size-getScreenSize())/2));
 		} else if (size < getScreenSize()) {
 			db.execSQL("UPDATE favorites SET screen = screen-"+((getScreenSize()-size)/2));
-			db.execSQL("DELETE FROM favorites WHERE screen < 0");
-			db.execSQL("DELETE FROM favorites WHERE screen >= "+size);
+			db.execSQL("DELETE FROM favorites WHERE screen < 1");
+			db.execSQL("DELETE FROM favorites WHERE screen >= "+(size+1));
 		}
        	db.close();
 	}
