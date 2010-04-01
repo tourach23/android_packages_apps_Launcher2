@@ -171,11 +171,15 @@ public class DeleteZone extends ImageView implements DropTarget, DragController.
 				pkg = res.activityInfo.packageName;
 			}
 			
+			// Reset time
+			uninstallMode = false;
+			deleteTimer = System.currentTimeMillis();
+			
 			Log.d("DeleteZone", "Uninstalling application "+pkg);
 			Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, Uri.parse("package:"+pkg));
 			getContext().startActivity(uninstallIntent);
 			
-			uninstallMode = false;
+			return;
 		}
 		//Log.d("DeleteZone", "Item is over Trash");
     }
