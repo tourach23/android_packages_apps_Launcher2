@@ -293,10 +293,10 @@ draw_home_button()
 	
 	// Faruq: Landscape code
     float x = (g_Zoom) * (SCREEN_HEIGHT_PX - params->homeButtonTextureWidth);
-    float y = (SCREEN_WIDTH_PX - params->homeButtonTextureHeight) / 2;
+    float y = (SCREEN_WIDTH_PX - params->homeButtonTextureHeight);
 
     x += 30; // move the house to the edge of the screen as it doesn't fill the texture.
-	y -= 15; //	adjust the y to match the handleview
+	y -= 15;
 	drawSpriteScreenspace(x, y, 0, params->homeButtonTextureWidth, params->homeButtonTextureHeight);
 }
 
