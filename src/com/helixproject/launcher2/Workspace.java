@@ -931,18 +931,25 @@ public class Workspace extends ViewGroup implements DropTarget, DragSource, Drag
         case MotionEvent.ACTION_MOVE:
             if (mTouchState == TOUCH_STATE_SCROLLING) {
                 // Scroll to follow the motion event
-                final int deltaX = (int) (mLastMotionX - x);
+                int deltaX = (int) (mLastMotionX - x);
                 mLastMotionX = x;
-
+				
                 if (deltaX < 0) {
                     if (mScrollX > 0) {
+						if (mCurrentScreen == 1) {
+							//mScrollX /= 2;
+							deltaX /= 2;
+						}
                         scrollBy(Math.max(-mScrollX, deltaX), 0);
                         updateWallpaperOffset();
                     }
                 } else if (deltaX > 0) {
-                    final int availableToScroll = getChildAt(getChildCount() - 1).getRight() -
+                    int availableToScroll = getChildAt(getChildCount() - 1).getRight() -
                             mScrollX - getWidth();
                     if (availableToScroll > 0) {
+						if (mCurrentScreen == getChildCount()-2) {
+							deltaX /= 2;
+						}
                         scrollBy(Math.min(availableToScroll, deltaX), 0);
                         updateWallpaperOffset();
                     }
