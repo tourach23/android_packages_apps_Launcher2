@@ -966,22 +966,23 @@ public class AllAppsView extends RSSurfaceView
             // API change here, so we have to use some annoying reflection. 
             ProgramFragment.Builder bf;
             try {
-                Class pfClass = Class.forName("android.renderscript.ProgramFragment$Builder");
+                String rsc = "android.renderscript.ProgramFragment";
+                Class pfClass = Class.forName(rsc + "$Builder");
                 try {                   
                     // New API (Froyo / New Eclair)
                     Constructor c = pfClass.getConstructor(new Class[] { RenderScript.class } );
                     bf = (ProgramFragment.Builder)c.newInstance(mRS);
                     Method m = bf.getClass().getMethod("setTexture", EnvMode.class, Format.class, int.class);
-                    m.invoke(bf, Class.forName("android.renderscript.ProgramFragment$Builder$EnvMode").getEnumConstants()[1],
-                            Class.forName("android.renderscript.ProgramFragment$Builder$Format").getEnumConstants()[3], 0);
+                    m.invoke(bf, Class.forName(rsc + "$Builder$EnvMode").getEnumConstants()[1],
+                            Class.forName(rsc + "$Builder$Format").getEnumConstants()[3], 0);
                 } catch (NoSuchMethodException e) {
                     // Use old API (Old Eclair)
                     Constructor c = pfClass.getConstructor(new Class[] { RenderScript.class, Element.class, Element.class } );
                     bf = (ProgramFragment.Builder)c.newInstance(mRS, null, null);
                     Method m1 = bf.getClass().getMethod("setTexEnable", boolean.class, int.class);
                     m1.invoke(bf, true, 0);
-                    Method m2 = bf.getClass().getMethod("setTexEnvMode", Class.forName("android.renderscript.ProgramFragment$EnvMode"), int.class);
-                    m1.invoke(bf, Class.forName("android.renderscript.ProgramFragment$EnvMode").getEnumConstants()[1], 0);
+                    Method m2 = bf.getClass().getMethod("setTexEnvMode", Class.forName(rsc + "$EnvMode"), int.class);
+                    m2.invoke(bf, Class.forName(rsc + "$EnvMode").getEnumConstants()[1], 0);
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
