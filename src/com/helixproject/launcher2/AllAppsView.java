@@ -958,12 +958,11 @@ public class AllAppsView extends RSSurfaceView
             sb.setMag(Sampler.Value.NEAREST);
             Sampler nearest = sb.create();
 
-            ProgramFragment.Builder bf = new ProgramFragment.Builder(mRS, null, null);
-            mPFColor = bf.create();
-            mPFColor.setName("PFColor");
-
-            bf.setTexEnable(true, 0);
-            bf.setTexEnvMode(ProgramFragment.EnvMode.MODULATE, 0);
+            ProgramFragment.Builder bf = new ProgramFragment.Builder(mRS);
+            //mPFColor = bf.create();
+            //mPFColor.setName("PFColor");
+            bf.setTexture(ProgramFragment.Builder.EnvMode.MODULATE,
+                 ProgramFragment.Builder.Format.RGBA, 0);
             mPFTexMip = bf.create();
             mPFTexMip.setName("PFTexMip");
             mPFTexMip.bindSampler(linear, 0);
