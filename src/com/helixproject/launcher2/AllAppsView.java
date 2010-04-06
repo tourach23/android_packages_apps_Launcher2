@@ -16,6 +16,7 @@
 
 package com.helixproject.launcher2;
 
+import android.app.AlertDialog.Builder;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.res.Resources;
@@ -37,6 +38,8 @@ import android.renderscript.Script;
 import android.renderscript.ScriptC;
 import android.renderscript.SimpleMesh;
 import android.renderscript.Type;
+import android.renderscript.ProgramFragment.Builder.EnvMode;
+import android.renderscript.ProgramFragment.Builder.Format;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -48,6 +51,8 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.accessibility.AccessibilityEvent;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -958,11 +963,33 @@ public class AllAppsView extends RSSurfaceView
             sb.setMag(Sampler.Value.NEAREST);
             Sampler nearest = sb.create();
 
-            ProgramFragment.Builder bf = new ProgramFragment.Builder(mRS);
+            // API change here, so we have to use some annoying reflection. 
+            ProgramFragment.Builder bf;
+            try {
+                Class pfClass = Class.forName("android.renderscript.ProgramFragment$Builder");
+                try {                   
+                    // New API (Froyo / New Eclair)
+                    Constructor c = pfClass.getConstructor(new Class[] { RenderScript.class } );
+                    bf = (ProgramFragment.Builder)c.newInstance(mRS);
+                    Method m = bf.getClass().getMethod("setTexture", EnvMode.class, Format.class, int.class);
+                    m.invoke(bf, Class.forName("android.renderscript.ProgramFragment$Builder$EnvMode").getEnumConstants()[1],
+                            Class.forName("android.renderscript.ProgramFragment$Builder$Format").getEnumConstants()[3], 0);
+                } catch (NoSuchMethodException e) {
+                    // Use old API (Old Eclair)
+                    Constructor c = pfClass.getConstructor(new Class[] { RenderScript.class, Element.class, Element.class } );
+                    bf = (ProgramFragment.Builder)c.newInstance(mRS, null, null);
+                    Method m1 = bf.getClass().getMethod("setTexEnable", boolean.class, int.class);
+                    m1.invoke(bf, true, 0);
+                    Method m2 = bf.getClass().getMethod("setTexEnvMode", Class.forName("android.renderscript.ProgramFragment$EnvMode"), int.class);
+                    m1.invoke(bf, Class.forName("android.renderscript.ProgramFragment$EnvMode").getEnumConstants()[1], 0);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
             //mPFColor = bf.create();
             //mPFColor.setName("PFColor");
-            bf.setTexture(ProgramFragment.Builder.EnvMode.MODULATE,
-                 ProgramFragment.Builder.Format.RGBA, 0);
+
             mPFTexMip = bf.create();
             mPFTexMip.setName("PFTexMip");
             mPFTexMip.bindSampler(linear, 0);
