@@ -38,8 +38,7 @@ import android.renderscript.Script;
 import android.renderscript.ScriptC;
 import android.renderscript.SimpleMesh;
 import android.renderscript.Type;
-import android.renderscript.ProgramFragment.Builder.EnvMode;
-import android.renderscript.ProgramFragment.Builder.Format;
+
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -972,9 +971,10 @@ public class AllAppsView extends RSSurfaceView
                     // New API (Froyo / New Eclair)
                     Constructor c = pfClass.getConstructor(new Class[] { RenderScript.class } );
                     bf = (ProgramFragment.Builder)c.newInstance(mRS);
-                    Method m = bf.getClass().getMethod("setTexture", EnvMode.class, Format.class, int.class);
-                    m.invoke(bf, Class.forName(rsc + "$Builder$EnvMode").getEnumConstants()[1],
-                            Class.forName(rsc + "$Builder$Format").getEnumConstants()[3], 0);
+                    Class envMode = Class.forName(rsc + "$Builder$EnvMode");
+                    Class format = Class.forName(rsc + "$Builder$Format");
+                    Method m = bf.getClass().getMethod("setTexture", envMode, format, int.class);
+                    m.invoke(bf, envMode.getEnumConstants()[1], format.getEnumConstants()[3], 0);
                 } catch (NoSuchMethodException e) {
                     // Use old API (Old Eclair)
                     Constructor c = pfClass.getConstructor(new Class[] { RenderScript.class, Element.class, Element.class } );
