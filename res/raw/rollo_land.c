@@ -295,7 +295,7 @@ draw_home_button()
     float x = (g_Zoom) * (SCREEN_HEIGHT_PX - params->homeButtonTextureWidth);
     float y = (SCREEN_WIDTH_PX - params->homeButtonTextureHeight);
 
-    x += 30; // move the house to the edge of the screen as it doesn't fill the texture.
+    x += 60; // move the house to the edge of the screen as it doesn't fill the texture.
 	y -= 15;
 	drawSpriteScreenspace(x, y, 0, params->homeButtonTextureWidth, params->homeButtonTextureHeight);
 }
@@ -311,8 +311,8 @@ void drawFrontGrid(float rowOffset, float p)
 
     int intRowOffset = rowOffset;
     float rowFrac = rowOffset - intRowOffset;
-    float colWidth = getWidth() / 4;
-    float rowHeight = getHeight() / 4;
+    float colWidth = getWidth() / 4.6;//defines column width (greater number = smaller width)
+    float rowHeight = getHeight() / 4.5;//defines row height (greater number = smaller height)
     //float yoff = h - ((h - (rowHeight * 4.f)) / 2);
 	float yoff = h - ((h - (rowHeight * 4.f)) / 2);
 	
@@ -322,10 +322,10 @@ void drawFrontGrid(float rowOffset, float p)
 	debugF("rowHeight: ", rowHeight);
 	debugF("yoff: ", yoff);*/
 
-    yoff -= 110;
+    yoff -= 100;
 
     int row, col;
-    int iconNum = intRowOffset * 4;
+    int iconNum = intRowOffset * 4; //defines total number of icon rows for clicking icons(should always equal total number of rows not a decimal)
     float ymax = yoff + rowHeight/2;
     float ymin = yoff - (4 * rowHeight) - 70;
     float gridTop = yoff -3;
@@ -340,15 +340,15 @@ void drawFrontGrid(float rowOffset, float p)
 
     //gridBottom += 50;
 
-    for (row = 0; row < 5; row++) {
+    for (row = 0; row < 5; row++) { //defines number of rows
         float y = yoff - ((-rowFrac + row) * rowHeight);
 
-        for (col=0; col < 4; col++) {
+        for (col=0; col < 4; col++) { //defines number of columms
             if (iconNum >= state->iconCount) {
                 return;
             }
 
-            if (iconNum >= 0) {
+            if (iconNum >= 0) { 
                 float x = colWidth * col - ((128 - colWidth) / 2);
 
                 if ((y >= ymin) && (y <= ymax)) {
@@ -369,7 +369,7 @@ void drawFrontGrid(float rowOffset, float p)
                         if (y < gridBottom) {
                             cropB = gridBottom - y;
                         }
-                        drawSpriteScreenspaceCropped(x, iconY+cropB, 0, 128, 128-cropT-cropB,
+                        drawSpriteScreenspaceCropped(x, iconY+cropB, 0, 128, 128-cropT-cropB, //defines stretch and pull of icon grid
                                 0, 128-cropB, 128, -128+cropT+cropB);
                     } else {
                         float px = ((x + 64) - (getWidth() / 2)) / (getWidth() / 2);
