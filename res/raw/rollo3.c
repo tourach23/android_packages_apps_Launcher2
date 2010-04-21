@@ -290,7 +290,7 @@ draw_home_button()
 {
     setColor(1.0f, 1.0f, 1.0f, 1.0f);
     bindTexture(NAMED_PFTexNearest, 0, state->homeButtonId);
-    float x = (SCREEN_WIDTH_PX - params->homeButtonTextureWidth);
+    float x = (SCREEN_WIDTH_PX - params->homeButtonTextureWidth) / 2;
     float y = (g_Zoom - 1.f) * params->homeButtonTextureHeight;
 
     y -= 30; // move the house to the edge of the screen as it doesn't fill the texture.

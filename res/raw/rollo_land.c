@@ -293,7 +293,7 @@ draw_home_button()
 	
 	// Faruq: Landscape code
     float x = (g_Zoom) * (SCREEN_HEIGHT_PX - params->homeButtonTextureWidth);
-    float y = (SCREEN_WIDTH_PX - params->homeButtonTextureHeight);
+    float y = (SCREEN_WIDTH_PX - params->homeButtonTextureHeight) / 2;
 
     x += 60; // move the house to the edge of the screen as it doesn't fill the texture.
 	y -= 15;
@@ -312,7 +312,7 @@ void drawFrontGrid(float rowOffset, float p)
     int intRowOffset = rowOffset;
     float rowFrac = rowOffset - intRowOffset;
     float colWidth = getWidth() / 4.6;//defines column width (greater number = smaller width)
-    float rowHeight = getHeight() / 4.5;//defines row height (greater number = smaller height)
+    float rowHeight = getHeight() / 3.8;//defines row height (greater number = smaller height)
     //float yoff = h - ((h - (rowHeight * 4.f)) / 2);
 	float yoff = h - ((h - (rowHeight * 4.f)) / 2);
 	
@@ -352,7 +352,7 @@ void drawFrontGrid(float rowOffset, float p)
                 float x = colWidth * col - ((128 - colWidth) / 2);
 
                 if ((y >= ymin) && (y <= ymax)) {
-                    float iconY = y - 20; // - 20
+                    float iconY = y - 40; // - 20
                     setColor(1.f, 1.f, 1.f, 1.f);
                     if (state->selectedIconIndex == iconNum && !p) {
                         bindTexture(NAMED_PFTexNearest, 0, state->selectedIconTexture);

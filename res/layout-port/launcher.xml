@@ -153,7 +153,7 @@
         android:id="@+id/all_apps_button"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/button_bar_height"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|center_horizontal"
 		android:layout_marginBottom="1dip"
 
         android:focusable="true"
@@ -168,7 +168,7 @@
         android:id="@+id/delete_zone"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/button_bar_height"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|center_horizontal"
 		android:layout_marginBottom="1dip"
 
         android:scaleType="center"
