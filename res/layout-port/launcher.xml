@@ -97,55 +97,54 @@
 		android:background="@drawable/dock_bg"
 		android:orientation="horizontal"
 		>
-		<com.helixproject.launcher2.QuickShortcut
+	<com.helixproject.launcher2.QuickShortcut
 	        android:id="@+id/q_shortcut_1"
 	        android:layout_width="42dip"
 	        android:layout_height="42dip"
-			android:layout_gravity="bottom|left"
+		android:layout_gravity="bottom|left"
 	        android:layout_marginLeft="20dip"
-			android:layout_marginBottom="10dip"
-			launcher:direction="horizontal"
-			launcher:appNumber="1"
+		android:layout_marginBottom="10dip"
+		launcher:direction="horizontal"
+		launcher:appNumber="1"
 		
-			android:focusable="true"
-	        android:clickable="true"
-	 		/>
-		<com.helixproject.launcher2.QuickShortcut
+		android:focusable="true"
+	        android:clickable="true"/>
+	<com.helixproject.launcher2.QuickShortcut
 	        android:id="@+id/q_shortcut_2"
 	        android:layout_width="42dip"
 	        android:layout_height="42dip"
-			android:layout_gravity="bottom|left"
-	        android:layout_marginLeft="18dip"
-			android:layout_marginBottom="10dip"
-			launcher:direction="horizontal"
-			launcher:appNumber="2"
+		android:layout_gravity="bottom|left"
+	        android:layout_marginLeft="20dip"
+		android:layout_marginBottom="10dip"
+		launcher:direction="horizontal"
+		launcher:appNumber="2"
 		
-			android:focusable="true"
+		android:focusable="true"
 	        android:clickable="true" />
-		<com.helixproject.launcher2.QuickShortcut
+	<com.helixproject.launcher2.QuickShortcut
 	        android:id="@+id/q_shortcut_3"
 	        android:layout_width="42dip"
 	        android:layout_height="42dip"
-			android:layout_gravity="bottom|right"
-	        android:layout_marginLeft="18dip"
-			android:layout_marginRight="18dip"
-			android:layout_marginBottom="10dip"
-			launcher:direction="horizontal"
-			launcher:appNumber="3"
+		android:layout_gravity="bottom|right"
+		android:layout_marginRight="20dip"
+		android:layout_marginLeft="70dip"
+		android:layout_marginBottom="10dip"
+		launcher:direction="horizontal"
+		launcher:appNumber="3"
 		
-			android:focusable="true"
+		android:focusable="true"
 	        android:clickable="true" />
-		<com.helixproject.launcher2.QuickShortcut
+	<com.helixproject.launcher2.QuickShortcut
 	        android:id="@+id/q_shortcut_4"
 	        android:layout_width="42dip"
 	        android:layout_height="42dip"
-			android:layout_gravity="bottom|right"
+		android:layout_gravity="bottom|right"
 	        android:layout_marginRight="20dip"
-			android:layout_marginBottom="10dip"
-			launcher:direction="horizontal"
-			launcher:appNumber="4"
+		android:layout_marginBottom="10dip"
+		launcher:direction="horizontal"
+		launcher:appNumber="4"
 		
-			android:focusable="true"
+		android:focusable="true"
 	        android:clickable="true" />
 	</LinearLayout>
 
