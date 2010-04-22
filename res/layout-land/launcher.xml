@@ -14,15 +14,15 @@
      limitations under the License.
 -->
 
-<com.helixproject.launcher2.DragLayer
+<com.android.launcher2.DragLayer
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:launcher="http://schemas.android.com/apk/res/com.helixproject.launcher2"
+    xmlns:launcher="http://schemas.android.com/apk/res/com.android.launcher2"
 
     android:id="@+id/drag_layer"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <com.helixproject.launcher2.AllAppsView
+    <com.android.launcher2.AllAppsView
         android:id="@+id/all_apps_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -34,7 +34,7 @@
         android:numColumns="4" />
 
     <!-- The workspace contains 3 screens of cells -->
-    <com.helixproject.launcher2.Workspace
+    <com.android.launcher2.Workspace
         android:id="@+id/workspace"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -58,7 +58,7 @@
 		<include android:id="@+id/cell14" layout="@layout/workspace_screen" />
 		<include android:id="@+id/cell15" layout="@layout/workspace_screen" />
 
-    </com.helixproject.launcher2.Workspace>
+    </com.android.launcher2.Workspace>
 
     <ImageView
         android:id="@+id/previous_screen"
@@ -88,6 +88,7 @@
         android:focusable="true"
         android:clickable="true" />
 
+<<<<<<< HEAD
 	<LinearLayout
 		android:id="@+id/dock"
 		android:layout_width="wrap_content"
@@ -97,31 +98,53 @@
 		android:background="@drawable/dock_bg"
 		android:orientation="vertical"
 		>
-	<com.helixproject.launcher2.QuickShortcut
+	<com.android.launcher2.QuickShortcut
 	        android:id="@+id/q_shortcut_4"
 	        android:layout_width="42dip"
 	        android:layout_height="42dip"
 	        android:layout_gravity="top|right"
 	        android:layout_marginRight="10dip"
 		android:layout_marginTop="18dip"
+=======
+	<com.android.launcher2.QuickShortcut
+        android:id="@+id/bottom_app1"
+        android:layout_width="42dip"
+        android:layout_height="42dip"
+        android:layout_gravity="top|right"
+        android:layout_marginRight="5dip"
+		android:layout_marginTop="15dip"
+>>>>>>> 2d1d596... Renamed namespace to make standalone
 		launcher:direction="vertical"
 		launcher:appNumber="4"
 
+<<<<<<< HEAD
 	        android:focusable="true"
 	        android:clickable="true" />
-	<com.helixproject.launcher2.QuickShortcut
+	<com.android.launcher2.QuickShortcut
 	        android:id="@+id/q_shortcut_3"
 	        android:layout_width="42dip"
 	        android:layout_height="42dip"
 	        android:layout_gravity="top|right"
 	        android:layout_marginRight="10dip"
 		android:layout_marginTop="12dip"
+=======
+        android:focusable="true"
+        android:clickable="true" />
+	<com.android.launcher2.QuickShortcut
+        android:id="@+id/bottom_app2"
+        android:layout_width="42dip"
+        android:layout_height="42dip"
+        android:layout_gravity="top|right"
+        android:layout_marginRight="5dip"
+		android:layout_marginTop="75dip"
+>>>>>>> 2d1d596... Renamed namespace to make standalone
 		launcher:direction="vertical"
 		launcher:appNumber="3"
 
+<<<<<<< HEAD
 	        android:focusable="true"
 	        android:clickable="true" />
-	<com.helixproject.launcher2.QuickShortcut
+	<com.android.launcher2.QuickShortcut
 	        android:id="@+id/q_shortcut_2"
 	        android:layout_width="42dip"
 	        android:layout_height="42dip"
@@ -129,18 +152,41 @@
 		android:layout_marginTop="62dip"
 		android:layout_marginRight="10dip"
 		android:layout_marginBottom="15dip"
+=======
+        android:focusable="true"
+        android:clickable="true" />
+	<com.android.launcher2.QuickShortcut
+        android:id="@+id/bottom_app3"
+        android:layout_width="42dip"
+        android:layout_height="42dip"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="5dip"
+		android:layout_marginBottom="75dip"
+>>>>>>> 2d1d596... Renamed namespace to make standalone
 		launcher:direction="vertical"
 		launcher:appNumber="2"
 
+<<<<<<< HEAD
 	        android:focusable="true"
 	        android:clickable="true" />
-	<com.helixproject.launcher2.QuickShortcut
+	<com.android.launcher2.QuickShortcut
 	        android:id="@+id/q_shortcut_1"
 	        android:layout_width="42dip"
 	        android:layout_height="42dip"
 	        android:layout_gravity="bottom|right"
 	        android:layout_marginRight="10dip"
 		android:layout_marginBottom="20dip"
+=======
+        android:focusable="true"
+        android:clickable="true" />
+    <com.android.launcher2.QuickShortcut
+        android:id="@+id/bottom_app4"
+        android:layout_width="42dip"
+        android:layout_height="42dip"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="5dip"
+		android:layout_marginBottom="15dip"
+>>>>>>> 2d1d596... Renamed namespace to make standalone
 		launcher:direction="vertical"
 		launcher:appNumber="1"
 
@@ -148,7 +194,7 @@
 	        android:clickable="true" />
 	</LinearLayout>
 
-    <com.helixproject.launcher2.HandleView
+    <com.android.launcher2.HandleView
         android:id="@+id/all_apps_button"
         android:layout_width="49dip"
         android:layout_height="76dip"
@@ -163,7 +209,7 @@
         launcher:direction="vertical"
         />
 
-    <com.helixproject.launcher2.DeleteZone
+    <com.android.launcher2.DeleteZone
         android:id="@+id/delete_zone"
         android:layout_width="49dip"
         android:layout_height="76dip"
@@ -176,4 +222,4 @@
         launcher:direction="vertical"
         />
 
-</com.helixproject.launcher2.DragLayer>
+</com.android.launcher2.DragLayer>
