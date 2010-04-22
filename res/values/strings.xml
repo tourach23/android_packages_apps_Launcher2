@@ -21,11 +21,9 @@
     <!-- General -->
     <skip />
     <!-- Application name -->
-<<<<<<< HEAD
-    <string name="application_name">Launcher2</string>
-=======
-    <string name="application_name">Launcher</string>
->>>>>>> 2d1d596... Renamed namespace to make standalone
+
+    <string name="application_name">Helix Launcher2</string>
+
     <!-- Name for all applications running as this uid. -->
     <string name="uid_name">Android Core Apps</string>
     <!-- Default folder name -->

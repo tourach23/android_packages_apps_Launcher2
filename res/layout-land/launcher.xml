@@ -88,7 +88,7 @@
         android:focusable="true"
         android:clickable="true" />
 
-<<<<<<< HEAD
+
 	<LinearLayout
 		android:id="@+id/dock"
 		android:layout_width="wrap_content"
@@ -105,19 +105,11 @@
 	        android:layout_gravity="top|right"
 	        android:layout_marginRight="10dip"
 		android:layout_marginTop="18dip"
-=======
-	<com.android.launcher2.QuickShortcut
-        android:id="@+id/bottom_app1"
-        android:layout_width="42dip"
-        android:layout_height="42dip"
-        android:layout_gravity="top|right"
-        android:layout_marginRight="5dip"
-		android:layout_marginTop="15dip"
->>>>>>> 2d1d596... Renamed namespace to make standalone
+
 		launcher:direction="vertical"
 		launcher:appNumber="4"
 
-<<<<<<< HEAD
+
 	        android:focusable="true"
 	        android:clickable="true" />
 	<com.android.launcher2.QuickShortcut
@@ -127,21 +119,12 @@
 	        android:layout_gravity="top|right"
 	        android:layout_marginRight="10dip"
 		android:layout_marginTop="12dip"
-=======
-        android:focusable="true"
-        android:clickable="true" />
-	<com.android.launcher2.QuickShortcut
-        android:id="@+id/bottom_app2"
-        android:layout_width="42dip"
-        android:layout_height="42dip"
-        android:layout_gravity="top|right"
-        android:layout_marginRight="5dip"
-		android:layout_marginTop="75dip"
->>>>>>> 2d1d596... Renamed namespace to make standalone
+
+
 		launcher:direction="vertical"
 		launcher:appNumber="3"
 
-<<<<<<< HEAD
+
 	        android:focusable="true"
 	        android:clickable="true" />
 	<com.android.launcher2.QuickShortcut
@@ -152,21 +135,11 @@
 		android:layout_marginTop="62dip"
 		android:layout_marginRight="10dip"
 		android:layout_marginBottom="15dip"
-=======
-        android:focusable="true"
-        android:clickable="true" />
-	<com.android.launcher2.QuickShortcut
-        android:id="@+id/bottom_app3"
-        android:layout_width="42dip"
-        android:layout_height="42dip"
-        android:layout_gravity="bottom|right"
-        android:layout_marginRight="5dip"
-		android:layout_marginBottom="75dip"
->>>>>>> 2d1d596... Renamed namespace to make standalone
+
 		launcher:direction="vertical"
 		launcher:appNumber="2"
 
-<<<<<<< HEAD
+
 	        android:focusable="true"
 	        android:clickable="true" />
 	<com.android.launcher2.QuickShortcut
@@ -176,17 +149,7 @@
 	        android:layout_gravity="bottom|right"
 	        android:layout_marginRight="10dip"
 		android:layout_marginBottom="20dip"
-=======
-        android:focusable="true"
-        android:clickable="true" />
-    <com.android.launcher2.QuickShortcut
-        android:id="@+id/bottom_app4"
-        android:layout_width="42dip"
-        android:layout_height="42dip"
-        android:layout_gravity="bottom|right"
-        android:layout_marginRight="5dip"
-		android:layout_marginBottom="15dip"
->>>>>>> 2d1d596... Renamed namespace to make standalone
+
 		launcher:direction="vertical"
 		launcher:appNumber="1"
 
