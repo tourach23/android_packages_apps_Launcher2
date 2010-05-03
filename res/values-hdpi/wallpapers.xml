@@ -18,12 +18,21 @@
 <resources>
     <string-array name="wallpapers" translatable="false">
         <item>wallpaper_nexuswallpaper1</item>
-		<item>wallpaper_1</item>
-		<item>wallpaper_2</item>
-		<item>wallpaper_3</item>
-		<item>wallpaper_4</item>
-		<item>wallpaper_5</item>
-		<item>wallpaper_6</item>
-		<item>wallpaper_7</item>
+	<item>wallpaper_0008</item>
+	<item>wallpaper_0013</item>
+	<item>wallpaper_bossa</item>
+	<item>wallpaper_clone</item>
+	<item>wallpaper_curves</item>
+	<item>wallpaper_deep</item>
+	<item>wallpaper_linked</item>
+	<item>wallpaper_pacific</item>
+	<item>wallpaper_reactive</item>
+	<item>wallpaper_resonance</item>
+	<item>wallpaper_siren</item>
+	<item>wallpaper_stack</item>
+	<item>wallpaper_swell</item>
+	<item>wallpaper_tangy</item>
+	<item>wallpaper_track</item>
+	<item>wallpaper_vibe</item>
     </string-array>
 </resources>
