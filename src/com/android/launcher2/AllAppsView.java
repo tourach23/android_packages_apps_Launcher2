@@ -130,7 +130,7 @@ public class AllAppsView extends RSSurfaceView
         public static final int ALLOC_STATE = 1;
         public static final int ALLOC_ICON_IDS = 3;
 
-        public static final int COLUMNS_PER_PAGE = 4;
+        public static final int COLUMNS_PER_PAGE = 5;
         public static final int ROWS_PER_PAGE = 4;
 
         public static final int ICON_TEXTURE_WIDTH_PX = 128;
@@ -1274,13 +1274,17 @@ public class AllAppsView extends RSSurfaceView
             mTouchYBorders[2] = centerY;
             mTouchYBorders[3] = centerY + cellHeight;
             mTouchYBorders[4] = centerY + (cellHeight * 2);
-
-            int centerX = (width / 2);
-            mTouchXBorders[0] = 0;
-            mTouchXBorders[1] = centerX - (width / 4);
-            mTouchXBorders[2] = centerX;
-            mTouchXBorders[3] = centerX + (width / 4);
-            mTouchXBorders[4] = width;
+	    	//trying to fix kmobs 5 column helix launcher2 needed for launcher2
+            for (int i = 0; i < (Defines.COLUMNS_PER_PAGE+1); i++) {
+	    		mTouchXBorders[i] = i * cellWidth;
+	    	}
+			//old code
+	    	/*int centerX = (width / 2);
+	    	mTouchXBorders[0] = 0;
+			mTouchXBorders[1] = centerX - (width / 5);
+			mTouchXBorders[2] = centerX;
+			mTouchXBorders[3] = centerX + (width / 5);
+			mTouchXBorders[4] = width;*/
         }
 
         void fling() {
@@ -1299,7 +1303,7 @@ public class AllAppsView extends RSSurfaceView
 
         int chooseTappedIcon(int x, int y, float pos) {
             // Adjust for scroll position if not zero.
-            y += (pos - ((int)pos)) * (mTouchYBorders[1] - mTouchYBorders[0]);
+            //y += (pos - ((int)pos)) * (mTouchYBorders[1] - mTouchYBorders[0]);
 
             int col = -1;
             int row = -1;
@@ -1319,9 +1323,11 @@ public class AllAppsView extends RSSurfaceView
             if (row < 0 || col < 0) {
                 return -1;
             }
-
-            int index = (((int)pos) * Defines.COLUMNS_PER_PAGE)
-                    + (row * Defines.ROWS_PER_PAGE) + col;
+			// needed for a working 5 column landscape
+            int index = ((row + (int)pos) * Defines.COLUMNS_PER_PAGE) + col;
+			//old original code below	    	
+			//int index = (((int)pos) * Defines.COLUMNS_PER_PAGE)
+            //      + (row * Defines.ROWS_PER_PAGE) + col;
 
             if (index >= mState.iconCount) {
                 return -1;

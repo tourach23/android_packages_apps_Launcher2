@@ -311,7 +311,7 @@ void drawFrontGrid(float rowOffset, float p)
 
     int intRowOffset = rowOffset;
     float rowFrac = rowOffset - intRowOffset;
-    float colWidth = getWidth() / 4.6;//defines column width (greater number = smaller width)
+    float colWidth = getWidth() / 5.6;//defines column width (greater number = smaller width)
     float rowHeight = getHeight() / 3.8;//defines row height (greater number = smaller height)
     //float yoff = h - ((h - (rowHeight * 4.f)) / 2);
 	float yoff = h - ((h - (rowHeight * 4.f)) / 2);
@@ -325,7 +325,7 @@ void drawFrontGrid(float rowOffset, float p)
     yoff -= 100;
 
     int row, col;
-    int iconNum = intRowOffset * 4; //defines total number of icon rows for clicking icons(should always equal total number of rows not a decimal)
+    int iconNum = intRowOffset * 5; //defines total number of icon rows for clicking icons(should always equal total number of rows not a decimal)
     float ymax = yoff + rowHeight/2;
     float ymin = yoff - (4 * rowHeight) - 70;
     float gridTop = yoff -3;
@@ -343,7 +343,7 @@ void drawFrontGrid(float rowOffset, float p)
     for (row = 0; row < 5; row++) { //defines number of rows
         float y = yoff - ((-rowFrac + row) * rowHeight);
 
-        for (col=0; col < 4; col++) { //defines number of columms
+        for (col=0; col < 5; col++) { //defines number of columms
             if (iconNum >= state->iconCount) {
                 return;
             }
@@ -412,7 +412,7 @@ void drawTop(float rowOffset, float p)
     int row, col;
     int iconNum = 0;
     for (row = 0; row <= (int)(rowOffset+1); row++) {
-        for (col=0; col < 4; col++) {
+        for (col=0; col < 5; col++) {
             if (iconNum >= state->iconCount) {
                 return;
             }
@@ -429,9 +429,9 @@ void drawBottom(float rowOffset, float p)
     pos -= rowOffset - intRowOffset;
 
     int row, col;
-    int iconNum = (intRowOffset + 3) * 4;
+    int iconNum = (intRowOffset + 3) * 5;
     while (1) {
-        for (col=0; col < 4; col++) {
+        for (col=0; col < 5; col++) {
             if (iconNum >= state->iconCount) {
                 return;
             }
@@ -496,7 +496,7 @@ main(int launchID)
 
     // icons & labels
     int iconCount = state->iconCount;
-    g_PosMax = ((iconCount + 3) / 4) - 4;
+    g_PosMax = ((iconCount + 4) / 5) - 4;
     if (g_PosMax < 0) g_PosMax = 0;
 
     updatePos(0.1f);

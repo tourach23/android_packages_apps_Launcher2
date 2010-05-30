@@ -253,8 +253,8 @@ void updatePos() {
 int positionStrip(float row, float column, int isTop, float p, int isText)
 {
     float mat1[16];
-    float x = 0.5f * (column - 1.5f);
-    float scale = 72.f * 3 / getWidth();
+    float x = 0.5f * 4/5 * (column - 2.f);//(column - #)adjusts left to right for the curved section
+    float scale = 72.f * 3 / getWidth();// "*3 handles icon 
 
     if (isTop) {
         matrixLoadTranslate(mat1, x, 0.8f, 0.f);
@@ -267,7 +267,7 @@ int positionStrip(float row, float column, int isTop, float p, int isText)
     matrixRotate(mat1, -p * 50, 1, 0, 0);
     vpLoadModelMatrix(mat1);
 
-    float soff = -(row * 1.4);
+    float soff = -(row * 1.4);//adjusts top curved area top to bottom
     if (isTop) {
         matrixLoadScale(mat1, 1.f, -0.85f, 1.f);
         if (isText) {
@@ -308,8 +308,8 @@ void drawFrontGrid(float rowOffset, float p)
 
     int intRowOffset = rowOffset;
     float rowFrac = rowOffset - intRowOffset;
-    float colWidth = getWidth() / 4;
-    float rowHeight = colWidth + 25.f;
+    float colWidth = getWidth() / 5;
+    float rowHeight = (colWidth * 5/4) + 25.f;
     float yoff = h - ((h - (rowHeight * 4.f)) / 2);
 
 	// Faruq: DEBUG
@@ -321,7 +321,7 @@ void drawFrontGrid(float rowOffset, float p)
     yoff -= 110;
 
     int row, col;
-    int iconNum = intRowOffset * 4;
+    int iconNum = intRowOffset * 5;
     float ymax = yoff + rowHeight;
     float ymin = yoff - (3 * rowHeight) - 70;
     float gridTop = yoff -3;
@@ -339,7 +339,7 @@ void drawFrontGrid(float rowOffset, float p)
     for (row = 0; row < 5; row++) {
         float y = yoff - ((-rowFrac + row) * rowHeight);
 
-        for (col=0; col < 4; col++) {
+        for (col=0; col < 5; col++) {
             if (iconNum >= state->iconCount) {
                 return;
             }
@@ -408,7 +408,7 @@ void drawTop(float rowOffset, float p)
     int row, col;
     int iconNum = 0;
     for (row = 0; row <= (int)(rowOffset+1); row++) {
-        for (col=0; col < 4; col++) {
+        for (col=0; col < 5; col++) {
             if (iconNum >= state->iconCount) {
                 return;
             }
@@ -425,9 +425,9 @@ void drawBottom(float rowOffset, float p)
     pos -= rowOffset - intRowOffset;
 
     int row, col;
-    int iconNum = (intRowOffset + 3) * 4;
+    int iconNum = (intRowOffset + 3) * 5;//"+ 3" controls what row is show for bottom curve
     while (1) {
-        for (col=0; col < 4; col++) {
+        for (col=0; col < 5; col++) {
             if (iconNum >= state->iconCount) {
                 return;
             }
